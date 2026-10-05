@@ -14,6 +14,7 @@
 <link rel="canonical" href="https://www.littlechefs.in/">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<script src="assets/config.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -31,6 +32,7 @@
   --header-h:80px;
 }
 *,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
 html{scroll-behavior:smooth; scroll-padding-top:calc(var(--header-h) + 12px); -webkit-text-size-adjust:100%}
 body{margin:0; background:var(--onahau); color:var(--ink); font:400 1.0625rem/1.65 var(--body); -webkit-font-smoothing:antialiased; overflow-x:hidden}
 img{max-width:100%; height:auto; display:block}
@@ -69,12 +71,12 @@ button{font:inherit; color:inherit}
 .brand{display:flex; align-items:center; flex:none}
 .brand img{width:auto; height:62px}
 .nav ul{display:flex; align-items:center; gap:.15rem; list-style:none; margin:0; padding:0}
-.nav a{display:block; padding:.55rem .8rem; border-radius:999px; text-decoration:none; font-weight:700; font-size:.97rem}
+.nav a{display:block; padding:.55rem .7rem; border-radius:999px; text-decoration:none; font-weight:700; font-size:.95rem; white-space:nowrap}
 .nav a:hover,.nav a[aria-current="true"]{background:var(--tidal)}
 .header .btn{min-height:46px; padding:.7rem 1.2rem; font-size:.95rem}
 .menu-btn{display:none; width:48px; height:48px; border-radius:14px; border:var(--line); background:#fff; color:var(--blue); cursor:pointer; place-items:center}
 .menu-btn svg{width:24px; height:24px}
-@media (max-width:1080px){
+@media (max-width:1240px){
   .menu-btn{display:grid}
   .header .btn{display:none}
   .nav{position:absolute; inset:calc(var(--header-h)) 0 auto 0; background:var(--onahau); border-bottom:var(--line); display:none; max-height:calc(100vh - var(--header-h)); overflow:auto}
@@ -84,7 +86,7 @@ button{font:inherit; color:inherit}
   .nav .nav-cta{display:block; margin-top:.5rem}
   .nav .nav-cta a{background:var(--blue); color:#fff; text-align:center}
 }
-@media (min-width:1081px){ .nav .nav-cta{display:none} }
+@media (min-width:1241px){ .nav .nav-cta{display:none} }
 @media (max-width:480px){ .brand img{height:52px} }
 
 /* ===== Hero ===== */
@@ -352,6 +354,95 @@ button{font:inherit; color:inherit}
 @keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
 
 @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} *,*::before,*::after{animation:none!important; transition:none!important} }
+
+/* ===== Joyful extras ===== */
+.hero::before{content:""; position:absolute; inset:0; pointer-events:none; opacity:.55;
+  background-image:
+   radial-gradient(circle at 8% 18%, var(--sand) 0 5px, transparent 6px),
+   radial-gradient(circle at 46% 9%, var(--coral) 0 4px, transparent 5px),
+   radial-gradient(circle at 92% 14%, var(--tidal) 0 6px, transparent 7px),
+   radial-gradient(circle at 3% 72%, var(--scandal) 0 5px, transparent 6px),
+   radial-gradient(circle at 52% 88%, var(--sand) 0 4px, transparent 5px),
+   radial-gradient(circle at 70% 4%, var(--snow) 0 6px, transparent 7px)}
+.hero>*{position:relative}
+.wave{display:block; width:100%; height:38px; margin-bottom:-1px}
+.pop{position:fixed; pointer-events:none; z-index:300; width:9px; height:9px; border-radius:50%; animation:pop .8s ease-out forwards}
+@keyframes pop{to{transform:translate(var(--dx),var(--dy)) scale(.2); opacity:0}}
+.wiggle:hover{animation:wiggle .5s ease-in-out}
+@keyframes wiggle{25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
+
+/* ===== Games ===== */
+.play{background:var(--blue); color:#fff; position:relative; overflow:hidden}
+.play .lede{color:var(--onahau)}
+.play-head{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:1.5rem; align-items:end; margin-bottom:1.8rem}
+.play-head .section-head{margin-bottom:0}
+.play-head img{width:150px; animation:bob 3s ease-in-out infinite}
+@media (max-width:640px){ .play-head{grid-template-columns:1fr} .play-head img{display:none} }
+.game-tabs{display:flex; flex-wrap:wrap; gap:.6rem; margin-bottom:1.2rem}
+.game-tabs button{display:inline-flex; align-items:center; gap:.45rem; border:3px solid var(--onahau); background:transparent; color:#fff; border-radius:999px; padding:.7rem 1.15rem; font:800 1rem/1 var(--body); cursor:pointer}
+.game-tabs button[aria-selected="true"]{background:var(--tidal); color:var(--blue); border-color:var(--tidal)}
+.game{background:var(--lace); color:var(--blue); border-radius:var(--r-lg); padding:clamp(1rem,3vw,2rem); border:4px solid var(--onahau)}
+.game[hidden]{display:none}
+.game-top{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:.8rem; margin-bottom:1.2rem}
+.game-top h3{font-size:1.5rem}
+.game-top p{margin:.2rem 0 0; color:var(--ink-soft); font-size:.97rem}
+.score{display:flex; gap:.5rem; flex-wrap:wrap}
+.score span{background:#fff; border:2px solid var(--blue); border-radius:999px; padding:.35rem .8rem; font-weight:800; font-size:.92rem}
+.game-msg{min-height:1.6em; margin:1rem 0 0; font:700 1.15rem/1.3 var(--head); text-align:center}
+/* memory */
+.mem{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:.8rem; max-width:560px; margin:0 auto}
+.card-m{aspect-ratio:1; border:0; padding:0; background:none; cursor:pointer; perspective:600px}
+.card-m .in{position:relative; display:block; width:100%; height:100%; transition:transform .45s; transform-style:preserve-3d}
+.card-m.flip .in,.card-m.match .in{transform:rotateY(180deg)}
+.card-m .f,.card-m .b{position:absolute; inset:0; display:grid; place-items:center; border-radius:18px; border:3px solid var(--blue); backface-visibility:hidden; -webkit-backface-visibility:hidden}
+.card-m .f{background:var(--blue) radial-gradient(circle at 30% 30%, rgba(226,255,136,.35) 0 6px, transparent 7px) 0 0/28px 28px; color:var(--tidal); font:800 1.6rem/1 var(--head)}
+.card-m .b{background:#fff; transform:rotateY(180deg); font-size:clamp(1.8rem,6vw,2.6rem)}
+.card-m.match .b{background:var(--tidal)}
+.card-m:focus-visible{outline:3px solid var(--sand); outline-offset:3px; border-radius:18px}
+/* cookie decorator */
+.deco{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,260px); gap:1.4rem; align-items:center}
+.deco svg{width:100%; max-width:420px; height:auto; aspect-ratio:1; margin:0 auto; display:block; touch-action:manipulation; cursor:crosshair}
+.tools{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.55rem}
+.tools button{border:3px solid var(--blue); background:#fff; border-radius:16px; padding:.55rem .3rem; font:700 .85rem/1.15 var(--body); cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:.25rem}
+.tools button span{font-size:1.5rem}
+.tools button[aria-pressed="true"]{background:var(--tidal)}
+.tool-row{display:flex; gap:.5rem; margin-top:.8rem; flex-wrap:wrap}
+.tool-row .btn{min-height:44px; padding:.6rem 1rem; font-size:.92rem; flex:1}
+@media (max-width:760px){ .deco{grid-template-columns:1fr} .tools{grid-template-columns:repeat(6,minmax(0,1fr))} .tools button{font-size:0; padding:.5rem .2rem} .tools button span{font-size:1.4rem} }
+/* quiz */
+.quiz{max-width:640px; margin:0 auto; text-align:center}
+.q-card{background:#fff; border:3px solid var(--blue); border-radius:var(--r-md); padding:1.6rem 1.2rem; margin-bottom:1rem}
+.q-card .emoji{font-size:3rem; line-height:1}
+.q-card p{font:700 clamp(1.2rem,2.6vw,1.5rem)/1.3 var(--head); margin:.6rem 0 0}
+.q-btns{display:grid; grid-template-columns:1fr 1fr; gap:.8rem}
+.q-btns button{border:3px solid var(--blue); border-radius:18px; padding:1rem; font:800 1.15rem/1.1 var(--head); cursor:pointer}
+.q-safe{background:var(--tidal); color:var(--blue)} .q-oops{background:var(--coral); color:var(--blue)}
+.q-btns button:disabled{opacity:.55; cursor:default}
+.q-progress{height:12px; background:#fff; border:2px solid var(--blue); border-radius:99px; overflow:hidden; margin-bottom:1rem}
+.q-progress i{display:block; height:100%; width:0; background:var(--sand); transition:width .3s}
+.badge-win{display:inline-grid; place-items:center; width:130px; height:130px; border-radius:50%; background:var(--sand); border:4px solid var(--blue); font:800 1rem/1.1 var(--head); margin:0 auto 1rem; transform:rotate(-8deg)}
+.badge-win b{display:block; font-size:2.4rem}
+
+/* ===== Instagram ===== */
+.ig-head{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:end; gap:1rem 2rem; margin-bottom:1.8rem}
+.ig-head .section-head{margin-bottom:0}
+.ig-handle{display:inline-flex; align-items:center; gap:.6rem}
+.ig-handle svg{width:22px; height:22px}
+.ig-grid{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; list-style:none; margin:0; padding:0}
+.ig-grid li{position:relative; aspect-ratio:1; border:var(--line); border-radius:var(--r-md); overflow:hidden; background:var(--lace)}
+.ig-grid li:nth-child(4n+2){background:var(--snow)} .ig-grid li:nth-child(4n+3){background:#FDE7E3} .ig-grid li:nth-child(4n){background:#fff}
+.ig-grid a{display:block; width:100%; height:100%; text-decoration:none}
+.ig-grid img{width:100%; height:100%; object-fit:contain; padding:.8rem; transition:transform .3s}
+.ig-grid img.cover{object-fit:cover; padding:0}
+.ig-grid a:hover img{transform:scale(1.05)}
+.ig-type{position:absolute; top:.6rem; right:.6rem; background:#fff; border:2px solid var(--blue); border-radius:999px; padding:.15rem .55rem; font-size:.75rem; font-weight:800}
+.ig-follow{display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; gap:.6rem; padding:1rem; background:var(--blue)!important; color:#fff}
+.ig-follow b{font:800 1.2rem/1.2 var(--head)}
+.ig-follow span{font-size:.82rem; color:var(--onahau); overflow-wrap:anywhere}
+@media (max-width:900px){ .ig-grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.social{display:flex; gap:.6rem; flex-wrap:wrap}
+.social a{display:inline-flex; align-items:center; gap:.45rem; border:2px solid var(--blue); border-radius:999px; padding:.4rem .8rem; background:#fff}
+.social svg{width:18px; height:18px}
 </style>
 </head>
 <body>
@@ -364,9 +455,10 @@ button{font:inherit; color:inherit}
       <ul>
         <li><a href="#home">Home</a></li>
         <li><a href="#experience">The Experience</a></li>
-        <li><a href="#learn">What Kids Learn</a></li>
+        <li><a href="#play">Games</a></li>
+        <li><a href="#learn">Learn</a></li>
         <li><a href="#schools">Schools</a></li>
-        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#gallery">Instagram</a></li>
         <li><a href="#about">About Us</a></li>
         <li><a href="#faq">FAQs</a></li>
         <li class="nav-cta"><a href="#book">Book a Visit</a></li>
@@ -506,6 +598,70 @@ button{font:inherit; color:inherit}
   </div>
 </section>
 
+<!-- GAMES -->
+<svg class="wave" style="background:var(--onahau)" viewBox="0 0 1440 38" preserveAspectRatio="none" aria-hidden="true"><path d="M0 38V20C120 2 240 2 360 18s240 18 360 2 240-18 360-2 240 16 360 0V38z" fill="#1336A3"/></svg>
+
+<section class="section play" id="play">
+  <div class="wrap">
+    <div class="play-head">
+      <div class="section-head">
+        <h2>Play and learn with Chef Pistu</h2>
+        <p class="lede">Warm up for your visit with three little kitchen games. No sign-up, just tap and play!</p>
+      </div>
+      <img src="assets/mascot.webp" alt="" width="553" height="560" loading="lazy">
+    </div>
+    <div class="game-tabs" role="tablist" aria-label="Games">
+      <button role="tab" aria-selected="true" aria-controls="g-mem" id="t-mem">🧠 Memory match</button>
+      <button role="tab" aria-selected="false" aria-controls="g-deco" id="t-deco">🍪 Decorate a cookie</button>
+      <button role="tab" aria-selected="false" aria-controls="g-quiz" id="t-quiz">🧼 Safe or oops?</button>
+    </div>
+
+    <div class="game" id="g-mem" role="tabpanel" aria-labelledby="t-mem">
+      <div class="game-top">
+        <div><h3>Bakery memory match</h3><p>Flip two cards at a time and find all six pairs.</p></div>
+        <div class="score"><span id="memMoves">0 moves</span><span id="memPairs">0 / 6 pairs</span><button class="btn btn-white" type="button" id="memNew" style="min-height:40px;padding:.4rem 1rem;font-size:.9rem">New game</button></div>
+      </div>
+      <div class="mem" id="memGrid"></div>
+      <p class="game-msg" id="memMsg" role="status"></p>
+    </div>
+
+    <div class="game" id="g-deco" role="tabpanel" aria-labelledby="t-deco" hidden>
+      <div class="game-top">
+        <div><h3>Decorate your own cookie</h3><p>Pick a topping, then tap the cookie to add it.</p></div>
+        <div class="score"><span id="decoCount">0 toppings</span></div>
+      </div>
+      <div class="deco">
+        <svg id="cookieSvg" viewBox="0 0 400 400" role="img" aria-label="Your cookie. Tap to add toppings.">
+          <defs><radialGradient id="dough" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#F9E2A3"/><stop offset="1" stop-color="#E9BE62"/></radialGradient></defs>
+          <circle cx="200" cy="200" r="178" fill="url(#dough)" stroke="#1336A3" stroke-width="8"/>
+          <circle cx="200" cy="200" r="160" fill="none" stroke="#D9A94A" stroke-width="4" stroke-dasharray="3 16" stroke-linecap="round"/>
+          <g id="toppings"></g>
+        </svg>
+        <div>
+          <div class="tools" role="group" aria-label="Toppings" id="tools">
+            <button type="button" data-t="chip" aria-pressed="true"><span>🟤</span>Choco chip</button>
+            <button type="button" data-t="sprinkle" aria-pressed="false"><span>🌈</span>Sprinkles</button>
+            <button type="button" data-t="star" aria-pressed="false"><span>⭐</span>Star</button>
+            <button type="button" data-t="heart" aria-pressed="false"><span>💗</span>Heart</button>
+            <button type="button" data-t="pista" aria-pressed="false"><span>🟢</span>Pistachio</button>
+            <button type="button" data-t="cherry" aria-pressed="false"><span>🍒</span>Cherry</button>
+          </div>
+          <div class="tool-row">
+            <button class="btn btn-white" type="button" id="decoUndo">↩ Undo</button>
+            <button class="btn btn-white" type="button" id="decoClear">Clear</button>
+          </div>
+          <div class="tool-row"><button class="btn btn-blue" type="button" id="decoDone">My cookie is ready!</button></div>
+        </div>
+      </div>
+      <p class="game-msg" id="decoMsg" role="status"></p>
+    </div>
+
+    <div class="game" id="g-quiz" role="tabpanel" aria-labelledby="t-quiz" hidden>
+      <div class="quiz" id="quiz"></div>
+    </div>
+  </div>
+</section>
+
 <!-- WHAT KIDS LEARN -->
 <section class="section learn" id="learn">
   <div class="wrap">
@@ -590,27 +746,25 @@ button{font:inherit; color:inherit}
   </div>
 </section>
 
-<!-- GALLERY -->
+<!-- INSTAGRAM -->
 <section class="section learn" id="gallery">
   <div class="wrap">
-    <div class="section-head">
-      <h2>Little moments, big memories</h2>
+    <div class="ig-head">
+      <div class="section-head">
+        <h2>Fresh from our Instagram</h2>
+        <p class="lede">Real Little Chef moments, straight from the factory floor.</p>
+      </div>
+      <a class="btn btn-blue ig-handle" href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>@littlechefbypistahouse</a>
     </div>
-    <div class="filters" role="group" aria-label="Filter gallery">
-      <button type="button" data-f="all" aria-pressed="true">All</button>
-      <button type="button" data-f="photo" aria-pressed="false">Photos</button>
-      <button type="button" data-f="video" aria-pressed="false">Videos</button>
-    </div>
-    <!-- To add real photos: copy files into assets/gallery/ and add a <li data-k="photo"> with <img class="cover" src="assets/gallery/your-photo.jpg"> -->
-    <ul class="gallery" id="gallery-list">
-      <li data-k="photo"><img src="assets/moment-graduation.webp" alt="Little Chef graduates" loading="lazy"><span class="cap">Little Chefs <span class="kind">Photo</span></span></li>
-      <li data-k="photo"><img src="assets/welcome.webp" alt="Welcome to the Little Chef bakery" loading="lazy"><span class="cap">Bakery <span class="kind">Photo</span></span></li>
-      <li data-k="video"><img src="assets/moment-tunnel.webp" alt="Applause tunnel celebration" loading="lazy"><span class="cap">Celebrations <span class="kind">Video</span></span></li>
-      <li data-k="photo"><img src="assets/factory.webp" alt="Factory tour at the packaging line" loading="lazy"><span class="cap">Factory tour <span class="kind">Photo</span></span></li>
-      <li data-k="photo"><img src="assets/moment-passport.webp" alt="Passport stamp ceremony" loading="lazy"><span class="cap">School visits <span class="kind">Photo</span></span></li>
-      <li data-k="video"><img src="assets/moment-oath.webp" alt="The Little Chef oath" loading="lazy"><span class="cap">Activities <span class="kind">Video</span></span></li>
-      <li data-k="photo"><img src="assets/safety.webp" alt="Safety first at Little Chef" loading="lazy"><span class="cap">Hygiene <span class="kind">Photo</span></span></li>
-      <li data-k="video"><img src="assets/mascot.webp" alt="The Little Chef mascot" loading="lazy"><span class="cap">Little Chef films <span class="kind">Video</span></span></li>
+    <ul class="ig-grid" id="igGrid">
+      <li><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><img src="assets/moment-graduation.webp" alt="Little Chef graduates" loading="lazy"></a></li>
+      <li><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><img src="assets/welcome.webp" alt="Welcome to the Little Chef bakery" loading="lazy"></a></li>
+      <li><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><img src="assets/moment-passport.webp" alt="Passport stamp ceremony" loading="lazy"></a></li>
+      <li class="ig-follow"><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;color:#fff"><span style="font-size:2.2rem">📸</span><b>Follow our Little Chefs</b><span>@littlechefbypistahouse</span></a></li>
+      <li><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><img src="assets/factory.webp" alt="Factory tour" loading="lazy"></a></li>
+      <li><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><img src="assets/moment-tunnel.webp" alt="Applause tunnel" loading="lazy"></a></li>
+      <li><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><img src="assets/moment-oath.webp" alt="The Little Chef oath" loading="lazy"></a></li>
+      <li><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><img src="assets/safety.webp" alt="Safety first" loading="lazy"></a></li>
     </ul>
   </div>
 </section>
@@ -678,6 +832,7 @@ button{font:inherit; color:inherit}
 
     <div class="form-card" id="formCard">
       <form id="bookForm" novalidate>
+        <div style="position:absolute;left:-9999px" aria-hidden="true"><label>Leave empty<input name="company_site" tabindex="-1" autocomplete="off"></label></div>
         <fieldset class="who">
           <legend>I'm booking as</legend>
           <label><input type="radio" name="bookingFor" value="School" checked><span>🏫 A school</span></label>
@@ -707,7 +862,7 @@ button{font:inherit; color:inherit}
         <img src="assets/mascot.webp" alt="" width="553" height="560">
         <h3>Request sent!</h3>
         <p id="thanksText">Your Little Chef adventure is one step closer. Our team will call you to confirm availability and complete your booking.</p>
-        <button class="btn btn-white" type="button" id="againBtn">Send another request</button>
+        <div class="btn-row" style="justify-content:center"><a class="btn btn-blue" id="thanksWa" href="#" target="_blank" rel="noopener" hidden>Also send on WhatsApp</a><button class="btn btn-white" type="button" id="againBtn">Send another request</button></div>
       </div>
     </div>
   </div>
@@ -725,7 +880,7 @@ button{font:inherit; color:inherit}
       </div>
       <div>
         <h4>Explore</h4>
-        <ul><li><a href="#experience">The Experience</a></li><li><a href="#learn">What Kids Learn</a></li><li><a href="#schools">Schools</a></li><li><a href="#gallery">Gallery</a></li><li><a href="#faq">FAQs</a></li><li><a href="#book">Book a Visit</a></li></ul>
+        <ul><li><a href="#experience">The Experience</a></li><li><a href="#learn">What Kids Learn</a></li><li><a href="#schools">Schools</a></li><li><a href="#play">Games</a></li><li><a href="#gallery">Instagram</a></li><li><a href="#faq">FAQs</a></li><li><a href="#book">Book a Visit</a></li></ul>
       </div>
       <div>
         <h4>Contact</h4>
@@ -733,7 +888,7 @@ button{font:inherit; color:inherit}
       </div>
       <div>
         <h4>Follow Little Chef</h4>
-        <ul><li><a href="#" data-social="instagram">Instagram</a></li><li><a href="#" data-social="youtube">YouTube</a></li><li><a href="#" data-social="facebook">Facebook</a></li></ul>
+        <div class="social"><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>Instagram</a><a href="#" target="_blank" rel="noopener" data-cfg-href="YOUTUBE_URL" data-hide-empty hidden><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4" fill="currentColor"/><path d="M10 9l5 3-5 3z" fill="#fff"/></svg>YouTube</a><a href="https://wa.me/919133308091" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z" stroke-linejoin="round"/></svg>WhatsApp</a></div>
       </div>
     </div>
     <div class="legal"><span>© <span id="yr">2026</span> Little Chef by Pista House. All rights reserved.</span><span>An initiative by Pista House</span></div>
@@ -741,16 +896,8 @@ button{font:inherit; color:inherit}
 </footer>
 
 <script>
-/* ============================================================
-   SETTINGS — edit these two lines only
-   FORM_ENDPOINT: paste your Google Apps Script web app URL
-   (see google-apps-script.gs and README.md). Every request
-   then lands in your team's Google Sheet.
-   If left empty, the form opens WhatsApp with all details.
-   ============================================================ */
-var FORM_ENDPOINT = "";
-var WHATSAPP_NUMBER = "919133308091";
-
+var CFG = window.LC_CONFIG || {};
+var WHATSAPP_NUMBER = CFG.WHATSAPP || "919133308091";
 (function(){
   var $=function(s,c){return (c||document).querySelector(s)}, $$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -796,13 +943,6 @@ var WHATSAPP_NUMBER = "919133308091";
 
   /* oath */
   $('#oathBtn').addEventListener('click',function(){ confetti(70); this.textContent='Promise made! ⭐'; });
-
-  /* gallery filter */
-  var fb=$$('.filters button'), tiles=$$('#gallery-list li');
-  fb.forEach(function(b){b.addEventListener('click',function(){
-    fb.forEach(function(x){x.setAttribute('aria-pressed',x===b)});
-    tiles.forEach(function(t){t.hidden=!(b.dataset.f==='all'||t.dataset.k===b.dataset.f)});
-  })});
 
   /* booking form */
   var form=$('#bookForm'), card=$('#formCard'), schoolField=$('#schoolField'), schoolInput=$('#f-school');
@@ -851,25 +991,143 @@ var WHATSAPP_NUMBER = "919133308091";
     return L.join('\n');
   }
 
+  function done(text, waUrl){
+    $('#thanksText').textContent=text;
+    var w=$('#thanksWa'); if(waUrl){ w.href=waUrl; w.hidden=false } else w.hidden=true;
+    card.classList.add('done'); card.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}); confetti(60);
+  }
   form.addEventListener('submit',function(e){
     e.preventDefault();
     $('#formError').style.display='none';
     var bad=validate(); if(bad){ bad.focus(); return }
     var o=collect(), btn=$('#submitBtn');
-    if(!FORM_ENDPOINT){
-      window.open('https://wa.me/'+WHATSAPP_NUMBER+'?text='+encodeURIComponent(waText(o)),'_blank','noopener');
-      $('#thanksText').textContent='WhatsApp has opened with your details. Just tap send, and our team will call you to confirm the date.';
-      card.classList.add('done'); card.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}); confetti(60);
+    var waUrl='https://wa.me/'+WHATSAPP_NUMBER+'?text='+encodeURIComponent(waText(o));
+    if(!CFG.API_URL){
+      window.open(waUrl,'_blank','noopener');
+      done('WhatsApp has opened with your details. Just tap send, and our team will call you to confirm the date.', waUrl);
       return;
     }
     btn.disabled=true; btn.textContent='Sending…';
-    var body=new URLSearchParams(o).toString();
-    fetch(FORM_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
-      .then(function(){ card.classList.add('done'); card.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}); confetti(60) })
-      .catch(function(){ var er=$('#formError'); er.innerHTML='We couldn’t send your request. Please check your internet connection, or <a href="https://wa.me/'+WHATSAPP_NUMBER+'?text='+encodeURIComponent(waText(o))+'" target="_blank" rel="noopener">send it on WhatsApp instead</a>.'; er.style.display='block' })
+    fetch(CFG.API_URL,{method:'POST',body:JSON.stringify({action:'submit',data:o})})
+      .then(function(r){return r.json()})
+      .then(function(j){
+        if(!j.ok) throw new Error(j.error||'Error');
+        done('Your request '+j.ref+' has reached the Little Chef team. We will call you to confirm the date, and send your confirmation by email and WhatsApp.', null);
+      })
+      .catch(function(){ var er=$('#formError'); er.innerHTML='We couldn’t send your request. Please check your internet connection, or <a href="'+waUrl+'" target="_blank" rel="noopener">send it on WhatsApp instead</a>.'; er.style.display='block' })
       .then(function(){ btn.disabled=false; btn.textContent='Request booking' });
   });
   $('#againBtn').addEventListener('click',function(){ form.reset(); setWho('School'); card.classList.remove('done'); $('#f-school').focus() });
+
+  /* config links */
+  $$('[data-cfg-href]').forEach(function(a){ var v=CFG[a.getAttribute('data-cfg-href')]; if(v){ a.href=v; a.hidden=false } else if(a.hasAttribute('data-hide-empty')) a.hidden=true; });
+
+  /* hero sprinkle pops */
+  var popCols=['#E2FF88','#F4D66D','#F2C7C0','#A3D6C5','#1336A3'];
+  function pops(x,y,n){ if(reduce) return; for(var i=0;i<(n||12);i++){ var p=document.createElement('i'); p.className='pop'; p.style.left=x+'px'; p.style.top=y+'px'; p.style.background=popCols[i%popCols.length]; var a=Math.random()*Math.PI*2, d=40+Math.random()*60; p.style.setProperty('--dx',Math.cos(a)*d+'px'); p.style.setProperty('--dy',Math.sin(a)*d+'px'); document.body.appendChild(p); setTimeout(function(el){return function(){el.remove()}}(p),850) } }
+  $('.hero').addEventListener('click',function(e){ if(!e.target.closest('a,button')) pops(e.clientX,e.clientY,14) });
+  $$('.chant li').forEach(function(li){ li.addEventListener('click',function(e){ pops(e.clientX,e.clientY,10) }) });
+
+  /* game tabs */
+  var tabs=$$('.game-tabs [role=tab]');
+  tabs.forEach(function(t){ t.addEventListener('click',function(){ tabs.forEach(function(x){ var on=x===t; x.setAttribute('aria-selected',on); $('#'+x.getAttribute('aria-controls')).hidden=!on }) }) });
+
+  /* memory match */
+  var FOODS=['🧁','🍪','🥐','🍩','🥖','🍰'], first=null, lock=false, moves=0, pairs=0;
+  function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t } return a }
+  function memNew(){
+    var grid=$('#memGrid'); grid.innerHTML=''; first=null; lock=false; moves=0; pairs=0; memScore(); $('#memMsg').textContent='';
+    shuffle(FOODS.concat(FOODS)).forEach(function(f,i){
+      var b=document.createElement('button'); b.type='button'; b.className='card-m'; b.dataset.f=f; b.setAttribute('aria-label','Card '+(i+1)+', face down');
+      b.innerHTML='<span class="in"><span class="f">?</span><span class="b">'+f+'</span></span>';
+      b.addEventListener('click',function(){ flip(b) }); grid.appendChild(b);
+    });
+  }
+  function memScore(){ $('#memMoves').textContent=moves+' move'+(moves===1?'':'s'); $('#memPairs').textContent=pairs+' / 6 pairs' }
+  function flip(b){
+    if(lock||b===first||b.classList.contains('match')) return;
+    b.classList.add('flip'); b.setAttribute('aria-label','Card showing '+b.dataset.f);
+    if(!first){ first=b; return }
+    moves++; var a=first; first=null;
+    if(a.dataset.f===b.dataset.f){ a.classList.add('match'); b.classList.add('match'); pairs++; memScore();
+      var r=b.getBoundingClientRect(); pops(r.left+r.width/2,r.top+r.height/2,10);
+      if(pairs===6){ $('#memMsg').textContent='🎉 Brilliant, Little Chef! You matched them all in '+moves+' moves.'; confetti(70) }
+    } else { memScore(); lock=true; setTimeout(function(){ a.classList.remove('flip'); b.classList.remove('flip'); a.setAttribute('aria-label','Card, face down'); b.setAttribute('aria-label','Card, face down'); lock=false },800) }
+  }
+  $('#memNew').addEventListener('click',memNew); memNew();
+
+  /* cookie decorator */
+  var NS='http://www.w3.org/2000/svg', svg=$('#cookieSvg'), layer=$('#toppings'), tool='chip';
+  var SPR=['#F2C7C0','#E2FF88','#1336A3','#F4D66D','#A3D6C5','#ffffff'];
+  $$('#tools button').forEach(function(b){ b.addEventListener('click',function(){ tool=b.dataset.t; $$('#tools button').forEach(function(x){x.setAttribute('aria-pressed',x===b)}) }) });
+  function el(n,attrs){ var e=document.createElementNS(NS,n); for(var k in attrs) e.setAttribute(k,attrs[k]); return e }
+  function topping(t,x,y){
+    var g=el('g',{transform:'translate('+x+' '+y+') rotate('+Math.floor(Math.random()*360)+') scale(1.4)'});
+    if(t==='chip'){ g.appendChild(el('path',{d:'M-11 6 Q0 -16 11 6 Q0 12 -11 6z',fill:'#5A3418',stroke:'#3B200C','stroke-width':2})) }
+    else if(t==='sprinkle'){ for(var i=0;i<6;i++){ var a=Math.random()*Math.PI*2, d=Math.random()*20; g.appendChild(el('rect',{x:Math.cos(a)*d-6,y:Math.sin(a)*d-2,width:12,height:4,rx:2,fill:SPR[i%SPR.length],transform:'rotate('+Math.floor(Math.random()*180)+' '+Math.cos(a)*d+' '+Math.sin(a)*d+')'})) } }
+    else if(t==='star'){ g.appendChild(el('path',{d:'M0 -16 L4.7 -5 L16 -5 L7 2 L10 14 L0 7 L-10 14 L-7 2 L-16 -5 L-4.7 -5z',fill:'#F4D66D',stroke:'#1336A3','stroke-width':2.5,'stroke-linejoin':'round'})) }
+    else if(t==='heart'){ g.appendChild(el('path',{d:'M0 12 C-18 0 -14 -14 -6 -14 C-2 -14 0 -10 0 -8 C0 -10 2 -14 6 -14 C14 -14 18 0 0 12z',fill:'#F2C7C0',stroke:'#1336A3','stroke-width':2.5})) }
+    else if(t==='pista'){ g.appendChild(el('ellipse',{rx:13,ry:8,fill:'#8DC63F',stroke:'#3E6B1F','stroke-width':2.5})); g.appendChild(el('ellipse',{rx:6,ry:3,fill:'#B9E27A'})) }
+    else if(t==='cherry'){ g.appendChild(el('path',{d:'M0 -6 Q4 -20 12 -24',fill:'none',stroke:'#3E6B1F','stroke-width':3,'stroke-linecap':'round'})); g.appendChild(el('circle',{r:11,fill:'#D7263D',stroke:'#1336A3','stroke-width':2.5})); g.appendChild(el('circle',{cx:-4,cy:-4,r:3,fill:'#fff',opacity:.7})) }
+    layer.appendChild(g); $('#decoCount').textContent=layer.childNodes.length+' topping'+(layer.childNodes.length===1?'':'s');
+  }
+  svg.addEventListener('pointerdown',function(e){
+    var r=svg.getBoundingClientRect(), x=(e.clientX-r.left)/r.width*400, y=(e.clientY-r.top)/r.height*400;
+    if(Math.hypot(x-200,y-200)>165) return;
+    topping(tool,x,y); $('#decoMsg').textContent='';
+  });
+  $('#decoUndo').addEventListener('click',function(){ if(layer.lastChild) layer.removeChild(layer.lastChild); $('#decoCount').textContent=layer.childNodes.length+' toppings' });
+  $('#decoClear').addEventListener('click',function(){ layer.innerHTML=''; $('#decoCount').textContent='0 toppings'; $('#decoMsg').textContent='' });
+  $('#decoDone').addEventListener('click',function(){
+    var n=layer.childNodes.length;
+    $('#decoMsg').textContent = n<3 ? 'Chef Pistu says: add a few more toppings first! 🍪' : 'Chef Pistu says: Yum! That looks like a '+(n>20?'super-loaded ':'')+'masterpiece. Come and bake a real one at Little Chef! 🎉';
+    if(n>=3) confetti(60);
+  });
+
+  /* safe or oops quiz */
+  var Q=[
+    ['🧼','Washing hands with soap before baking',true],
+    ['🥄','Licking the spoon and putting it back in the bowl',false],
+    ['👩‍🍳','Tying long hair back and wearing a chef cap',true],
+    ['🤧','Sneezing over the cake',false],
+    ['🧽','Wiping the table clean before you start',true],
+    ['🙈','Touching your face, then the dough',false],
+    ['🧤','Wearing gloves when handling ready-to-eat food',true]
+  ], qi=0, qs=0, qOrder=[];
+  function quizStart(){ qOrder=shuffle(Q.slice()); qi=0; qs=0; quizShow() }
+  function quizShow(){
+    var box=$('#quiz');
+    if(qi>=qOrder.length){
+      var win=qs>=6;
+      box.innerHTML='<div class="badge-win"><span><b>'+qs+'/'+qOrder.length+'</b>'+(win?'Hygiene Hero!':'Good try!')+'</span></div><p class="game-msg" style="margin-top:0">'+(win?'Super clean hands! You are ready to be a Little Chef. 🌟':'Little Chefs use safe bakery hands. Want to try again?')+'</p><button class="btn btn-blue" type="button" id="qAgain">Play again</button>';
+      $('#qAgain').addEventListener('click',quizStart); if(win) confetti(80); return;
+    }
+    var q=qOrder[qi];
+    box.innerHTML='<div class="q-progress" aria-hidden="true"><i style="width:'+(qi/qOrder.length*100)+'%"></i></div><p style="font-weight:800;margin:0 0 .6rem">Question '+(qi+1)+' of '+qOrder.length+' · Score '+qs+'</p><div class="q-card"><div class="emoji" aria-hidden="true">'+q[0]+'</div><p>'+q[1]+'</p></div><div class="q-btns"><button type="button" class="q-safe" data-a="1">✅ Safe!</button><button type="button" class="q-oops" data-a="0">❌ Oops!</button></div><p class="game-msg" id="qMsg" role="status"></p>';
+    $$('.q-btns button',box).forEach(function(b){ b.addEventListener('click',function(){
+      var right=(b.dataset.a==='1')===q[2]; if(right) qs++;
+      $$('.q-btns button',box).forEach(function(x){x.disabled=true});
+      $('#qMsg').textContent=right?'Yes! '+(q[2]?'That keeps food safe. 👏':'That is an oops, well spotted! 👏'):(q[2]?'Actually that one is safe! 🧼':'Oops! That can spread germs. 🦠');
+      if(right){ var r=b.getBoundingClientRect(); pops(r.left+r.width/2,r.top+r.height/2,10) }
+      setTimeout(function(){ qi++; quizShow() },1300);
+    }) });
+  }
+  quizStart();
+
+  /* live Instagram feed (Behold JSON) */
+  if(CFG.INSTAGRAM_FEED_URL){
+    fetch(CFG.INSTAGRAM_FEED_URL).then(function(r){return r.json()}).then(function(d){
+      var posts=(d && (d.posts||d)) || []; if(!posts.length) return;
+      var grid=$('#igGrid'), html='';
+      posts.slice(0,8).forEach(function(p){
+        var img=(p.sizes&&p.sizes.medium&&p.sizes.medium.mediaUrl)||p.thumbnailUrl||p.mediaUrl; if(!img) return;
+        var type=p.mediaType==='VIDEO'?'▶ Reel':(p.mediaType==='CAROUSEL_ALBUM'?'▣ Post':'');
+        var cap=String(p.prunedCaption||p.caption||'Little Chef on Instagram').slice(0,120).replace(/"/g,'&quot;').replace(/</g,'&lt;');
+        html+='<li><a href="'+(p.permalink||CFG.INSTAGRAM_URL)+'" target="_blank" rel="noopener"><img class="cover" src="'+img+'" alt="'+cap+'" loading="lazy">'+(type?'<span class="ig-type">'+type+'</span>':'')+'</a></li>';
+      });
+      if(html) grid.innerHTML=html;
+    }).catch(function(){});
+  }
 })();
 </script>
 </body>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Your Little Chef visit | Little Chef by Pista House</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<script src="assets/config.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#1336A3;--blue-dark:#0B2270;--onahau:#C2F9FF;--tidal:#E2FF88;--lace:#FFF5E1;--snow:#E1FFB3;--coral:#F2C7C0;--sand:#F4D66D;--ink2:#3D56A6;
+--head:"Baloo 2","Arial Rounded MT Bold","Trebuchet MS",system-ui,sans-serif;--body:"Nunito","Segoe UI",system-ui,-apple-system,sans-serif}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--onahau);color:var(--blue);font:400 1.05rem/1.55 var(--body);-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(circle at 10% 12%,var(--sand) 0 6px,transparent 7px),radial-gradient(circle at 88% 20%,var(--tidal) 0 7px,transparent 8px),radial-gradient(circle at 6% 80%,var(--coral) 0 6px,transparent 7px),radial-gradient(circle at 94% 88%,var(--snow) 0 7px,transparent 8px)}
+h1,h2,h3{font-family:var(--head);margin:0;line-height:1.1}
+a{color:inherit}
+.wrap{width:min(720px,100% - 2rem);margin:0 auto;padding:1.5rem 0 calc(2.5rem + env(safe-area-inset-bottom,0px))}
+.logo{display:block;width:170px;margin:0 auto 1.2rem}
+.card{background:var(--lace);border:3px solid var(--blue);border-radius:30px;overflow:hidden}
+.hero{background:var(--blue);color:#fff;padding:1.6rem 1.5rem;display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:1rem;align-items:center}
+.hero small{display:inline-block;background:var(--tidal);color:var(--blue);border-radius:999px;padding:.2rem .7rem;font-weight:800;font-size:.8rem;margin-bottom:.6rem}
+.hero h1{font-size:clamp(1.7rem,5vw,2.4rem)}
+.hero p{margin:.4rem 0 0;color:var(--onahau);font-weight:700}
+.hero img{width:120px}
+.body{padding:1.5rem}
+.rows{display:grid;gap:.6rem;margin:0;padding:0;list-style:none}
+.rows li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:.8rem;align-items:center;background:#fff;border:2px solid var(--blue);border-radius:16px;padding:.7rem .9rem}
+.rows .i{width:44px;height:44px;border-radius:12px;background:var(--onahau);display:grid;place-items:center;font-size:1.3rem}
+.rows small{display:block;font-weight:700;color:var(--ink2);font-size:.82rem}
+.rows b{font:700 1.12rem/1.25 var(--head)}
+.note{margin:1rem 0 0;background:var(--tidal);border-radius:16px;padding:.8rem 1rem;font-weight:600}
+.ack{margin-top:1.4rem;text-align:center;background:#fff;border:3px dashed var(--blue);border-radius:22px;padding:1.3rem}
+.ack h2{font-size:1.4rem;margin-bottom:.3rem}
+.ack p{margin:0 0 1rem;color:var(--ink2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;min-height:52px;padding:.8rem 1.4rem;border-radius:999px;border:3px solid var(--blue);background:#fff;color:var(--blue);font:800 1rem/1 var(--body);cursor:pointer;text-decoration:none}
+.btn-blue{background:var(--blue);color:#fff;box-shadow:0 5px 0 var(--blue-dark)}
+.btn:disabled{opacity:.6}
+.btns{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;margin-top:1.2rem}
+.done{display:inline-flex;align-items:center;gap:.5rem;background:var(--tidal);border:3px solid var(--blue);border-radius:999px;padding:.6rem 1.2rem;font-weight:800}
+.help{text-align:center;margin-top:1.4rem;font-weight:700}
+.state{text-align:center;padding:2.5rem 1.5rem}
+.state img{width:130px;margin:0 auto 1rem;display:block}
+@media(max-width:520px){.hero{grid-template-columns:1fr}.hero img{display:none}.btns .btn{flex:1 1 100%}}
+@media print{body{background:#fff}.btns,.ack button{display:none}}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.confetti i{position:absolute;top:-20px;width:10px;height:14px;border-radius:3px;animation:fall 1.8s ease-in forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+@media (prefers-reduced-motion:reduce){.confetti{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="index.html"><img class="logo" src="assets/logo.webp" alt="Little Chef by Pista House"></a>
+  <div class="card" id="card"><div class="state"><img src="assets/mascot.webp" alt=""><b>Loading your booking…</b></div></div>
+  <p class="help">Questions? Call or WhatsApp <a id="phone" href="tel:+919133308091">+91 91333 08091</a></p>
+</div>
+<script>
+(function(){
+  var CFG=window.LC_CONFIG||{}, card=document.getElementById('card');
+  var MONL=['January','February','March','April','May','June','July','August','September','October','November','December'], DAYL=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var id=new URLSearchParams(location.search).get('id')||'';
+  if(CFG.PHONE_DISPLAY){ var p=document.getElementById('phone'); p.textContent=CFG.PHONE_DISPLAY; p.href='tel:+'+(CFG.WHATSAPP||'') }
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  function pd(s){var m=/^(\d{4})-(\d{2})-(\d{2})/.exec(s||''); return m?new Date(+m[1],+m[2]-1,+m[3]):null}
+  function t12(t){var m=/^(\d{1,2}):(\d{2})/.exec(t||''); if(!m) return ''; var h=+m[1],ap=h>=12?'PM':'AM'; h=h%12||12; return h+':'+m[2]+' '+ap}
+  function dLong(s){var d=pd(s); return d?DAYL[d.getDay()]+', '+d.getDate()+' '+MONL[d.getMonth()]+' '+d.getFullYear():(s||'')}
+  function state(t,sub){ card.innerHTML='<div class="state"><img src="assets/mascot.webp" alt=""><h2>'+t+'</h2>'+(sub?'<p>'+sub+'</p>':'')+'</div>' }
+  function confetti(){ var b=document.createElement('div'); b.className='confetti'; var c=['#E2FF88','#F4D66D','#F2C7C0','#C2F9FF','#1336A3']; for(var i=0;i<70;i++){ var p=document.createElement('i'); p.style.left=Math.random()*100+'vw'; p.style.background=c[i%c.length]; p.style.animationDelay=Math.random()*.5+'s'; b.appendChild(p) } document.body.appendChild(b); setTimeout(function(){b.remove()},2600) }
+
+  if(!CFG.API_URL || !id){ state('Booking link not found','Please open the link from your confirmation message, or contact us.'); return }
+
+  fetch(CFG.API_URL+'?action=booking&id='+encodeURIComponent(id)).then(function(r){return r.json()}).then(function(j){
+    if(!j.ok) return state('We couldn’t find this booking','Please check the link, or contact our team.');
+    render(j.booking);
+  }).catch(function(){ state('Couldn’t load your booking','Please check your internet connection and refresh this page.') });
+
+  function render(b){
+    if(b.status==='Requested') return state('Request received!','Your request '+esc(b.ref)+' is with our team. We will contact you to confirm the date.');
+    if(b.status==='Cancelled') return state('This visit has been cancelled','Please contact our team if you would like to book a new date.');
+    var who=b.schoolName||'Your group', done=b.status==='Completed';
+    var rows=[['📅','Date',dLong(b.visitDate)],['⏰','Time',b.startTime?t12(b.startTime)+(b.endTime?' to '+t12(b.endTime):''):'Our team will share the time'],['👧','Students',b.students],['🧑‍🏫','Teachers',b.teachers],['🎓','Classes',b.classes],['📍','Venue',(CFG.FACTORY_ADDRESS||'Pista House Factory, Shamshabad, Hyderabad')]].filter(function(r){return r[2]});
+    card.innerHTML='<div class="hero"><div><small>'+(done?'VISIT COMPLETED':'VISIT CONFIRMED')+' · '+esc(b.ref)+'</small><h1>'+(done?'Thank you for visiting, ':'See you soon, ')+esc(who)+'!</h1><p>Little Chef Factory Experience</p></div><img src="assets/mascot.webp" alt=""></div>'+
+      '<div class="body"><ul class="rows">'+rows.map(function(r){return '<li><span class="i" aria-hidden="true">'+r[0]+'</span><div><small>'+r[1]+'</small><b>'+esc(r[2])+'</b></div></li>'}).join('')+'</ul>'+
+      (b.schoolNote?'<p class="note">📝 '+esc(b.schoolNote)+'</p>':'')+
+      (done?'':'<div class="ack" id="ack">'+(b.schoolAck?ackDone():'<h2>Please confirm your visit</h2><p>Tap below so our team knows '+esc(who)+' is coming.</p><button class="btn btn-blue" type="button" id="ackBtn">✅ Yes, we confirm our visit</button><p id="ackErr" style="color:#C2283A;font-weight:700;margin:.8rem 0 0"></p>')+'</div>')+
+      '<div class="btns">'+(done?'':'<a class="btn" href="#" id="ics">📆 Add to calendar</a>')+'<a class="btn" href="'+(CFG.MAPS_URL||'#')+'" target="_blank" rel="noopener">🗺 Directions</a><button class="btn" type="button" onclick="window.print()">🖨 Print</button></div></div>';
+    var ab=document.getElementById('ackBtn');
+    if(ab) ab.onclick=function(){
+      ab.disabled=true; ab.textContent='Sending…';
+      fetch(CFG.API_URL,{method:'POST',body:JSON.stringify({action:'ack',id:id})}).then(function(r){return r.json()}).then(function(j){
+        if(!j.ok) throw new Error(j.error); document.getElementById('ack').innerHTML=ackDone(); confetti();
+      }).catch(function(e){ ab.disabled=false; ab.textContent='✅ Yes, we confirm our visit'; document.getElementById('ackErr').textContent='That didn’t go through. Please try again, or WhatsApp us.' });
+    };
+    var ics=document.getElementById('ics');
+    if(ics) ics.onclick=function(e){ e.preventDefault(); download(b) };
+  }
+  function ackDone(){ return '<span class="done">✓ Thank you! Your visit is confirmed with our team.</span>' }
+  function utc(date,time){ var d=pd(date), m=/^(\d{1,2}):(\d{2})/.exec(time||''); if(!d) return null; var h=m?+m[1]:10, mi=m?+m[2]:0; var t=Date.UTC(d.getFullYear(),d.getMonth(),d.getDate(),h,mi)-330*60000; return new Date(t).toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'') }
+  function download(b){
+    var s=utc(b.visitDate,b.startTime||'10:00'), e=utc(b.visitDate,b.endTime||(b.startTime?'':'12:00'))||s;
+    if(!s) return;
+    var ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Little Chef//EN','BEGIN:VEVENT','UID:'+id+'@littlechefs.in','DTSTAMP:'+new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,''),'DTSTART:'+s,'DTEND:'+e,'SUMMARY:Little Chef Factory Experience','LOCATION:'+(CFG.FACTORY_ADDRESS||'').replace(/,/g,'\\,'),'DESCRIPTION:'+(b.ref||'')+' – '+(CFG.SITE_URL||'')+'/confirmation.html?id='+id,'END:VEVENT','END:VCALENDAR'].join('\r\n');
+    var a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'})); a.download='little-chef-visit.ics'; document.body.appendChild(a); a.click(); a.remove();
+  }
+})();
+</script>
+</body>
+</html>

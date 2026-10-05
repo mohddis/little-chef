@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Visit Planner | Little Chef by Pista House</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<script src="assets/config.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#1336A3;--blue-dark:#0B2270;--onahau:#C2F9FF;--tidal:#E2FF88;--lace:#FFF5E1;--snow:#E1FFB3;--coral:#F2C7C0;--sand:#F4D66D;--scandal:#A3D6C5;--ink2:#3D56A6;--red:#C2283A;
+--head:"Baloo 2","Arial Rounded MT Bold","Trebuchet MS",system-ui,sans-serif;--body:"Nunito","Segoe UI",system-ui,-apple-system,sans-serif}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:#EAFDFF;color:var(--blue);font:400 1rem/1.5 var(--body);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--sand);outline-offset:2px;border-radius:10px}
+h1,h2,h3{font-family:var(--head);margin:0;line-height:1.1}
+.wrap{width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(.8rem,3vw,1.5rem)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;min-height:42px;padding:.55rem 1rem;border-radius:999px;border:2px solid var(--blue);background:#fff;color:var(--blue);font-weight:800;font-size:.92rem;cursor:pointer;text-decoration:none;white-space:nowrap;line-height:1}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-blue{background:var(--blue);color:#fff;box-shadow:0 3px 0 var(--blue-dark)}
+.btn-tidal{background:var(--tidal)}
+.btn-wa{background:#25D366;border-color:#128C4A;color:#fff}
+.btn-red{border-color:var(--red);color:var(--red)}
+.btn-sm{min-height:36px;padding:.4rem .8rem;font-size:.85rem}
+
+/* login */
+.login{min-height:100vh;display:grid;place-items:center;padding:1.5rem}
+.login-card{width:min(420px,100%);background:var(--lace);border:3px solid var(--blue);border-radius:28px;padding:2rem;text-align:center}
+.login-card img{width:190px;margin:0 auto 1rem;display:block}
+.login-card h1{font-size:1.8rem;margin-bottom:.3rem}
+.login-card p{margin:0 0 1.2rem;color:var(--ink2)}
+.login-card input{width:100%;min-height:52px;border:3px solid var(--blue);border-radius:14px;padding:.6rem 1rem;font-size:1.3rem;text-align:center;letter-spacing:.3em;background:#fff;margin-bottom:.8rem}
+.login-card .btn{width:100%;min-height:52px;font-size:1rem}
+.err{color:var(--red);font-weight:700;min-height:1.5em;margin:.6rem 0 0}
+
+/* top */
+.top{background:var(--onahau);border-bottom:3px solid var(--blue);position:sticky;top:0;z-index:20}
+.top .wrap{display:flex;align-items:center;gap:1rem;min-height:72px}
+.top img{height:52px;width:auto}
+.top h1{font-size:1.45rem;flex:1}
+.top h1 small{display:block;font:700 .82rem/1.2 var(--body);color:var(--ink2)}
+.top .acts{display:flex;gap:.5rem}
+@media(max-width:560px){.top h1{font-size:1.15rem}.top .acts .lbl{display:none}}
+
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem;margin:1.1rem 0}
+.stat{background:#fff;border:2px solid var(--blue);border-radius:18px;padding:.8rem 1rem}
+.stat b{display:block;font:800 1.8rem/1 var(--head)}
+.stat span{font-weight:700;font-size:.88rem;color:var(--ink2)}
+.stat.hot{background:var(--sand)} .stat.ok{background:var(--tidal)}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.bar{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin-bottom:1rem}
+.tabs{display:flex;flex-wrap:wrap;gap:.4rem;flex:1}
+.tabs button{border:2px solid var(--blue);background:#fff;border-radius:999px;padding:.5rem .95rem;font-weight:800;cursor:pointer;display:inline-flex;gap:.4rem;align-items:center}
+.tabs button[aria-selected="true"]{background:var(--blue);color:#fff}
+.tabs .n{background:var(--sand);color:var(--blue);border-radius:999px;padding:0 .45rem;font-size:.8rem}
+.search{flex:1 1 220px;min-width:0;max-width:340px;border:2px solid var(--blue);border-radius:999px;padding:.55rem 1rem;background:#fff;min-height:42px}
+
+/* cards */
+.list{display:grid;gap:.8rem;margin-bottom:2rem}
+.vcard{background:#fff;border:2px solid var(--blue);border-radius:20px;padding:1rem;display:grid;grid-template-columns:84px minmax(0,1fr);gap:.4rem 1rem}
+.vcard.is-today{background:#FFFBEA}
+.chip{grid-row:span 3;align-self:start;background:var(--onahau);border-radius:14px;padding:.45rem .3rem;text-align:center;font-family:var(--head);line-height:1}
+.chip .d{font-weight:700;font-size:.78rem}
+.chip .n{display:block;font-weight:800;font-size:1.35rem;margin-top:.2rem}
+.chip .m{display:block;font-weight:700;font-size:.8rem;margin-top:.15rem}
+.chip.pref{background:var(--lace);border:2px dashed var(--blue)}
+.vhead{display:flex;flex-wrap:wrap;gap:.4rem .8rem;align-items:center}
+.vhead h3{font-size:1.25rem}
+.pill{display:inline-block;border-radius:999px;padding:.15rem .6rem;font-weight:800;font-size:.76rem;border:2px solid var(--blue);white-space:nowrap}
+.p-Requested{background:var(--sand)} .p-Confirmed{background:var(--tidal)} .p-Completed{background:var(--scandal)} .p-Cancelled{background:var(--coral)}
+.p-ack{background:#fff} .p-wait{background:#fff;border-style:dashed;color:var(--ink2)}
+.meta{display:flex;flex-wrap:wrap;gap:.35rem .9rem;font-size:.92rem;color:var(--ink2);font-weight:600}
+.meta b{color:var(--blue)}
+.meta a{color:inherit;font-weight:800}
+.note{font-size:.9rem;background:var(--lace);border-radius:12px;padding:.45rem .7rem}
+.vacts{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:.45rem;padding-top:.7rem;margin-top:.3rem;border-top:2px dashed var(--onahau)}
+@media(max-width:560px){.vcard{grid-template-columns:68px minmax(0,1fr)}.chip .n{font-size:1.1rem}.vacts .btn{flex:1 1 auto}}
+.empty{text-align:center;padding:2.5rem 1rem;background:#fff;border:2px dashed var(--blue);border-radius:20px}
+.empty img{width:100px;margin:0 auto .6rem;display:block}
+
+/* schedule */
+.sched-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.8rem;margin-bottom:.8rem}
+.mnav{display:flex;align-items:center;gap:.5rem}
+.mnav b{background:var(--tidal);border:2px solid var(--blue);border-radius:999px;padding:.3rem 1rem;font:800 1.15rem/1.3 var(--head);min-width:11ch;text-align:center}
+.round{width:40px;height:40px;border-radius:50%;border:2px solid var(--blue);background:#fff;font-weight:800;cursor:pointer}
+.tablewrap{overflow-x:auto;background:#fff;border:2px dashed #9FE3F0;border-radius:20px;padding:.5rem}
+table{width:100%;border-collapse:separate;border-spacing:0;min-width:760px}
+th{background:var(--tidal);font:800 .95rem/1.1 var(--head);padding:.7rem .5rem;text-align:center}
+th:nth-child(odd){background:var(--onahau)} th:first-child{background:var(--blue);color:#fff;border-radius:12px 0 0 0} th:last-child{border-radius:0 12px 0 0}
+td{padding:.6rem .5rem;border-bottom:2px solid #CFF3F8;text-align:center;vertical-align:middle}
+td.l{text-align:left;font-weight:700}
+td.num{font:800 1.2rem/1 var(--head)}
+tbody tr:nth-child(even) td{background:#FFFAF0}
+.totals{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.6rem;margin:1rem 0 2rem}
+.totals div{background:var(--onahau);border-radius:16px;padding:.7rem;text-align:center}
+.totals div:first-child{background:var(--blue);color:#fff;text-align:left}
+.totals b{display:block;font:800 1.6rem/1 var(--head)}
+.totals span{font-weight:700;font-size:.85rem}
+@media(max-width:700px){.totals{grid-template-columns:repeat(2,minmax(0,1fr))}.totals div:first-child{grid-column:1/-1}}
+
+/* dialog */
+dialog{border:3px solid var(--blue);border-radius:24px;padding:0;width:min(680px,100% - 1.2rem);max-height:calc(100% - 1.5rem);background:var(--lace);color:var(--blue)}
+dialog::backdrop{background:rgba(11,34,112,.45)}
+.dh{display:flex;align-items:center;gap:.8rem;padding:.9rem 1.2rem;background:var(--onahau);border-bottom:3px solid var(--blue)}
+.dh h2{font-size:1.35rem;flex:1}
+.db{padding:1rem 1.2rem;overflow:auto}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem 1rem}
+.grid .full{grid-column:1/-1}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem 1rem}
+@media(max-width:560px){.grid3{grid-template-columns:1fr 1fr}}
+.f label{display:block;font-weight:800;font-size:.86rem;margin-bottom:.25rem}
+.f input,.f select,.f textarea{width:100%;min-height:44px;border:2px solid var(--blue);border-radius:12px;padding:.5rem .7rem;background:#fff}
+.f textarea{min-height:70px;resize:vertical}
+.f.bad input{border-color:var(--red)}
+.sect{font:800 1rem/1.2 var(--head);margin:1rem 0 .5rem;padding-top:.8rem;border-top:2px dashed #9FE3F0}
+.check{display:flex;align-items:flex-start;gap:.6rem;font-weight:700;background:#fff;border:2px solid var(--blue);border-radius:14px;padding:.7rem .8rem;margin-top:1rem}
+.check input{width:20px;height:20px;margin-top:.1rem;flex:none}
+.df{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:flex-end;padding:.9rem 1.2rem;border-top:3px dashed #9FE3F0}
+.done-box{text-align:center;padding:.5rem 0}
+.done-box img{width:110px;margin:0 auto .6rem;display:block}
+.done-box .btns{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-top:1rem}
+.toast{position:fixed;left:50%;bottom:calc(1rem + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--blue);color:#fff;border-radius:999px;padding:.7rem 1.2rem;font-weight:800;z-index:100;max-width:calc(100% - 2rem);text-align:center;display:none}
+.loading{opacity:.55;pointer-events:none}
+
+/* print */
+#printArea{display:none}
+@media print{
+  body *{visibility:hidden}
+  #printArea,#printArea *{visibility:visible}
+  #printArea{display:block;position:absolute;left:0;top:0;width:100%;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  @page{size:A4;margin:12mm}
+}
+.notice{border:2px solid #000;padding:14mm 12mm;font-family:Georgia,"Times New Roman",serif;color:#111;position:relative;min-height:265mm;overflow:hidden}
+.notice .wm{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-55deg);font:700 120px/1 Arial,sans-serif;color:rgba(0,0,0,.05);white-space:nowrap}
+.notice img{display:block;margin:0 auto 8mm;width:58mm}
+.notice h1{text-align:center;color:#C00000;text-decoration:underline;font:700 30pt/1 Georgia,serif;margin-bottom:12mm}
+.notice .subj{font:700 13pt/1.3 Arial,sans-serif;margin-bottom:9mm}
+.notice .subj span{color:#4F6228}
+.notice p{font-size:13pt;line-height:1.5;margin:0 0 4mm}
+.notice mark{background:#FFFF00;font-weight:700}
+.notice .gap{height:6mm}
+.sched-print h1{font:800 22pt/1.1 Arial,sans-serif;color:#1336A3;text-align:center;margin:0 0 4mm}
+.sched-print img{display:block;margin:0 auto 4mm;width:46mm}
+.sched-print table{min-width:0;font-family:Arial,sans-serif;font-size:10.5pt}
+.sched-print th,.sched-print td{border:1px solid #9FE3F0}
+</style>
+</head>
+<body>
+
+<section class="login" id="login">
+  <form class="login-card" id="loginForm">
+    <img src="assets/logo.webp" alt="Little Chef by Pista House">
+    <h1>Team Visit Planner</h1>
+    <p>Requests, confirmations and the school visit schedule.</p>
+    <label for="pin" class="sr" style="position:absolute;left:-9999px">Team PIN</label>
+    <input id="pin" type="password" inputmode="numeric" autocomplete="current-password" placeholder="Team PIN" required>
+    <button class="btn btn-blue" type="submit" id="loginBtn">Open planner</button>
+    <p class="err" id="loginErr" role="alert"></p>
+  </form>
+</section>
+
+<div id="app" hidden>
+  <header class="top">
+    <div class="wrap">
+      <a href="index.html"><img src="assets/logo.webp" alt="Little Chef website"></a>
+      <h1>Visit Planner<small id="syncInfo">Loading…</small></h1>
+      <div class="acts">
+        <button class="btn" type="button" id="refreshBtn" title="Refresh">⟳<span class="lbl"> Refresh</span></button>
+        <button class="btn btn-blue" type="button" id="addBtn">＋<span class="lbl"> Add visit</span></button>
+        <button class="btn" type="button" id="lockBtn" title="Lock">🔒</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap" id="main">
+    <div class="stats">
+      <div class="stat hot"><b id="sNew">0</b><span>New requests</span></div>
+      <div class="stat ok"><b id="sUp">0</b><span>Upcoming confirmed</span></div>
+      <div class="stat"><b id="sWait">0</b><span>Waiting for school reply</span></div>
+      <div class="stat"><b id="sStud">0</b><span>Students this month</span></div>
+    </div>
+
+    <div class="bar">
+      <div class="tabs" role="tablist">
+        <button role="tab" data-tab="requests" aria-selected="true">Requests <span class="n" id="nReq">0</span></button>
+        <button role="tab" data-tab="confirmed" aria-selected="false">Confirmed <span class="n" id="nConf">0</span></button>
+        <button role="tab" data-tab="schedule" aria-selected="false">📅 Schedule</button>
+        <button role="tab" data-tab="past" aria-selected="false">Past &amp; cancelled</button>
+      </div>
+      <input class="search" id="search" type="search" placeholder="Search school, name, phone" aria-label="Search">
+    </div>
+
+    <section id="view"></section>
+  </main>
+</div>
+
+<dialog id="dlg" aria-labelledby="dlgTitle">
+  <form method="dialog" id="vform" novalidate>
+    <div class="dh"><h2 id="dlgTitle">Confirm visit</h2><button class="round" type="button" id="dlgX" aria-label="Close">✕</button></div>
+    <div class="db" id="dlgBody">
+      <div class="grid">
+        <div class="f"><label for="v-bookingFor">Booking for</label><select id="v-bookingFor"><option>School</option><option>Parent</option></select></div>
+        <div class="f"><label for="v-status">Status</label><select id="v-status"><option>Requested</option><option>Confirmed</option><option>Completed</option><option>Cancelled</option></select></div>
+        <div class="f full"><label for="v-schoolName">School / group name</label><input id="v-schoolName" maxlength="120"></div>
+        <div class="f"><label for="v-contactName">Contact person</label><input id="v-contactName" maxlength="80" required></div>
+        <div class="f"><label for="v-mobile">Mobile</label><input id="v-mobile" type="tel" maxlength="20" required></div>
+        <div class="f full"><label for="v-email">Email (confirmation is sent here)</label><input id="v-email" type="email" maxlength="120"></div>
+      </div>
+      <p class="sect">Visit details</p>
+      <div class="grid3">
+        <div class="f"><label for="v-visitDate">Visit date</label><input id="v-visitDate" type="date"></div>
+        <div class="f"><label for="v-startTime">Batch starts</label><input id="v-startTime" type="time"></div>
+        <div class="f"><label for="v-endTime">Batch ends</label><input id="v-endTime" type="time"></div>
+        <div class="f"><label for="v-children">Students</label><input id="v-children" type="number" min="0" inputmode="numeric"></div>
+        <div class="f"><label for="v-staff">Teachers</label><input id="v-staff" type="number" min="0" inputmode="numeric"></div>
+        <div class="f"><label for="v-helpers">Helpers</label><input id="v-helpers" type="number" min="0" inputmode="numeric"></div>
+        <div class="f"><label for="v-classes">Grades / classes</label><input id="v-classes" maxlength="60"></div>
+        <div class="f"><label for="v-reportingTime">Staff reporting</label><input id="v-reportingTime" type="time"></div>
+        <div class="f"><label for="v-city">City</label><input id="v-city" maxlength="60"></div>
+      </div>
+      <div class="grid" style="margin-top:.75rem">
+        <div class="f full"><label for="v-schoolNote">Note to school (shown in their confirmation)</label><textarea id="v-schoolNote" maxlength="600" placeholder="e.g. Please arrive 15 minutes early. Share any allergies by phone."></textarea></div>
+        <div class="f full"><label for="v-internalNote">Internal note (team only)</label><textarea id="v-internalNote" maxlength="600"></textarea></div>
+      </div>
+      <label class="check" id="emailCheckWrap"><input type="checkbox" id="v-sendEmail" checked><span id="emailCheckText">Send confirmation email to the school</span></label>
+    </div>
+    <div class="df" id="dlgFoot">
+      <button class="btn btn-red" type="button" id="delBtn" hidden>Delete</button>
+      <span style="flex:1"></span>
+      <button class="btn" type="button" id="cancelBtn">Cancel</button>
+      <button class="btn btn-blue" type="submit" id="saveBtn">Confirm visit</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="doneDlg" aria-labelledby="doneTitle">
+  <div class="dh"><h2 id="doneTitle">Visit confirmed</h2><button class="round" type="button" id="doneX" aria-label="Close">✕</button></div>
+  <div class="db done-box" id="doneBody"></div>
+</dialog>
+
+<div class="toast" id="toast" role="status"></div>
+<div id="printArea"></div>
+
+<script>
+(function(){
+  var CFG=window.LC_CONFIG||{}, $=function(s,c){return (c||document).querySelector(s)}, $$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
+  var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'], MONL=['January','February','March','April','May','June','July','August','September','October','November','December'], DAY=['SUN','MON','TUE','WED','THU','FRI','SAT'], DAYL=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var pin='', visits=[], tab='requests', q='', editing=null, now=new Date(), view={y:now.getFullYear(),m:now.getMonth()};
+  var today=iso(now);
+
+  function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+  function pd(s){var m=/^(\d{4})-(\d{2})-(\d{2})/.exec(s||''); return m?new Date(+m[1],+m[2]-1,+m[3]):null}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  function n(v){v=parseInt(v,10);return isNaN(v)?0:v}
+  function t12(t){var m=/^(\d{1,2}):(\d{2})/.exec(t||''); if(!m) return t||''; var h=+m[1],ap=h>=12?'PM':'AM'; h=h%12||12; return h+':'+m[2]+' '+ap}
+  function range(a,b){return a?t12(a)+(b?' – '+t12(b):''):''}
+  function dLong(s){var d=pd(s); return d?DAYL[d.getDay()]+', '+d.getDate()+' '+MONL[d.getMonth()]+' '+d.getFullYear():(s||'')}
+  function dNotice(s){var d=pd(s); return d?String(d.getDate()).padStart(2,'0')+'-'+MON[d.getMonth()]+'-'+String(d.getFullYear()).slice(2)+'('+DAYL[d.getDay()]+')':(s||'')}
+  function date(v){return v.visitDate||v.preferredDate||''}
+  function waNum(m){var d=String(m||'').replace(/\D/g,''); if(d.length===10) d='91'+d; return d}
+  function link(v){return (CFG.SITE_URL||location.origin)+'/confirmation.html?id='+encodeURIComponent(v.id)}
+  function toast(t){var el=$('#toast'); el.textContent=t; el.style.display='block'; clearTimeout(toast.t); toast.t=setTimeout(function(){el.style.display='none'},3200)}
+  function store(k,v){try{ if(v==null) sessionStorage.removeItem(k); else sessionStorage.setItem(k,v) }catch(e){}}
+  function read(k){try{return sessionStorage.getItem(k)}catch(e){return null}}
+
+  async function api(action,payload){
+    if(!CFG.API_URL) throw new Error('The planner is not connected yet. Add API_URL in assets/config.js (see README).');
+    var r=await fetch(CFG.API_URL,{method:'POST',body:JSON.stringify(Object.assign({action:action,pin:pin},payload||{}))});
+    var j=await r.json(); if(!j.ok){var e=new Error(j.error||'Something went wrong'); e.code=j.code; throw e} return j;
+  }
+
+  /* login */
+  $('#loginForm').addEventListener('submit',async function(e){
+    e.preventDefault(); pin=$('#pin').value.trim(); if(!pin) return;
+    $('#loginBtn').disabled=true; $('#loginErr').textContent='';
+    try{ await load(); store('lc_pin',pin); $('#login').hidden=true; $('#app').hidden=false }
+    catch(err){ $('#loginErr').textContent=err.code==='AUTH'?'That PIN is not right. Try again.':err.message; pin='' }
+    finally{ $('#loginBtn').disabled=false }
+  });
+  $('#lockBtn').onclick=function(){ store('lc_pin',null); pin=''; visits=[]; $('#app').hidden=true; $('#login').hidden=false; $('#pin').value=''; $('#pin').focus() };
+
+  async function load(){
+    var j=await api('list'); visits=j.visits||[];
+    $('#syncInfo').textContent='Updated '+new Date().toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit'});
+    render();
+  }
+  $('#refreshBtn').onclick=async function(){ var b=this; b.disabled=true; try{ await load(); toast('Planner refreshed') }catch(e){ toast(e.message) } b.disabled=false };
+
+  /* tabs & search */
+  $$('.tabs [role=tab]').forEach(function(b){ b.onclick=function(){ tab=b.dataset.tab; $$('.tabs [role=tab]').forEach(function(x){x.setAttribute('aria-selected',x===b)}); render() } });
+  $('#search').oninput=function(e){ q=e.target.value.toLowerCase().trim(); render() };
+  function match(v){ return !q || [v.schoolName,v.contactName,v.mobile,v.email,v.ref,v.classes,v.city].join(' ').toLowerCase().indexOf(q)>-1 }
+  function byDate(a,b){ return date(a)<date(b)?-1:date(a)>date(b)?1:0 }
+
+  function render(){
+    var req=visits.filter(function(v){return v.status==='Requested'});
+    var conf=visits.filter(function(v){return v.status==='Confirmed'});
+    var up=conf.filter(function(v){return date(v)>=today});
+    var mo=visits.filter(function(v){var d=pd(date(v)); return (v.status==='Confirmed'||v.status==='Completed') && d && d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear()});
+    $('#sNew').textContent=req.length; $('#sUp').textContent=up.length;
+    $('#sWait').textContent=up.filter(function(v){return !v.schoolAck}).length;
+    $('#sStud').textContent=mo.reduce(function(s,v){return s+n(v.children)},0);
+    $('#nReq').textContent=req.length; $('#nConf').textContent=conf.length;
+    var box=$('#view');
+    if(tab==='schedule'){ box.innerHTML=schedule(); bindSchedule(); return }
+    var list = tab==='requests'?req : tab==='confirmed'?conf : visits.filter(function(v){return v.status==='Completed'||v.status==='Cancelled'});
+    list=list.filter(match).sort(byDate); if(tab==='past') list.reverse();
+    if(!list.length){ box.innerHTML='<div class="empty"><img src="assets/mascot.webp" alt=""><b>'+(q?'Nothing matches your search.':tab==='requests'?'No new requests right now.':tab==='confirmed'?'No confirmed visits yet.':'Nothing here yet.')+'</b></div>'; return }
+    box.innerHTML='<div class="list">'+list.map(card).join('')+'</div>';
+    $$('[data-act]',box).forEach(function(b){ b.onclick=function(){ act(b.dataset.act,find(b.dataset.id),b) } });
+  }
+  function find(id){ for(var i=0;i<visits.length;i++) if(visits[i].id===id) return visits[i] }
+
+  function chip(v){
+    var d=pd(date(v)), pref=!v.visitDate;
+    if(!d) return '<div class="chip pref"><span class="n">?</span><span class="m">No date</span></div>';
+    return '<div class="chip'+(pref?' pref':'')+'" title="'+(pref?'Preferred date':'Visit date')+'"><span class="d">'+DAY[d.getDay()]+'</span><span class="n">'+d.getDate()+'</span><span class="m">'+MON[d.getMonth()]+' '+String(d.getFullYear()).slice(2)+'</span></div>';
+  }
+  function card(v){
+    var name=v.schoolName||v.contactName, isReq=v.status==='Requested', isConf=v.status==='Confirmed';
+    var meta=[];
+    if(isReq){ meta.push('<span>Preferred <b>'+esc(dLong(v.preferredDate))+'</b>'+(v.alternateDate?' or '+esc(dLong(v.alternateDate)):'')+'</span>'); if(v.preferredTime) meta.push('<span>'+esc(v.preferredTime)+'</span>') }
+    else if(v.startTime) meta.push('<span>⏰ <b>'+esc(range(v.startTime,v.endTime))+'</b></span>');
+    meta.push('<span>👧 <b>'+n(v.children)+'</b> students</span><span>🧑‍🏫 <b>'+n(v.staff)+'</b> teachers'+(n(v.helpers)?' + '+n(v.helpers)+' helpers':'')+'</span>');
+    if(v.classes) meta.push('<span>🎓 '+esc(v.classes)+'</span>');
+    if(v.reportingTime && !isReq) meta.push('<span>Staff report <b>'+esc(t12(v.reportingTime))+'</b></span>');
+    var contact='<span>👤 <b>'+esc(v.contactName||'—')+'</b></span>'+(v.mobile?'<span>📞 <a href="tel:'+esc(v.mobile)+'">'+esc(v.mobile)+'</a></span>':'')+(v.email?'<span>✉️ <a href="mailto:'+esc(v.email)+'">'+esc(v.email)+'</a></span>':'')+(v.city?'<span>📍 '+esc(v.city)+'</span>':'');
+    var pills='<span class="pill p-'+esc(v.status)+'">'+esc(v.status)+'</span>';
+    if(isConf) pills+= v.schoolAck?'<span class="pill p-ack">✓ School confirmed</span>':'<span class="pill p-wait">Waiting for school</span>';
+    if(v.emailSent) pills+='<span class="pill p-ack">✉️ Email sent</span>';
+    var notes=(v.notes?'<div class="note">💬 '+esc(v.notes)+'</div>':'')+(v.internalNote?'<div class="note" style="background:var(--onahau)">🔒 '+esc(v.internalNote)+'</div>':'');
+    var a='';
+    if(isReq) a='<button class="btn btn-blue btn-sm" data-act="confirm" data-id="'+v.id+'">✅ Confirm visit</button><a class="btn btn-wa btn-sm" target="_blank" rel="noopener" href="https://wa.me/'+waNum(v.mobile)+'">WhatsApp</a><button class="btn btn-sm" data-act="edit" data-id="'+v.id+'">Edit</button><button class="btn btn-red btn-sm" data-act="cancel" data-id="'+v.id+'">Decline</button>';
+    else if(isConf) a='<button class="btn btn-wa btn-sm" data-act="wa" data-id="'+v.id+'">Send WhatsApp confirmation</button><button class="btn btn-sm" data-act="copy" data-id="'+v.id+'">Copy link</button><button class="btn btn-sm" data-act="notice" data-id="'+v.id+'">🖨 Staff notice</button><button class="btn btn-tidal btn-sm" data-act="complete" data-id="'+v.id+'">Mark done</button><button class="btn btn-sm" data-act="edit" data-id="'+v.id+'">Edit</button><button class="btn btn-red btn-sm" data-act="cancel" data-id="'+v.id+'">Cancel</button>';
+    else a='<button class="btn btn-sm" data-act="edit" data-id="'+v.id+'">Edit</button>'+(v.status==='Cancelled'?'<button class="btn btn-sm" data-act="reopen" data-id="'+v.id+'">Reopen request</button>':'');
+    return '<article class="vcard'+(date(v)===today&&isConf?' is-today':'')+'">'+chip(v)+'<div class="vhead"><h3>'+esc(name)+'</h3>'+pills+'</div><div class="meta">'+meta.join('')+'</div><div class="meta">'+contact+'</div>'+(notes?'<div style="grid-column:2;display:grid;gap:.35rem">'+notes+'</div>':'')+'<div class="meta" style="grid-column:2;font-size:.8rem">'+esc(v.ref)+' · '+(v.source==='Website'?'Website request':'Added by team')+' · '+esc(v.submittedAt)+'</div><div class="vacts">'+a+'</div></article>';
+  }
+
+  /* schedule */
+  function monthRows(){ return visits.filter(function(v){var d=pd(date(v)); return (v.status==='Confirmed'||v.status==='Completed') && d && d.getFullYear()===view.y && d.getMonth()===view.m}).sort(byDate) }
+  function schedTable(rows){
+    if(!rows.length) return '<p style="text-align:center;padding:1.5rem;font-weight:700">No confirmed visits in '+MONL[view.m]+' yet.</p>';
+    return '<table><thead><tr><th>Date</th><th>School name</th><th>Time</th><th>Students</th><th>Classes</th><th>Teachers</th><th>Contact</th><th>School reply</th></tr></thead><tbody>'+rows.map(function(v){var d=pd(date(v)); return '<tr><td><b>'+DAY[d.getDay()]+'</b><br>'+d.getDate()+' '+MON[d.getMonth()]+'</td><td class="l">'+esc(v.schoolName||v.contactName)+'</td><td>'+esc(range(v.startTime,v.endTime)||'—')+'</td><td class="num">'+n(v.children)+'</td><td>'+esc(v.classes||'—')+'</td><td class="num">'+n(v.staff)+(n(v.helpers)?'<br><small>+'+n(v.helpers)+' helpers</small>':'')+'</td><td class="l">'+esc(v.contactName)+'<br><small>'+esc(v.mobile)+'</small></td><td>'+(v.status==='Completed'?'✔ Done':v.schoolAck?'✓ Yes':'Waiting')+'</td></tr>'}).join('')+'</tbody></table>';
+  }
+  function schedTotals(rows){
+    var s=rows.reduce(function(a,v){a.st+=n(v.children);a.t+=n(v.staff);a.h+=n(v.helpers);return a},{st:0,t:0,h:0});
+    return '<div class="totals"><div><b>'+MONL[view.m]+'</b><span>Month total</span></div><div><b>'+s.st+'</b><span>Students</span></div><div><b>'+s.t+'</b><span>Teachers</span></div><div><b>'+s.h+'</b><span>Helpers</span></div><div><b>'+rows.length+'</b><span>School visits</span></div></div>';
+  }
+  function schedule(){
+    var rows=monthRows();
+    return '<div class="sched-top"><div class="mnav"><button class="round" id="mPrev" aria-label="Previous month">‹</button><b>'+MONL[view.m]+' '+view.y+'</b><button class="round" id="mNext" aria-label="Next month">›</button></div><button class="btn" id="printSched">🖨 Print / save PDF</button></div><div class="tablewrap">'+schedTable(rows)+'</div>'+schedTotals(rows);
+  }
+  function bindSchedule(){
+    $('#mPrev').onclick=function(){ view.m--; if(view.m<0){view.m=11;view.y--} render() };
+    $('#mNext').onclick=function(){ view.m++; if(view.m>11){view.m=0;view.y++} render() };
+    $('#printSched').onclick=function(){ var rows=monthRows(); $('#printArea').innerHTML='<div class="sched-print"><img src="assets/logo.webp" alt=""><h1>Factory Visit Schedule · '+MONL[view.m]+' '+view.y+'</h1>'+schedTable(rows)+schedTotals(rows)+'</div>'; setTimeout(function(){window.print()},300) };
+  }
+
+  /* actions */
+  async function act(a,v,btn){
+    if(!v) return;
+    if(a==='confirm'||a==='edit') return openDlg(v,a);
+    if(a==='wa'){ window.open('https://wa.me/'+waNum(v.mobile)+'?text='+encodeURIComponent(waMsg(v)),'_blank','noopener'); return }
+    if(a==='copy'){ copy(link(v)); return }
+    if(a==='notice'){ printNotice(v); return }
+    var status={complete:'Completed',cancel:'Cancelled',reopen:'Requested'}[a];
+    if(!status) return;
+    if(a==='cancel' && btn.dataset.armed!=='1'){ btn.dataset.armed='1'; btn.textContent='Tap again to '+(v.status==='Requested'?'decline':'cancel'); return }
+    btn.disabled=true;
+    try{ var j=await api('status',{id:v.id,status:status}); Object.assign(v,j.visit); render(); toast((v.schoolName||v.contactName)+' → '+status) }
+    catch(e){ toast(e.message); btn.disabled=false }
+  }
+  function waMsg(v){
+    return 'Dear '+(v.contactName||'Coordinator')+', greetings from *Little Chef by Pista House*! 🍪\n\nYour Little Chef Factory Experience is *CONFIRMED* ✅\n\n🏫 '+(v.schoolName||v.contactName)+'\n📅 '+dLong(date(v))+(v.startTime?'\n⏰ '+range(v.startTime,v.endTime):'')+'\n👧 '+n(v.children)+' students | 🧑‍🏫 '+n(v.staff)+' teachers\n📍 '+(CFG.FACTORY_ADDRESS||'Pista House Factory, Shamshabad, Hyderabad')+(v.schoolNote?'\n\n📝 '+v.schoolNote:'')+'\n\nPlease open this link to view and confirm your visit:\n'+link(v)+'\n\nFor help: '+(CFG.PHONE_DISPLAY||'+91 91333 08091')+'\nBake • Learn • Smile';
+  }
+  function copy(t){ if(navigator.clipboard) navigator.clipboard.writeText(t).then(function(){toast('Confirmation link copied')},function(){prompt('Copy this link',t)}); else prompt('Copy this link',t) }
+  function printNotice(v){
+    var total=n(v.children)+n(v.staff)+n(v.helpers);
+    $('#printArea').innerHTML='<div class="notice"><div class="wm">PISTA HOUSE</div><img src="assets/pista-house-logo.png" alt="Pista House"><h1>NOTICE</h1><div class="subj"><span>SUBJECT:</span> LITTLE CHEF FACTORY EXPERIENCE</div>'+
+      '<p>This is to inform all concerned that a batch of '+(v.bookingFor==='Parent'?'children':'students')+' from <b>'+esc(v.schoolName||v.contactName)+'</b> will be visiting our factory - for a Little Chef Factory experience session on <mark>'+esc(dNotice(date(v)))+'</mark>.</p><p>Kindly ensure all necessary arrangements are made for a smooth and enjoyable visit.</p><div class="gap"></div>'+
+      (v.startTime?'<p>Batch Timing <mark>'+esc(range(v.startTime,v.endTime).replace('–','to'))+'</mark></p><div class="gap"></div>':'')+
+      (v.classes?'<p><b>Grade:</b> '+esc(v.classes)+'</p>':'')+'<p><b>Total Number of Students:</b> '+n(v.children)+'<br><b>Total Number of Teachers:</b> '+n(v.staff)+(n(v.helpers)?'<br><b>Helpers:</b> '+n(v.helpers):'')+'<br><b>Total:</b> <mark>'+total+'</mark></p><div class="gap"></div>'+
+      (v.reportingTime?'<p>Reporting Time: <mark>'+esc(t12(v.reportingTime))+'</mark></p><div class="gap"></div>':'')+
+      '<p>All concerned staff are requested to be present and cooperate to ensure the visit goes smoothly.</p><div class="gap"></div><p><b>By Management</b><br>Pista House</p></div>';
+    setTimeout(function(){window.print()},300);
+  }
+
+  /* dialog */
+  var F=['bookingFor','status','schoolName','contactName','mobile','email','visitDate','startTime','endTime','children','staff','helpers','classes','reportingTime','city','schoolNote','internalNote'];
+  function openDlg(v,mode){
+    editing=v||null;
+    F.forEach(function(k){ var el=$('#v-'+k); el.value=v&&v[k]!=null?v[k]:''; el.closest('.f').classList.remove('bad') });
+    if(mode==='confirm'){
+      $('#v-status').value='Confirmed';
+      if(!v.visitDate) $('#v-visitDate').value=v.preferredDate||'';
+      if(!v.startTime) $('#v-startTime').value=/after/i.test(v.preferredTime||'')?'12:00':'11:00';
+      if(!v.endTime) $('#v-endTime').value=/after/i.test(v.preferredTime||'')?'14:00':'13:00';
+      if(!v.reportingTime) $('#v-reportingTime').value='10:00';
+    }
+    if(!v){ $('#v-bookingFor').value='School'; $('#v-status').value='Confirmed'; $('#v-city').value='Hyderabad'; $('#v-startTime').value='11:00'; $('#v-endTime').value='13:00'; $('#v-reportingTime').value='10:00' }
+    $('#dlgTitle').textContent=mode==='confirm'?'Confirm visit':v?'Edit visit':'Add a visit';
+    $('#delBtn').hidden=!v; $('#delBtn').dataset.armed=''; $('#delBtn').textContent='Delete';
+    syncEmailBox(); $('#v-sendEmail').checked=mode==='confirm'||!v;
+    updSave(); $('#dlg').showModal();
+  }
+  function syncEmailBox(){
+    var conf=$('#v-status').value==='Confirmed', has=!!$('#v-email').value.trim();
+    $('#emailCheckWrap').style.display=conf?'':'none';
+    $('#v-sendEmail').disabled=!has;
+    $('#emailCheckText').textContent=has?'Send confirmation email to the school':'Add the school\u2019s email to send a confirmation email (you can still send it on WhatsApp)';
+  }
+  function updSave(){ $('#saveBtn').textContent=$('#v-status').value==='Confirmed'&&(!editing||editing.status!=='Confirmed')?'Confirm visit':'Save' }
+  $('#v-status').onchange=function(){ syncEmailBox(); updSave() };
+  $('#v-email').oninput=syncEmailBox;
+  $('#addBtn').onclick=function(){ openDlg(null,'add') };
+  $('#dlgX').onclick=$('#cancelBtn').onclick=function(){ $('#dlg').close() };
+  $('#delBtn').onclick=async function(){
+    var b=this; if(b.dataset.armed!=='1'){ b.dataset.armed='1'; b.textContent='Tap again to delete'; return }
+    b.disabled=true; try{ await api('delete',{id:editing.id}); visits=visits.filter(function(x){return x.id!==editing.id}); $('#dlg').close(); render(); toast('Visit deleted') }catch(e){ toast(e.message) } b.disabled=false;
+  };
+  $('#vform').addEventListener('submit',async function(e){
+    e.preventDefault();
+    var bad=null; ['contactName','mobile'].forEach(function(k){ var el=$('#v-'+k), ok=!!el.value.trim(); el.closest('.f').classList.toggle('bad',!ok); if(!ok&&!bad) bad=el });
+    if($('#v-status').value==='Confirmed'){ var vd=$('#v-visitDate'); var ok=!!vd.value; vd.closest('.f').classList.toggle('bad',!ok); if(!ok&&!bad) bad=vd }
+    if(bad){ bad.focus(); return }
+    var data={}; F.forEach(function(k){ data[k]=$('#v-'+k).value.trim() }); if(editing) data.id=editing.id;
+    var wasConfirmed=editing&&editing.status==='Confirmed';
+    var sendEmail=data.status==='Confirmed' && $('#v-sendEmail').checked && !$('#v-sendEmail').disabled;
+    var btn=$('#saveBtn'); btn.disabled=true; btn.textContent='Saving…';
+    try{
+      var j=await api('save',{visit:data,sendEmail:sendEmail});
+      if(editing) Object.assign(editing,j.visit); else visits.push(j.visit);
+      $('#dlg').close(); render();
+      if(j.visit.status==='Confirmed' && (!wasConfirmed || sendEmail)) showDone(j.visit,j);
+      else toast('Saved');
+    }catch(err){ toast(err.message) }
+    finally{ btn.disabled=false; updSave() }
+  });
+  function showDone(v,j){
+    var mail=j.emailed?'✉️ Confirmation email sent to <b>'+esc(v.email)+'</b>.':(j.emailError?'⚠️ Email not sent: '+esc(j.emailError):'No email was sent.');
+    $('#doneBody').innerHTML='<img src="assets/mascot.webp" alt=""><h3 style="font-size:1.4rem">'+esc(v.schoolName||v.contactName)+'</h3><p style="margin:.3rem 0 0;font-weight:700">'+esc(dLong(date(v)))+(v.startTime?' · '+esc(range(v.startTime,v.endTime)):'')+'</p><p style="margin:.8rem 0 0">'+mail+'</p><p style="margin:.4rem 0 0">Now send the confirmation on WhatsApp too. The school can tap the link to confirm their attendance.</p><div class="btns"><a class="btn btn-wa" target="_blank" rel="noopener" href="https://wa.me/'+waNum(v.mobile)+'?text='+encodeURIComponent(waMsg(v))+'">Send WhatsApp confirmation</a><button class="btn" type="button" id="dCopy">Copy link</button><button class="btn" type="button" id="dNotice">🖨 Staff notice</button></div>';
+    $('#dCopy').onclick=function(){ copy(link(v)) }; $('#dNotice').onclick=function(){ printNotice(v) };
+    $('#doneDlg').showModal();
+  }
+  $('#doneX').onclick=function(){ $('#doneDlg').close() };
+
+  /* auto login in this tab */
+  var saved=read('lc_pin');
+  if(saved){ pin=saved; load().then(function(){ $('#login').hidden=true; $('#app').hidden=false }).catch(function(){ pin=''; store('lc_pin',null) }) }
+  if(!CFG.API_URL) $('#loginErr').textContent='Not connected yet: add API_URL in assets/config.js (see README).';
+})();
+</script>
+</body>
+</html>
