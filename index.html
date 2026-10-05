@@ -15,6 +15,7 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <script src="assets/config.js"></script>
+<script src="assets/blog.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -104,7 +105,7 @@ button{font:inherit; color:inherit}
 .hero-art .badge{position:absolute; z-index:2; right:2%; top:-4%; width:118px; height:118px; border-radius:50%; background:var(--blue); color:#fff; display:grid; place-items:center; text-align:center; font:800 1rem/1.05 var(--head); transform:rotate(10deg); border:4px solid #fff; box-shadow:0 0 0 3px var(--blue)}
 .hero-art .badge b{display:block; font-size:1.7rem; color:var(--tidal)}
 .facts{margin-top:clamp(2.5rem,5vw,4rem); background:var(--blue); color:#fff}
-.facts ul{display:grid; grid-template-columns:repeat(4,1fr); list-style:none; margin:0; padding:0}
+.facts ul{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); list-style:none; margin:0 auto; padding:0 var(--gutter)}
 .facts li{padding:1.1rem .75rem; text-align:center; font-weight:700; line-height:1.25}
 .facts li+li{border-left:2px solid rgba(194,249,255,.35)}
 .facts b{display:block; font:800 1.4rem/1.1 var(--head); color:var(--tidal)}
@@ -127,6 +128,7 @@ button{font:inherit; color:inherit}
 .bubbles li::after{content:""; position:absolute; left:26px; bottom:-11px; width:18px; height:18px; background:inherit; border-right:var(--line); border-bottom:var(--line); transform:rotate(45deg)}
 .bubbles li:nth-child(even){background:var(--snow)}
 .bubbles li:hover{transform:translateY(-4px) rotate(-1.5deg)}
+.curious h2{margin-bottom:.6rem}
 .answer{font:800 clamp(1.35rem,2.6vw,1.8rem)/1.2 var(--head); margin:0}
 @media (max-width:760px){ .curious-grid{grid-template-columns:1fr} .curious-mascot{max-width:170px} }
 
@@ -140,7 +142,7 @@ button{font:inherit; color:inherit}
 .meter{height:10px; width:160px; background:var(--onahau); border-radius:99px; margin-top:.45rem; overflow:hidden; border:2px solid var(--blue)}
 .meter i{display:block; height:100%; width:0; background:var(--tidal); transition:width .35s ease}
 @media (max-width:760px){ .journey-top{grid-template-columns:1fr} .progress{justify-self:start} }
-.stops{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.1rem; align-items:start; list-style:none; margin:0; padding:0; counter-reset:stop}
+.stops{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.1rem; align-items:stretch; list-style:none; margin:0; padding:0; counter-reset:stop}
 @media (max-width:980px){ .stops{grid-template-columns:repeat(2,minmax(0,1fr))} }
 @media (max-width:620px){ .stops{grid-template-columns:1fr} }
 .stop{counter-increment:stop; position:relative}
@@ -286,7 +288,7 @@ button{font:inherit; color:inherit}
 @media (max-width:480px){ .behind{grid-template-columns:1fr} }
 
 /* ===== FAQ ===== */
-.faq-list{display:grid; gap:.8rem; max-width:860px; margin-inline:auto}
+.faq-list{display:grid; gap:.8rem; max-width:860px}
 .faq-list details{background:#fff; border:var(--line); border-radius:var(--r-md)}
 .faq-list summary{list-style:none; cursor:pointer; position:relative; padding:1.1rem 3.6rem 1.1rem 1.3rem; font:700 1.15rem/1.3 var(--head)}
 .faq-list summary::-webkit-details-marker{display:none}
@@ -443,11 +445,43 @@ button{font:inherit; color:inherit}
 .social{display:flex; gap:.6rem; flex-wrap:wrap}
 .social a{display:inline-flex; align-items:center; gap:.45rem; border:2px solid var(--blue); border-radius:999px; padding:.4rem .8rem; background:#fff}
 .social svg{width:18px; height:18px}
+
+/* ===== Pista House presence ===== */
+.phbar{background:#fff; border-bottom:2px solid var(--blue); font-size:.88rem; font-weight:700}
+.phbar .wrap{display:flex; align-items:center; justify-content:center; gap:.65rem; min-height:40px; flex-wrap:wrap}
+.phbar img{height:26px; width:auto}
+.phbar a{text-decoration:none}
+@media (max-width:520px){ .phbar .hide-xs{display:none} }
+.ph-chip{display:inline-flex; align-items:center; gap:.55rem; background:#fff; border:2px solid var(--blue); border-radius:999px; padding:.3rem .9rem .3rem .5rem; font-weight:800; font-size:.88rem; margin-bottom:1.1rem}
+.ph-chip img{height:24px; width:auto}
+.legacy .ph-logo{display:inline-block; background:#fff; border-radius:14px; padding:.45rem .7rem; margin-bottom:1rem}
+.legacy .ph-logo img{height:40px; width:auto}
+.ph-foot{display:inline-flex; align-items:center; gap:.6rem}
+.ph-foot img{height:30px; width:auto}
+
+/* ===== Blog teaser ===== */
+.blog-head{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:end; gap:1rem 2rem; margin-bottom:1.8rem}
+.blog-head .section-head{margin-bottom:0}
+.blog-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.1rem; list-style:none; margin:0; padding:0}
+.bpost{background:#fff; border:var(--line); border-radius:var(--r-md); overflow:hidden; transition:transform .15s, box-shadow .15s}
+.bpost:hover{transform:translateY(-3px); box-shadow:0 6px 0 var(--blue)}
+.bpost a{display:flex; flex-direction:column; height:100%; text-decoration:none}
+.bpost .img{aspect-ratio:16/10; background:var(--lace); border-bottom:var(--line); overflow:hidden}
+.bpost .img img{width:100%; height:100%; object-fit:cover}
+.bpost .img img.contain{object-fit:contain; padding:.8rem}
+.bpost .txt{padding:1rem 1.15rem 1.2rem; display:flex; flex-direction:column; gap:.4rem; flex:1}
+.bpost .tag{align-self:flex-start; background:var(--tidal); border-radius:999px; padding:.18rem .65rem; font-weight:800; font-size:.78rem}
+.bpost h3{font-size:1.22rem}
+.bpost p{margin:0; font-size:.95rem; color:var(--ink-soft)}
+.bpost .meta{margin-top:auto; font-size:.84rem; font-weight:700; color:var(--ink-soft)}
+@media (max-width:900px){ .blog-grid{grid-template-columns:1fr 1fr} }
+@media (max-width:600px){ .blog-grid{grid-template-columns:1fr} }
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
+<div class="phbar"><div class="wrap"><span>An initiative by</span><img src="assets/pista-house-logo.png" alt="Pista House" width="484" height="168"><span class="hide-xs">· Hyderabad’s favourite since 1997</span></div></div>
 <header class="header">
   <div class="wrap">
     <a class="brand" href="#home" aria-label="Little Chef by Pista House, go to top"><img src="assets/logo.webp" alt="Little Chef by Pista House" width="640" height="477"></a>
@@ -456,8 +490,8 @@ button{font:inherit; color:inherit}
         <li><a href="#home">Home</a></li>
         <li><a href="#experience">The Experience</a></li>
         <li><a href="#play">Games</a></li>
-        <li><a href="#learn">Learn</a></li>
         <li><a href="#schools">Schools</a></li>
+        <li><a href="blog.html">Blog</a></li>
         <li><a href="#gallery">Instagram</a></li>
         <li><a href="#about">About Us</a></li>
         <li><a href="#faq">FAQs</a></li>
@@ -477,6 +511,7 @@ button{font:inherit; color:inherit}
 <section class="hero" id="home">
   <div class="wrap hero-grid">
     <div>
+      <span class="ph-chip"><img src="assets/pista-house-logo.png" alt="Pista House" width="484" height="168">presents Little Chef</span>
       <h1>What if your child could step inside the world of food?</h1>
       <ul class="chant" aria-label="Mix, bake, discover, learn"><li>Mix</li><li>Bake</li><li>Discover</li><li>Learn</li></ul>
       <p class="lede">Big curiosity, little chefs. Little Chef is a guided bakery adventure inside the real Pista House factory, where children explore baking, hygiene, food science, packaging and teamwork.</p>
@@ -580,7 +615,7 @@ button{font:inherit; color:inherit}
 <!-- SIGNATURE MOMENTS -->
 <section class="section">
   <div class="wrap">
-    <div class="section-head center">
+    <div class="section-head">
       <h2>Signature Little Chef moments</h2>
       <p class="lede">The little rituals children remember long after the visit.</p>
     </div>
@@ -789,6 +824,7 @@ button{font:inherit; color:inherit}
       <p class="signoff">Where curiosity meets the kitchen.</p>
     </div>
     <div class="legacy">
+      <span class="ph-logo"><img src="assets/pista-house-logo.png" alt="Pista House" width="484" height="168"></span>
       <h3>Born from the world of Pista House</h3>
       <p>Little Chef is an initiative by Pista House, the Hyderabad-born food brand founded in 1997 and now serving customers across India, the UAE, the USA, Oman and Kuwait.</p>
       <p>We've turned years of food-making knowledge into an experience made especially for young minds.</p>
@@ -797,10 +833,24 @@ button{font:inherit; color:inherit}
   </div>
 </section>
 
-<!-- FAQ -->
-<section class="section learn" id="faq">
+<!-- BLOG -->
+<section class="section learn" id="blog">
   <div class="wrap">
-    <div class="section-head center"><h2>Questions parents and schools ask</h2></div>
+    <div class="blog-head">
+      <div class="section-head">
+        <h2>From the Little Chef blog</h2>
+        <p class="lede">Kitchen tips for curious kids, stories from our factory and help for teachers.</p>
+      </div>
+      <a class="btn btn-white" href="blog.html">Read all posts</a>
+    </div>
+    <ul class="blog-grid" id="blogGrid"></ul>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="wrap">
+    <div class="section-head"><h2>Questions parents and schools ask</h2><p class="lede">Can’t find your answer? Call or WhatsApp us on +91 91333 08091.</p></div>
     <div class="faq-list">
       <details><summary>How long is the Little Chef experience?</summary><p>About 90 to 120 minutes, depending on the programme and group size.</p></details>
       <details><summary>What age group can join?</summary><p>Little Chef is designed for children aged 4 to 14, with activities adapted to each age group.</p></details>
@@ -880,7 +930,7 @@ button{font:inherit; color:inherit}
       </div>
       <div>
         <h4>Explore</h4>
-        <ul><li><a href="#experience">The Experience</a></li><li><a href="#learn">What Kids Learn</a></li><li><a href="#schools">Schools</a></li><li><a href="#play">Games</a></li><li><a href="#gallery">Instagram</a></li><li><a href="#faq">FAQs</a></li><li><a href="#book">Book a Visit</a></li></ul>
+        <ul><li><a href="#experience">The Experience</a></li><li><a href="#learn">What Kids Learn</a></li><li><a href="#schools">Schools</a></li><li><a href="#play">Games</a></li><li><a href="blog.html">Blog</a></li><li><a href="#gallery">Instagram</a></li><li><a href="#faq">FAQs</a></li><li><a href="#book">Book a Visit</a></li></ul>
       </div>
       <div>
         <h4>Contact</h4>
@@ -891,7 +941,7 @@ button{font:inherit; color:inherit}
         <div class="social"><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>Instagram</a><a href="#" target="_blank" rel="noopener" data-cfg-href="YOUTUBE_URL" data-hide-empty hidden><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4" fill="currentColor"/><path d="M10 9l5 3-5 3z" fill="#fff"/></svg>YouTube</a><a href="https://wa.me/919133308091" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z" stroke-linejoin="round"/></svg>WhatsApp</a></div>
       </div>
     </div>
-    <div class="legal"><span>© <span id="yr">2026</span> Little Chef by Pista House. All rights reserved.</span><span>An initiative by Pista House</span></div>
+    <div class="legal"><span>© <span id="yr">2026</span> Little Chef by Pista House. All rights reserved.</span><span class="ph-foot">An initiative by <img src="assets/pista-house-logo.png" alt="Pista House" width="484" height="168"></span></div>
   </div>
 </footer>
 
@@ -1127,6 +1177,16 @@ var WHATSAPP_NUMBER = CFG.WHATSAPP || "919133308091";
       });
       if(html) grid.innerHTML=html;
     }).catch(function(){});
+  }
+
+  /* blog teaser */
+  if(window.LC_BLOG){
+    LC_BLOG.getPosts().then(function(posts){
+      var B=LC_BLOG, g=$('#blogGrid'); if(!g) return;
+      g.innerHTML=posts.slice(0,3).map(function(p){ var u=B.safeUrl(p.cover);
+        return '<li class="bpost"><a href="blog.html?p='+encodeURIComponent(p.slug)+'"><div class="img"><img src="'+B.esc(u)+'" alt="" loading="lazy"'+(/^assets\//.test(u)?' class="contain"':'')+'></div><div class="txt">'+(p.category?'<span class="tag">'+B.esc(p.category)+'</span>':'')+'<h3>'+B.esc(p.title)+'</h3><p>'+B.esc(p.excerpt)+'</p><span class="meta">'+B.esc(B.fmtDate(p.date))+' · '+B.readMins(p.body)+' min read</span></div></a></li>';
+      }).join('');
+    });
   }
 })();
 </script>

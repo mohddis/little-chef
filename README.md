@@ -5,10 +5,12 @@ Live at **https://www.littlechefs.in** (GitHub Pages, repo `mohddis/little-chef`
 ## Files
 
 ```
-index.html          Public website (journey, games, Instagram, booking form)
+index.html          Public website (journey, games, Instagram, blog, booking form)
+blog.html           Blog list and blog posts
 planner.html        Team Visit Planner: requests, confirmations, schedule, staff notice (PIN protected)
 confirmation.html   The page a school opens from its confirmation link
 assets/config.js    ALL settings: planner connection, Instagram, YouTube, phone
+assets/blog.js      The 3 starter blog posts + blog helpers
 assets/             Logos, mascot, illustrations
 apps-script/Code.gs Backend that saves requests in Google Sheets and sends confirmation emails
 CNAME               Connects the site to www.littlechefs.in
@@ -52,6 +54,13 @@ Open **https://www.littlechefs.in/planner.html** and enter the team PIN.
 5. The school opens the link and taps **"Yes, we confirm our visit"** → the planner shows **School confirmed**.
 6. **Staff notice** prints the internal factory notice. **Schedule** shows the month table with totals.
 7. After the visit tap **Mark done**. Phone bookings can be added with **Add visit**.
+
+### Writing blog posts
+
+Open the planner → **✍️ Blog** tab → **Write a post**. Add a title, category, cover photo (upload from
+your phone or computer) and the text. Choose **Published** and save: the post appears on
+littlechefs.in/blog and on the home page right away. Photos are stored in a Google Drive folder called
+"Little Chef Blog Images". The three starter posts live in `assets/blog.js` (edit them on GitHub).
 
 ---
 

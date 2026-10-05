@@ -6,6 +6,7 @@
  *  - Powers the team Visit Planner (planner.html), protected by a team PIN
  *  - Sends a branded confirmation email to the school when the team confirms a visit
  *  - Powers the school's confirmation page (confirmation.html) and "We confirm" button
+ *  - Stores blog posts written in the planner (Blog tab) and shows them on the website
  *
  * Setup (once) — full steps are in README.md
  *  1. Open your Google Sheet > Extensions > Apps Script. Paste this whole file. Save.
@@ -45,6 +46,8 @@ function setup() {
   }
   // Touch MailApp so the email permission is requested during setup.
   MailApp.getRemainingDailyQuota();
+  getBlogSheet_();
+  blogFolder_(); // asks for Google Drive permission (blog photos are stored in Drive)
   Logger.log('Setup complete. Now Deploy > New deployment > Web app.');
 }
 
@@ -52,6 +55,7 @@ function doGet(e) {
   var p = (e && e.parameter) || {};
   try {
     if (p.action === 'booking') return out_(publicView_(p.id));
+    if (p.action === 'posts') return out_({ ok: true, posts: blogAll_().filter(function (x) { return x.status === 'Published'; }).map(blogStrip_) });
     return out_({ ok: true, service: 'Little Chef API' });
   } catch (err) {
     return out_({ ok: false, error: String(err.message || err) });
@@ -77,6 +81,10 @@ function doPost(e) {
       case 'save': auth_(b.pin); return out_(save_(b.visit || {}, !!b.sendEmail));
       case 'status': auth_(b.pin); return out_(setStatus_(b.id, b.status));
       case 'delete': auth_(b.pin); return out_(del_(b.id));
+      case 'blogList': auth_(b.pin); return out_({ ok: true, posts: blogAll_().map(blogStrip_) });
+      case 'blogSave': auth_(b.pin); return out_(blogSave_(b.post || {}));
+      case 'blogDelete': auth_(b.pin); return out_(blogDelete_(b.id));
+      case 'upload': auth_(b.pin); return out_(upload_(b));
       default: return out_({ ok: false, error: 'Unknown action' });
     }
   } catch (err) {
@@ -169,6 +177,96 @@ function publicView_(id) {
   var o = find_(readAll_(), id);
   if (!o) return { ok: false, error: 'Booking not found' };
   return { ok: true, booking: publicFields_(o) };
+}
+
+
+/* ---------- blog ---------- */
+
+var BLOG_SHEET = 'Blog';
+var BLOG_COLS = ['id', 'slug', 'status', 'date', 'title', 'category', 'author', 'cover', 'excerpt', 'body', 'updatedAt'];
+
+function getBlogSheet_() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sh = ss.getSheetByName(BLOG_SHEET);
+  if (!sh) {
+    sh = ss.insertSheet(BLOG_SHEET);
+    sh.getRange(1, 1, 1, BLOG_COLS.length).setValues([BLOG_COLS]).setFontWeight('bold').setBackground('#C2F9FF');
+    sh.setFrozenRows(1);
+  }
+  return sh;
+}
+
+function blogAll_() {
+  var sh = getBlogSheet_();
+  var last = sh.getLastRow();
+  if (last < 2) return [];
+  var vals = sh.getRange(2, 1, last - 1, BLOG_COLS.length).getDisplayValues();
+  var out = [];
+  vals.forEach(function (r, i) {
+    if (!r[0]) return;
+    var o = { _row: i + 2 };
+    BLOG_COLS.forEach(function (c, j) { o[c] = r[j]; });
+    out.push(o);
+  });
+  return out;
+}
+
+function blogStrip_(o) {
+  var c = {};
+  BLOG_COLS.forEach(function (k) { c[k] = o[k] == null ? '' : o[k]; });
+  return c;
+}
+
+function slugify_(t) {
+  return String(t || 'post').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 70) || 'post';
+}
+
+function blogSave_(p) {
+  var all = blogAll_();
+  var o = null;
+  if (p.id) { for (var i = 0; i < all.length; i++) if (all[i].id === p.id) o = all[i]; }
+  if (p.id && !o) return { ok: false, error: 'Post not found. Refresh the planner.' };
+  if (!clean_(p.title, 160)) return { ok: false, error: 'Please add a title.' };
+  if (!o) o = { id: Utilities.getUuid() };
+  ['title', 'category', 'author', 'cover', 'excerpt', 'date'].forEach(function (k) { if (k in p) o[k] = clean_(p[k], k === 'excerpt' ? 400 : 300); });
+  if ('body' in p) o.body = String(p.body || '').slice(0, 45000);
+  o.status = p.status === 'Published' ? 'Published' : 'Draft';
+  if (!o.date) o.date = Utilities.formatDate(new Date(), 'Asia/Kolkata', 'yyyy-MM-dd');
+  if (!o.slug) {
+    var base = slugify_(o.title), slug = base, n = 2;
+    var taken = function (s) { return all.some(function (x) { return x.slug === s && x.id !== o.id; }); };
+    while (taken(slug)) slug = base + '-' + (n++);
+    o.slug = slug;
+  }
+  o.updatedAt = now_();
+  var sh = getBlogSheet_();
+  var row = o._row || sh.getLastRow() + 1;
+  var vals = BLOG_COLS.map(function (c) { var v = o[c] == null ? '' : String(o[c]); return /^[=+\-@]/.test(v) ? "'" + v : v; });
+  sh.getRange(row, 1, 1, BLOG_COLS.length).setNumberFormat('@').setValues([vals]);
+  o._row = row;
+  return { ok: true, post: blogStrip_(o) };
+}
+
+function blogDelete_(id) {
+  var all = blogAll_();
+  for (var i = 0; i < all.length; i++) if (all[i].id === id) { getBlogSheet_().deleteRow(all[i]._row); return { ok: true }; }
+  return { ok: false, error: 'Post not found' };
+}
+
+function blogFolder_() {
+  var name = 'Little Chef Blog Images';
+  var it = DriveApp.getFoldersByName(name);
+  return it.hasNext() ? it.next() : DriveApp.createFolder(name);
+}
+
+function upload_(b) {
+  var mime = String(b.mime || '');
+  if (!/^image\/(jpeg|png|webp)$/.test(mime)) return { ok: false, error: 'Please upload a JPG, PNG or WebP image.' };
+  var bytes = Utilities.base64Decode(String(b.data || ''));
+  if (bytes.length > 4 * 1024 * 1024) return { ok: false, error: 'Image is too large (max 4 MB).' };
+  var file = blogFolder_().createFile(Utilities.newBlob(bytes, mime, clean_(b.name, 80) || 'blog-image'));
+  file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  return { ok: true, url: 'https://lh3.googleusercontent.com/d/' + file.getId() };
 }
 
 /* ---------- email ---------- */

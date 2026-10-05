@@ -7,6 +7,7 @@
 <title>Visit Planner | Little Chef by Pista House</title>
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <script src="assets/config.js"></script>
+<script src="assets/blog.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -128,6 +129,19 @@ dialog::backdrop{background:rgba(11,34,112,.45)}
 .toast{position:fixed;left:50%;bottom:calc(1rem + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--blue);color:#fff;border-radius:999px;padding:.7rem 1.2rem;font-weight:800;z-index:100;max-width:calc(100% - 2rem);text-align:center;display:none}
 .loading{opacity:.55;pointer-events:none}
 
+
+.bcard{background:#fff;border:2px solid var(--blue);border-radius:20px;padding:.9rem;display:grid;grid-template-columns:120px minmax(0,1fr);gap:.4rem 1rem;align-items:start}
+.bcard .thumb{grid-row:span 3;aspect-ratio:16/10;border-radius:12px;overflow:hidden;background:var(--lace);border:2px solid var(--blue)}
+.bcard .thumb img{width:100%;height:100%;object-fit:cover}
+.bcard h3{font-size:1.15rem}
+.p-Published{background:var(--tidal)} .p-Draft{background:#fff;border-style:dashed}
+@media(max-width:560px){.bcard{grid-template-columns:84px minmax(0,1fr)}}
+.cover-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:.8rem;align-items:center}
+.cover-prev{aspect-ratio:16/10;border:2px solid var(--blue);border-radius:12px;overflow:hidden;background:var(--lace);display:grid;place-items:center;font-size:.8rem;font-weight:700;color:var(--ink2)}
+.cover-prev img{width:100%;height:100%;object-fit:cover}
+.hint{font-size:.82rem;color:var(--ink2);margin:.3rem 0 0}
+.mdprev{background:#fff;border:2px dashed var(--blue);border-radius:12px;padding:.8rem 1rem;max-height:320px;overflow:auto}
+.mdprev h2{font-size:1.3rem;margin:.8rem 0 .3rem} .mdprev p{margin:0 0 .7rem} .mdprev ul{margin:0 0 .7rem;padding-left:1.2rem}
 /* print */
 #printArea{display:none}
 @media print{
@@ -192,6 +206,7 @@ dialog::backdrop{background:rgba(11,34,112,.45)}
         <button role="tab" data-tab="confirmed" aria-selected="false">Confirmed <span class="n" id="nConf">0</span></button>
         <button role="tab" data-tab="schedule" aria-selected="false">📅 Schedule</button>
         <button role="tab" data-tab="past" aria-selected="false">Past &amp; cancelled</button>
+        <button role="tab" data-tab="blog" aria-selected="false">✍️ Blog</button>
       </div>
       <input class="search" id="search" type="search" placeholder="Search school, name, phone" aria-label="Search">
     </div>
@@ -242,6 +257,37 @@ dialog::backdrop{background:rgba(11,34,112,.45)}
 <dialog id="doneDlg" aria-labelledby="doneTitle">
   <div class="dh"><h2 id="doneTitle">Visit confirmed</h2><button class="round" type="button" id="doneX" aria-label="Close">✕</button></div>
   <div class="db done-box" id="doneBody"></div>
+</dialog>
+
+
+<dialog id="blogDlg" aria-labelledby="blogTitle">
+  <form method="dialog" id="bform" novalidate>
+    <div class="dh"><h2 id="blogTitle">New blog post</h2><button class="round" type="button" id="bX" aria-label="Close">✕</button></div>
+    <div class="db">
+      <div class="grid">
+        <div class="f full"><label for="b-title">Title</label><input id="b-title" maxlength="140" required placeholder="e.g. 40 Little Chefs from Edu Park bake their first cookies"></div>
+        <div class="f"><label for="b-category">Category</label><input id="b-category" list="cats" maxlength="40" placeholder="e.g. School visits"><datalist id="cats"><option>School visits</option><option>Inside Little Chef</option><option>Food safety</option><option>For schools</option><option>For parents</option><option>Recipes for kids</option><option>News</option></datalist></div>
+        <div class="f"><label for="b-date">Date</label><input id="b-date" type="date"></div>
+        <div class="f"><label for="b-author">Author</label><input id="b-author" maxlength="60" placeholder="Team Little Chef"></div>
+        <div class="f"><label for="b-status">Status</label><select id="b-status"><option value="Draft">Draft (only team sees it)</option><option value="Published">Published (live on website)</option></select></div>
+        <div class="f full"><label>Cover photo</label>
+          <div class="cover-row"><div class="cover-prev" id="b-prev">No photo</div>
+            <div><input type="file" id="b-file" accept="image/jpeg,image/png,image/webp" hidden><button class="btn btn-sm" type="button" id="b-upload">📷 Upload photo</button>
+              <input id="b-cover" maxlength="300" placeholder="…or paste an image link (https://…)" style="margin-top:.5rem;width:100%;min-height:40px;border:2px solid var(--blue);border-radius:12px;padding:.4rem .7rem">
+              <p class="hint" id="b-upmsg">Use bright, real photos. Only share children's photos with parent or school permission.</p></div></div></div>
+        <div class="f full"><label for="b-excerpt">Short summary (shown on the blog cards)</label><textarea id="b-excerpt" maxlength="300" style="min-height:60px"></textarea></div>
+        <div class="f full"><label for="b-body">Post</label><textarea id="b-body" style="min-height:240px" placeholder="Write your post here."></textarea>
+          <p class="hint">Leave a blank line between paragraphs. Start a line with <b>## </b> for a heading, <b>- </b> for a bullet point, and wrap words in <b>**stars**</b> for bold.</p>
+          <button class="btn btn-sm" type="button" id="b-prevBtn" style="margin-top:.5rem">👀 Preview</button><div class="mdprev" id="b-md" hidden style="margin-top:.6rem"></div></div>
+      </div>
+    </div>
+    <div class="df">
+      <button class="btn btn-red" type="button" id="bDel" hidden>Delete</button>
+      <span style="flex:1"></span>
+      <button class="btn" type="button" id="bCancel">Cancel</button>
+      <button class="btn btn-blue" type="submit" id="bSave">Save post</button>
+    </div>
+  </form>
 </dialog>
 
 <div class="toast" id="toast" role="status"></div>
@@ -309,6 +355,7 @@ dialog::backdrop{background:rgba(11,34,112,.45)}
     $('#nReq').textContent=req.length; $('#nConf').textContent=conf.length;
     var box=$('#view');
     if(tab==='schedule'){ box.innerHTML=schedule(); bindSchedule(); return }
+    if(tab==='blog'){ renderBlog(); return }
     var list = tab==='requests'?req : tab==='confirmed'?conf : visits.filter(function(v){return v.status==='Completed'||v.status==='Cancelled'});
     list=list.filter(match).sort(byDate); if(tab==='past') list.reverse();
     if(!list.length){ box.innerHTML='<div class="empty"><img src="assets/mascot.webp" alt=""><b>'+(q?'Nothing matches your search.':tab==='requests'?'No new requests right now.':tab==='confirmed'?'No confirmed visits yet.':'Nothing here yet.')+'</b></div>'; return }
@@ -449,6 +496,68 @@ dialog::backdrop{background:rgba(11,34,112,.45)}
     $('#doneDlg').showModal();
   }
   $('#doneX').onclick=function(){ $('#doneDlg').close() };
+
+
+  /* ---------- blog ---------- */
+  var posts=null, bEdit=null;
+  async function renderBlog(){
+    var box=$('#view');
+    if(!posts){ box.innerHTML='<div class="empty"><b>Loading posts…</b></div>'; try{ posts=(await api('blogList')).posts||[] }catch(e){ box.innerHTML='<div class="empty"><b>'+esc(e.message)+'</b></div>'; return } }
+    if(tab!=='blog') return;
+    var list=posts.filter(function(p){ return !q || [p.title,p.category,p.excerpt].join(' ').toLowerCase().indexOf(q)>-1 }).sort(function(a,b){return a.date<b.date?1:-1});
+    var B=window.LC_BLOG;
+    box.innerHTML='<div class="bar" style="justify-content:space-between"><p style="margin:0;font-weight:700;color:var(--ink2)">Posts you publish here appear on <a href="blog.html" target="_blank" rel="noopener">littlechefs.in/blog</a> and the home page.</p><button class="btn btn-blue" type="button" id="newPost">✍️ Write a post</button></div>'+
+      (list.length?'<div class="list">'+list.map(function(p){ return '<article class="bcard"><div class="thumb">'+(p.cover?'<img src="'+esc(B.safeUrl(p.cover))+'" alt="">':'')+'</div><div class="vhead"><h3>'+esc(p.title)+'</h3><span class="pill p-'+esc(p.status)+'">'+esc(p.status)+'</span></div><div class="meta"><span>'+esc(B.fmtDate(p.date))+'</span>'+(p.category?'<span>🏷 '+esc(p.category)+'</span>':'')+'<span>'+B.readMins(p.body)+' min read</span></div><div class="vacts" style="grid-column:2;border:0;padding-top:.2rem"><button class="btn btn-sm" data-post="'+p.id+'">Edit</button>'+(p.status==='Published'?'<a class="btn btn-sm" target="_blank" rel="noopener" href="blog.html?p='+encodeURIComponent(p.slug)+'">View</a>':'')+'</div></article>' }).join('')+'</div>'
+      :'<div class="empty"><img src="assets/mascot.webp" alt=""><b>No posts yet.</b><p>Share a school visit story, a kitchen tip or Little Chef news.</p></div>');
+    $('#newPost').onclick=function(){ openPost(null) };
+    $$('[data-post]',box).forEach(function(b){ b.onclick=function(){ openPost(posts.filter(function(p){return p.id===b.dataset.post})[0]) } });
+  }
+  var BF=['title','category','date','author','status','cover','excerpt','body'];
+  function openPost(p){
+    bEdit=p||null;
+    BF.forEach(function(k){ $('#b-'+k).value=p?(p[k]||''):'' });
+    if(!p){ $('#b-date').value=today; $('#b-author').value='Team Little Chef'; $('#b-status').value='Draft' }
+    $('#blogTitle').textContent=p?'Edit blog post':'New blog post';
+    $('#bDel').hidden=!p; $('#bDel').dataset.armed=''; $('#bDel').textContent='Delete';
+    $('#b-md').hidden=true; $('#b-upmsg').textContent='Use bright, real photos. Only share children\u2019s photos with parent or school permission.';
+    coverPrev(); $('#blogDlg').showModal(); $('#b-title').focus();
+  }
+  function coverPrev(){ var u=$('#b-cover').value.trim(); $('#b-prev').innerHTML=u?'<img src="'+esc(window.LC_BLOG.safeUrl(u))+'" alt="">':'No photo' }
+  $('#b-cover').oninput=coverPrev;
+  $('#bX').onclick=$('#bCancel').onclick=function(){ $('#blogDlg').close() };
+  $('#b-prevBtn').onclick=function(){ var m=$('#b-md'); m.hidden=!m.hidden; if(!m.hidden) m.innerHTML=window.LC_BLOG.md($('#b-body').value)||'<p>Nothing to preview yet.</p>' };
+  $('#b-upload').onclick=function(){ $('#b-file').click() };
+  $('#b-file').onchange=function(){
+    var f=this.files&&this.files[0]; this.value=''; if(!f) return;
+    var msg=$('#b-upmsg'); msg.textContent='Preparing photo…';
+    var img=new Image(), url=URL.createObjectURL(f);
+    img.onload=async function(){
+      var max=1600, sc=Math.min(1,max/Math.max(img.width,img.height)), c=document.createElement('canvas');
+      c.width=Math.round(img.width*sc); c.height=Math.round(img.height*sc);
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height); URL.revokeObjectURL(url);
+      var data=c.toDataURL('image/jpeg',.85).split(',')[1];
+      msg.textContent='Uploading…'; $('#b-upload').disabled=true;
+      try{ var j=await api('upload',{name:f.name,mime:'image/jpeg',data:data}); $('#b-cover').value=j.url; coverPrev(); msg.textContent='Photo uploaded ✓' }
+      catch(e){ msg.textContent='Upload failed: '+e.message }
+      $('#b-upload').disabled=false;
+    };
+    img.onerror=function(){ msg.textContent='That file could not be read. Try a JPG or PNG photo.' };
+    img.src=url;
+  };
+  $('#bDel').onclick=async function(){
+    var b=this; if(b.dataset.armed!=='1'){ b.dataset.armed='1'; b.textContent='Tap again to delete'; return }
+    b.disabled=true; try{ await api('blogDelete',{id:bEdit.id}); posts=posts.filter(function(p){return p.id!==bEdit.id}); $('#blogDlg').close(); renderBlog(); toast('Post deleted') }catch(e){ toast(e.message) } b.disabled=false;
+  };
+  $('#bform').addEventListener('submit',async function(e){
+    e.preventDefault();
+    var t=$('#b-title'); if(!t.value.trim()){ t.closest('.f').classList.add('bad'); t.focus(); return } t.closest('.f').classList.remove('bad');
+    var data={}; BF.forEach(function(k){ data[k]=$('#b-'+k).value }); if(bEdit) data.id=bEdit.id;
+    if(!data.excerpt.trim()) data.excerpt=data.body.replace(/[#*\-]/g,'').trim().slice(0,180);
+    var btn=$('#bSave'); btn.disabled=true; btn.textContent='Saving…';
+    try{ var j=await api('blogSave',{post:data}); if(bEdit) Object.assign(bEdit,j.post); else posts.push(j.post); $('#blogDlg').close(); renderBlog(); toast(j.post.status==='Published'?'Published on the website 🎉':'Draft saved') }
+    catch(err){ toast(err.message) }
+    finally{ btn.disabled=false; btn.textContent='Save post' }
+  });
 
   /* auto login in this tab */
   var saved=read('lc_pin');

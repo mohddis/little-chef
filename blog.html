@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Blog | Little Chef by Pista House</title>
+<meta name="description" content="Stories, tips and news from Little Chef by Pista House: factory visits, kitchen hygiene for kids, and planning school trips in Hyderabad.">
+<meta name="theme-color" content="#1336A3">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<script src="assets/config.js"></script>
+<script src="assets/blog.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#1336A3;--blue-dark:#0B2270;--onahau:#C2F9FF;--tidal:#E2FF88;--lace:#FFF5E1;--snow:#E1FFB3;--coral:#F2C7C0;--sand:#F4D66D;--ink2:#3D56A6;--ph:#2E7D32;
+--head:"Baloo 2","Arial Rounded MT Bold","Trebuchet MS",system-ui,sans-serif;--body:"Nunito","Segoe UI",system-ui,-apple-system,sans-serif;--wrap:1180px;--gutter:clamp(1rem,4vw,2rem)}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--onahau);color:var(--blue);font:400 1.0625rem/1.65 var(--body);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3{font-family:var(--head);margin:0;line-height:1.1}
+:focus-visible{outline:3px solid var(--sand);outline-offset:3px;border-radius:10px}
+.wrap{width:100%;max-width:var(--wrap);margin:0 auto;padding:0 var(--gutter)}
+.phbar{background:#fff;border-bottom:2px solid var(--blue);font-size:.86rem;font-weight:700}
+.phbar .wrap{display:flex;align-items:center;justify-content:center;gap:.6rem;min-height:38px}
+.phbar img{height:24px;width:auto}
+.header{position:sticky;top:0;z-index:20;background:rgba(194,249,255,.95);backdrop-filter:blur(8px);border-bottom:3px solid var(--blue)}
+.header .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;height:76px}
+.header img{height:58px;width:auto}
+.header nav{display:flex;gap:.3rem;align-items:center}
+.header nav a{text-decoration:none;font-weight:800;padding:.5rem .8rem;border-radius:999px;white-space:nowrap}
+.header nav a:hover,.header nav a[aria-current]{background:var(--tidal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;min-height:48px;padding:.75rem 1.3rem;border-radius:999px;border:3px solid var(--blue);font:800 .98rem/1 var(--body);text-decoration:none;cursor:pointer;background:#fff;color:var(--blue)}
+.btn-blue{background:var(--blue);color:#fff;box-shadow:0 4px 0 var(--blue-dark)}
+@media(max-width:480px){.hide-xs{display:none}}
+@media(max-width:640px){.header nav .hide-sm{display:none}.header img{height:48px}}
+.page-head{padding-top:clamp(2.5rem,6vw,4rem); padding-bottom:1.5rem}
+.page-head h1{font-weight:800;font-size:clamp(2.2rem,5vw,3.4rem)}
+.page-head p{max-width:60ch;color:var(--ink2);font-size:1.15rem;margin:.6rem 0 0}
+.cats{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.5rem 0 0}
+.cats button{border:2px solid var(--blue);background:#fff;border-radius:999px;padding:.5rem 1rem;font:800 .92rem/1 var(--body);cursor:pointer;color:var(--blue)}
+.cats button[aria-pressed="true"]{background:var(--blue);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.2rem;padding-bottom:4rem;list-style:none;margin:0;padding-left:0}
+.post{background:#fff;border:3px solid var(--blue);border-radius:24px;overflow:hidden;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s}
+.post:hover{transform:translateY(-3px);box-shadow:0 6px 0 var(--blue)}
+.post a{text-decoration:none;display:flex;flex-direction:column;height:100%}
+.post .img{aspect-ratio:16/10;background:var(--lace);border-bottom:3px solid var(--blue);overflow:hidden}
+.post .img img{width:100%;height:100%;object-fit:cover}
+.post .img img.contain{object-fit:contain;padding:.8rem}
+.post .txt{padding:1.1rem 1.2rem 1.3rem;display:flex;flex-direction:column;gap:.45rem;flex:1}
+.tag{align-self:flex-start;background:var(--tidal);border-radius:999px;padding:.2rem .7rem;font-weight:800;font-size:.8rem}
+.post h2{font-size:1.32rem}
+.post p{margin:0;color:var(--ink2);font-size:.98rem}
+.post .meta{margin-top:auto;font-size:.85rem;font-weight:700;color:var(--ink2)}
+.post.featured{grid-column:1/-1;display:grid}
+.post.featured a{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+.post.featured .img{aspect-ratio:auto;min-height:320px;border-bottom:0;border-right:3px solid var(--blue)}
+.post.featured .txt{padding:2rem;justify-content:center}
+.post.featured h2{font-size:clamp(1.6rem,3vw,2.2rem)}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.post.featured a{grid-template-columns:1fr}.post.featured .img{min-height:220px;border-right:0;border-bottom:3px solid var(--blue)}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+.empty{text-align:center;padding:3rem 1rem;font-weight:700}
+/* article */
+.article{max-width:760px;margin:0 auto;padding:clamp(1.5rem,4vw,3rem) var(--gutter) 2rem}
+.back{display:inline-flex;gap:.4rem;font-weight:800;text-decoration:none;margin-bottom:1.2rem}
+.article h1{font-weight:800;font-size:clamp(2rem,4.6vw,3rem);margin:.7rem 0 .6rem}
+.article .meta{font-weight:700;color:var(--ink2)}
+.cover{margin:1.5rem 0;border:3px solid var(--blue);border-radius:24px;overflow:hidden;background:var(--lace);aspect-ratio:16/9}
+.cover img{width:100%;height:100%;object-fit:cover}
+.cover img.contain{object-fit:contain;padding:1rem}
+.prose{background:#fff;border:3px solid var(--blue);border-radius:24px;padding:clamp(1.3rem,4vw,2.4rem)}
+.prose h2{font-size:1.6rem;margin:1.6rem 0 .5rem}
+.prose h2:first-child{margin-top:0}
+.prose h3{font-size:1.25rem;margin:1.2rem 0 .4rem}
+.prose p{margin:0 0 1rem}
+.prose ul{margin:0 0 1rem;padding-left:1.3rem}
+.prose li{margin:.3rem 0}
+.prose li::marker{color:var(--sand)}
+.share{display:flex;flex-wrap:wrap;gap:.6rem;margin:1.5rem 0}
+.cta{margin:2rem 0 0;background:var(--blue);color:#fff;border-radius:24px;padding:1.5rem;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:1rem 1.4rem;align-items:center}
+.cta img{width:84px}
+.cta b{display:block;font:800 1.35rem/1.2 var(--head);color:var(--tidal)}
+.cta .btn{background:var(--tidal)}
+@media(max-width:640px){.cta{grid-template-columns:1fr}.cta img{display:none}}
+.more{max-width:760px;margin:0 auto;padding:1rem var(--gutter) 4rem}
+.more .grid{grid-template-columns:repeat(2,minmax(0,1fr));padding-bottom:0}
+@media(max-width:600px){.more .grid{grid-template-columns:1fr}}
+.more h2{font-size:1.7rem;margin-bottom:1rem}
+footer{background:#fff;border-top:3px solid var(--blue);padding:1.6rem 0}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;font-weight:700;font-size:.92rem}
+footer .ph{display:flex;align-items:center;gap:.6rem}
+footer .ph img{height:30px}
+</style>
+</head>
+<body>
+<div class="phbar"><div class="wrap"><span>An initiative by</span><img src="assets/pista-house-logo.png" alt="Pista House"><span class="hide-xs">· Hyderabad, since 1997</span></div></div>
+<header class="header">
+  <div class="wrap">
+    <a href="index.html"><img src="assets/logo.webp" alt="Little Chef by Pista House, home"></a>
+    <nav aria-label="Main">
+      <a href="index.html" class="hide-sm">Home</a>
+      <a href="blog.html" aria-current="page">Blog</a>
+      <a href="index.html#play" class="hide-sm">Games</a>
+      <a class="btn btn-blue" href="index.html#book">Book a Visit</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main"><div class="empty">Loading…</div></main>
+
+<footer>
+  <div class="wrap">
+    <span class="ph">Little Chef is an initiative by <img src="assets/pista-house-logo.png" alt="Pista House"></span>
+    <span>© <span id="yr">2026</span> Little Chef by Pista House · <a href="index.html">www.littlechefs.in</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var B=window.LC_BLOG, CFG=window.LC_CONFIG||{}, main=document.getElementById('main');
+  document.getElementById('yr').textContent=new Date().getFullYear();
+  var slug=new URLSearchParams(location.search).get('p');
+  function img(p,cls){ var u=B.safeUrl(p.cover); var contain=/^assets\//.test(u); return '<img src="'+B.esc(u)+'" alt="" loading="lazy"'+(contain?' class="contain"':'')+'>' }
+  function card(p,featured){
+    return '<li class="post'+(featured?' featured':'')+'"><a href="blog.html?p='+encodeURIComponent(p.slug)+'"><div class="img">'+img(p)+'</div><div class="txt">'+(p.category?'<span class="tag">'+B.esc(p.category)+'</span>':'')+'<h2>'+B.esc(p.title)+'</h2><p>'+B.esc(p.excerpt)+'</p><span class="meta">'+B.esc(B.fmtDate(p.date))+' · '+B.readMins(p.body)+' min read</span></div></a></li>';
+  }
+  B.getPosts().then(function(posts){
+    if(slug) return article(posts);
+    var cats=[]; posts.forEach(function(p){ if(p.category && cats.indexOf(p.category)<0) cats.push(p.category) });
+    main.innerHTML='<section class="wrap page-head"><h1>The Little Chef blog</h1><p>Stories from the factory floor, kitchen tips for curious kids, and help for teachers planning a visit.</p>'+(cats.length>1?'<div class="cats" role="group" aria-label="Filter by topic"><button type="button" aria-pressed="true" data-c="">All</button>'+cats.map(function(c){return '<button type="button" aria-pressed="false" data-c="'+B.esc(c)+'">'+B.esc(c)+'</button>'}).join('')+'</div>':'')+'</section><section class="wrap"><ul class="grid" id="grid"></ul></section>';
+    function show(c){ var list=posts.filter(function(p){return !c||p.category===c}); document.getElementById('grid').innerHTML=list.length?list.map(function(p,i){return card(p,i===0&&!c)}).join(''):'<li class="empty">No posts yet.</li>' }
+    show('');
+    Array.prototype.forEach.call(document.querySelectorAll('.cats button'),function(b){ b.onclick=function(){ Array.prototype.forEach.call(document.querySelectorAll('.cats button'),function(x){x.setAttribute('aria-pressed',x===b)}); show(b.dataset.c) } });
+  });
+  function article(posts){
+    var p=posts.filter(function(x){return x.slug===slug})[0];
+    if(!p){ main.innerHTML='<div class="article"><a class="back" href="blog.html">← All posts</a><h1>Post not found</h1><p>This post may have moved. Have a look at our other stories.</p></div>'; return }
+    document.title=p.title+' | Little Chef by Pista House';
+    var url=(CFG.SITE_URL||location.origin)+'/blog.html?p='+encodeURIComponent(p.slug);
+    var others=posts.filter(function(x){return x.slug!==p.slug}).slice(0,3);
+    main.innerHTML='<article class="article"><a class="back" href="blog.html">← All posts</a><br>'+(p.category?'<span class="tag" style="background:var(--tidal);border-radius:999px;padding:.2rem .7rem;font-weight:800;font-size:.85rem">'+B.esc(p.category)+'</span>':'')+'<h1>'+B.esc(p.title)+'</h1><div class="meta">'+B.esc(p.author||'Team Little Chef')+' · '+B.esc(B.fmtDate(p.date))+' · '+B.readMins(p.body)+' min read</div><div class="cover">'+img(p)+'</div><div class="prose">'+B.md(p.body)+'</div>'+
+      '<div class="share"><a class="btn" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent(p.title+' '+url)+'">Share on WhatsApp</a><button class="btn" type="button" id="copyBtn">Copy link</button></div>'+
+      '<div class="cta"><img src="assets/mascot.webp" alt=""><div><b>Bring your class to Little Chef</b>A guided bakery adventure inside the Pista House factory, for ages 4 to 14.</div><a class="btn" href="index.html#book">Book a visit</a></div></article>'+
+      (others.length?'<section class="more"><h2>More from the blog</h2><ul class="grid">'+others.map(function(x){return card(x,false)}).join('')+'</ul></section>':'');
+    document.getElementById('copyBtn').onclick=function(){ var b=this; (navigator.clipboard?navigator.clipboard.writeText(url):Promise.reject()).then(function(){b.textContent='Link copied ✓'},function(){prompt('Copy this link',url)}) };
+    window.scrollTo(0,0);
+  }
+})();
+</script>
+</body>
+</html>
