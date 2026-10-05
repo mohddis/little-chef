@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Little Chef by Pista House | Bake. Learn. Smile.</title>
+<meta name="description" content="Little Chef by Pista House is an educational bakery experience in Hyderabad where children aged 4–14 explore baking, hygiene, food science and teamwork inside the real Pista House factory. School visits and family bookings.">
+<meta name="theme-color" content="#1336A3">
+<meta property="og:title" content="Little Chef by Pista House">
+<meta property="og:description" content="Bake. Learn. Smile. An educational bakery experience for young minds, inside the world of Pista House.">
+<meta property="og:image" content="https://www.littlechefs.in/assets/welcome.webp">
+<meta property="og:url" content="https://www.littlechefs.in/">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://www.littlechefs.in/">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ===== Little Chef brand tokens (from the official brand guidelines) ===== */
+:root{
+  --blue:#1336A3; --blue-dark:#0B2270; --onahau:#C2F9FF; --tidal:#E2FF88; --lace:#FFF5E1; --snow:#E1FFB3;
+  --white:#FFFFFF; --coral:#F2C7C0; --sand:#F4D66D; --clay:#8B5E3C; --scandal:#A3D6C5;
+  --ink:#1336A3; --ink-soft:#3D56A6;
+  --head:"Baloo 2","Arial Rounded MT Bold","Trebuchet MS",system-ui,sans-serif;
+  --body:"Nunito","Segoe UI",system-ui,-apple-system,sans-serif;
+  --r-lg:32px; --r-md:22px; --r-sm:14px;
+  --line:3px solid var(--blue);
+  --wrap:1180px; --gutter:clamp(1rem,4vw,2rem);
+  --header-h:80px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:calc(var(--header-h) + 12px); -webkit-text-size-adjust:100%}
+body{margin:0; background:var(--onahau); color:var(--ink); font:400 1.0625rem/1.65 var(--body); -webkit-font-smoothing:antialiased; overflow-x:hidden}
+img{max-width:100%; height:auto; display:block}
+h1,h2,h3,h4{font-family:var(--head); color:inherit; margin:0; line-height:1.08}
+h1{font-weight:800; font-size:clamp(2.2rem,4.6vw,3.7rem); letter-spacing:-.015em}
+h2{font-weight:800; font-size:clamp(1.9rem,4vw,3rem); letter-spacing:-.01em}
+h3{font-weight:700; font-size:1.3rem}
+p{margin:0 0 1rem}
+a{color:inherit}
+button{font:inherit; color:inherit}
+:focus-visible{outline:3px solid var(--sand); outline-offset:3px; border-radius:10px}
+.wrap{width:100%; max-width:var(--wrap); margin-inline:auto; padding-inline:var(--gutter)}
+.section{padding-block:clamp(4rem,9vw,6.5rem)}
+.section-head{max-width:720px; margin-bottom:clamp(2rem,4vw,3rem)}
+.section-head.center{margin-inline:auto; text-align:center}
+.section-head h2{margin-bottom:.75rem}
+.lede{font-size:clamp(1.08rem,1.6vw,1.22rem); color:var(--ink-soft); max-width:62ch}
+.center .lede{margin-inline:auto}
+.sr-only{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+.skip{position:absolute; left:1rem; top:-60px; background:var(--blue); color:#fff; padding:.6rem 1rem; border-radius:10px; z-index:100}
+.skip:focus{top:1rem}
+
+/* ===== Buttons ===== */
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:.5rem; min-height:52px; padding:.85rem 1.5rem; border-radius:999px; border:var(--line); font:800 1rem/1 var(--body); text-decoration:none; cursor:pointer; transition:transform .12s ease, box-shadow .12s ease; white-space:nowrap}
+.btn:active{transform:translateY(3px)}
+.btn-blue{background:var(--blue); color:#fff; box-shadow:0 5px 0 var(--blue-dark)}
+.btn-blue:active{box-shadow:0 2px 0 var(--blue-dark)}
+.btn-white{background:#fff; color:var(--blue); box-shadow:0 5px 0 var(--blue)}
+.btn-white:active{box-shadow:0 2px 0 var(--blue)}
+.btn-tidal{background:var(--tidal); color:var(--blue); box-shadow:0 5px 0 var(--blue-dark)}
+.btn-row{display:flex; flex-wrap:wrap; gap:1rem}
+
+/* ===== Header ===== */
+.header{position:sticky; top:0; z-index:50; background:rgba(194,249,255,.94); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom:var(--line)}
+.header .wrap{display:flex; align-items:center; justify-content:space-between; gap:1rem; height:var(--header-h)}
+.brand{display:flex; align-items:center; flex:none}
+.brand img{width:auto; height:62px}
+.nav ul{display:flex; align-items:center; gap:.15rem; list-style:none; margin:0; padding:0}
+.nav a{display:block; padding:.55rem .8rem; border-radius:999px; text-decoration:none; font-weight:700; font-size:.97rem}
+.nav a:hover,.nav a[aria-current="true"]{background:var(--tidal)}
+.header .btn{min-height:46px; padding:.7rem 1.2rem; font-size:.95rem}
+.menu-btn{display:none; width:48px; height:48px; border-radius:14px; border:var(--line); background:#fff; color:var(--blue); cursor:pointer; place-items:center}
+.menu-btn svg{width:24px; height:24px}
+@media (max-width:1080px){
+  .menu-btn{display:grid}
+  .header .btn{display:none}
+  .nav{position:absolute; inset:calc(var(--header-h)) 0 auto 0; background:var(--onahau); border-bottom:var(--line); display:none; max-height:calc(100vh - var(--header-h)); overflow:auto}
+  .nav.open{display:block}
+  .nav ul{flex-direction:column; align-items:stretch; padding:.75rem var(--gutter) 1.25rem}
+  .nav a{font-size:1.12rem; padding:.85rem 1rem}
+  .nav .nav-cta{display:block; margin-top:.5rem}
+  .nav .nav-cta a{background:var(--blue); color:#fff; text-align:center}
+}
+@media (min-width:1081px){ .nav .nav-cta{display:none} }
+@media (max-width:480px){ .brand img{height:52px} }
+
+/* ===== Hero ===== */
+.hero{position:relative; padding-top:clamp(2.5rem,6vw,4.5rem); overflow:hidden}
+.hero-grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(1.5rem,4vw,3.5rem); align-items:center}
+.hero h1{margin:0 0 1.1rem}
+.chant{display:flex; flex-wrap:wrap; gap:.55rem; list-style:none; margin:0 0 1.4rem; padding:0}
+.chant li{font:700 1.15rem/1 var(--head); padding:.6rem 1.05rem .5rem; border:var(--line); border-radius:999px; background:#fff; transition:transform .2s}
+.chant li:nth-child(1){background:var(--tidal)} .chant li:nth-child(2){background:var(--sand)} .chant li:nth-child(3){background:var(--coral)} .chant li:nth-child(4){background:var(--snow)}
+.chant li:hover{transform:rotate(-4deg) scale(1.06)}
+.hero .lede{margin-bottom:1.8rem}
+.hero-art{position:relative}
+.hero-art .scene{position:relative; z-index:1; width:100%; filter:drop-shadow(0 18px 24px rgba(19,54,163,.18))}
+.hero-art .blob{position:absolute; inset:-6% -4% -8% 2%; background:var(--lace); border:var(--line); border-radius:46% 54% 42% 58% / 52% 44% 56% 48%}
+.hero-art .badge{position:absolute; z-index:2; right:2%; top:-4%; width:118px; height:118px; border-radius:50%; background:var(--blue); color:#fff; display:grid; place-items:center; text-align:center; font:800 1rem/1.05 var(--head); transform:rotate(10deg); border:4px solid #fff; box-shadow:0 0 0 3px var(--blue)}
+.hero-art .badge b{display:block; font-size:1.7rem; color:var(--tidal)}
+.facts{margin-top:clamp(2.5rem,5vw,4rem); background:var(--blue); color:#fff}
+.facts ul{display:grid; grid-template-columns:repeat(4,1fr); list-style:none; margin:0; padding:0}
+.facts li{padding:1.1rem .75rem; text-align:center; font-weight:700; line-height:1.25}
+.facts li+li{border-left:2px solid rgba(194,249,255,.35)}
+.facts b{display:block; font:800 1.4rem/1.1 var(--head); color:var(--tidal)}
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-art{max-width:560px; margin-inline:auto; width:100%}
+  .facts ul{grid-template-columns:repeat(2,1fr)}
+  .facts li:nth-child(3){border-left:0}
+  .facts li:nth-child(n+3){border-top:2px solid rgba(194,249,255,.35)}
+}
+@media (max-width:480px){ .hero-art .badge{width:92px; height:92px; font-size:.85rem} .hero-art .badge b{font-size:1.3rem} .btn-row .btn{flex:1 1 100%} }
+
+/* ===== Questions ===== */
+.curious{background:var(--lace)}
+.curious-grid{display:grid; grid-template-columns:minmax(0,260px) minmax(0,1fr); gap:clamp(1.5rem,4vw,3rem); align-items:center}
+.curious-mascot{width:100%; max-width:260px; justify-self:center; animation:bob 3.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-10px) rotate(-2deg)}}
+.bubbles{display:flex; flex-wrap:wrap; gap:1rem 1.1rem; margin:1.6rem 0 1.8rem; padding:0; list-style:none}
+.bubbles li{position:relative; background:#fff; border:var(--line); border-radius:24px; padding:.85rem 1.2rem; font:700 1.1rem/1.3 var(--head); transition:transform .2s; cursor:default}
+.bubbles li::after{content:""; position:absolute; left:26px; bottom:-11px; width:18px; height:18px; background:inherit; border-right:var(--line); border-bottom:var(--line); transform:rotate(45deg)}
+.bubbles li:nth-child(even){background:var(--snow)}
+.bubbles li:hover{transform:translateY(-4px) rotate(-1.5deg)}
+.answer{font:800 clamp(1.35rem,2.6vw,1.8rem)/1.2 var(--head); margin:0}
+@media (max-width:760px){ .curious-grid{grid-template-columns:1fr} .curious-mascot{max-width:170px} }
+
+/* ===== Journey / passport ===== */
+.journey-top{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:1.5rem 2rem; align-items:end; margin-bottom:2.2rem}
+.journey-top .section-head{margin-bottom:0}
+.progress{display:flex; align-items:center; gap:1rem; background:#fff; border:var(--line); border-radius:var(--r-md); padding:.8rem 1.1rem}
+.progress img{width:52px}
+.progress strong{display:block; font:800 1.35rem/1 var(--head)}
+.progress span{font-size:.92rem; font-weight:700; color:var(--ink-soft)}
+.meter{height:10px; width:160px; background:var(--onahau); border-radius:99px; margin-top:.45rem; overflow:hidden; border:2px solid var(--blue)}
+.meter i{display:block; height:100%; width:0; background:var(--tidal); transition:width .35s ease}
+@media (max-width:760px){ .journey-top{grid-template-columns:1fr} .progress{justify-self:start} }
+.stops{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.1rem; align-items:start; list-style:none; margin:0; padding:0; counter-reset:stop}
+@media (max-width:980px){ .stops{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:620px){ .stops{grid-template-columns:1fr} }
+.stop{counter-increment:stop; position:relative}
+.stop button{all:unset; box-sizing:border-box; display:grid; grid-template-columns:64px minmax(0,1fr); gap:.2rem 1rem; align-items:start; width:100%; height:100%; align-content:start; padding:1.2rem 1.2rem 1.25rem; background:#fff; border:var(--line); border-radius:var(--r-md); cursor:pointer; transition:transform .15s, box-shadow .15s}
+.stop button:hover{transform:translateY(-3px); box-shadow:0 6px 0 var(--blue)}
+.stop button:focus-visible{outline:3px solid var(--sand); outline-offset:3px}
+.stop .ico{grid-row:span 3; width:64px; height:64px; border-radius:50%; border:3px dashed var(--blue); display:grid; place-items:center; font-size:1.8rem; background:var(--snow); position:relative}
+.stop:nth-child(3n+2) .ico{background:var(--coral)} .stop:nth-child(3n) .ico{background:var(--sand)}
+.stop .num{font:800 .82rem/1 var(--body); color:var(--ink-soft); padding-top:.2rem}
+.stop .num::before{content:"Stop " counter(stop)}
+.stop .stitle{display:block; font:700 1.24rem/1.12 var(--head)}
+.stop .tease{display:block; font-size:.97rem; color:var(--ink-soft); margin-top:.25rem}
+.stop .more{grid-column:1/-1; display:none; margin-top:.9rem; padding-top:.9rem; border-top:3px dashed var(--onahau); font-size:.97rem}
+.stop .more p{margin:0 0 .6rem}
+.chips{display:flex; flex-wrap:wrap; gap:.4rem; list-style:none; margin:0; padding:0}
+.chips .chip{background:var(--onahau); border-radius:999px; padding:.28rem .7rem; font-size:.86rem; font-weight:700}
+.stop.open .more{display:block}
+.stop.open button{background:var(--lace)}
+.stamp-mark{position:absolute; right:12px; top:12px; width:62px; height:62px; border-radius:50%; border:3px solid var(--blue); background:var(--tidal); color:var(--blue); display:grid; place-items:center; text-align:center; font:800 .7rem/1 var(--head); transform:rotate(-14deg) scale(0); transition:transform .3s cubic-bezier(.3,1.6,.6,1); pointer-events:none}
+.stop.stamped .stamp-mark{transform:rotate(-14deg) scale(1)}
+.stop.stamped .stitle{padding-right:58px}
+.journey-note{margin:1.6rem 0 0; font-weight:700; color:var(--ink-soft)}
+.all-done{display:none; margin-top:1.5rem; background:var(--blue); color:#fff; border-radius:var(--r-md); padding:1.1rem 1.3rem; align-items:center; gap:1rem}
+.all-done img{width:64px; flex:none}
+.all-done b{font:800 1.3rem/1.2 var(--head); color:var(--tidal); display:block}
+.all-done.show{display:flex}
+
+/* ===== Inside the visit ===== */
+.inside{background:var(--blue); color:#fff}
+.inside .lede{color:var(--onahau)}
+.inside-grid{display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:clamp(1.5rem,4vw,3.5rem); align-items:center}
+.inside-art{background:var(--lace); border-radius:var(--r-lg); padding:1.2rem; border:4px solid var(--onahau)}
+.inside-list{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; list-style:none; margin:0; padding:0}
+.inside-list li{background:rgba(255,255,255,.08); border:2px solid rgba(194,249,255,.45); border-radius:var(--r-md); padding:1.2rem}
+.inside-list .tag{display:inline-block; font:800 .85rem/1 var(--body); background:var(--tidal); color:var(--blue); border-radius:999px; padding:.35rem .7rem; margin-bottom:.7rem}
+.inside-list h3{color:#fff; margin-bottom:.5rem}
+.inside-list p{margin:0; color:#E3EEFF; font-size:.97rem}
+@media (max-width:900px){ .inside-grid{grid-template-columns:1fr} .inside-art{max-width:440px; margin-inline:auto} }
+@media (max-width:560px){ .inside-list{grid-template-columns:1fr} }
+
+/* ===== Signature moments ===== */
+.moments{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1.1rem; list-style:none; margin:0; padding:0}
+.moment{background:#fff; border:var(--line); border-radius:var(--r-md); overflow:hidden; display:flex; flex-direction:column}
+.moment figure{margin:0; background:var(--lace); aspect-ratio:1/1; padding:1rem; border-bottom:var(--line); overflow:hidden}
+.moment:nth-child(2) figure{background:var(--snow)} .moment:nth-child(3) figure{background:#FDE7E3} .moment:nth-child(4) figure{background:var(--onahau)}
+.moment img{width:100%; height:100%; object-fit:contain; transition:transform .3s}
+.moment:hover img{transform:scale(1.05) rotate(-2deg)}
+.moment div{padding:1.1rem 1.15rem 1.25rem; flex:1}
+.moment h3{margin-bottom:.35rem}
+.moment p{margin:0; font-size:.96rem; color:var(--ink-soft)}
+@media (max-width:980px){ .moments{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:480px){ .moments{grid-template-columns:1fr} .moment figure{aspect-ratio:4/3} }
+.oath{margin-top:1.4rem; display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:1rem 1.5rem; align-items:center; background:var(--tidal); border:var(--line); border-radius:var(--r-md); padding:1.2rem 1.4rem}
+.oath h3{font-size:1.1rem}
+.oath blockquote{margin:0; font:700 clamp(1.1rem,2vw,1.35rem)/1.35 var(--head)}
+@media (max-width:760px){ .oath{grid-template-columns:1fr} .oath .btn{justify-self:start} }
+
+/* ===== What kids learn ===== */
+.learn{background:var(--lace)}
+.subjects{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0; list-style:none; margin:0; padding:0; border:var(--line); border-radius:var(--r-md); overflow:hidden; background:#fff}
+.subjects li{padding:1.4rem 1.3rem; border-right:3px solid var(--onahau); border-bottom:3px solid var(--onahau); display:grid; grid-template-columns:44px minmax(0,1fr); gap:.2rem .9rem; align-items:start}
+.subjects li:nth-child(3n){border-right:0}
+.subjects li:nth-last-child(-n+3){border-bottom:0}
+.subjects .e{grid-row:span 2; width:44px; height:44px; border-radius:12px; background:var(--onahau); display:grid; place-items:center; font-size:1.35rem}
+.subjects h3{font-size:1.18rem}
+.subjects p{margin:0; font-size:.96rem; color:var(--ink-soft)}
+@media (max-width:900px){
+  .subjects{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .subjects li:nth-child(3n){border-right:3px solid var(--onahau)}
+  .subjects li:nth-child(2n){border-right:0}
+  .subjects li:nth-last-child(-n+3){border-bottom:3px solid var(--onahau)}
+  .subjects li:last-child{border-bottom:0; grid-column:1/-1; border-right:0}
+}
+@media (max-width:560px){
+  .subjects{grid-template-columns:1fr}
+  .subjects li{border-right:0!important; border-bottom:3px solid var(--onahau)!important}
+  .subjects li:last-child{border-bottom:0!important}
+}
+
+/* ===== Schools ===== */
+.schools-grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(1.5rem,4vw,3rem); align-items:start}
+.tags{display:flex; flex-wrap:wrap; gap:.5rem; list-style:none; margin:1.2rem 0 1.8rem; padding:0}
+.tags li{border:var(--line); background:#fff; border-radius:999px; padding:.45rem .95rem; font-weight:700; font-size:.95rem}
+.structure{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.8rem; margin:0 0 1.8rem; padding:0; list-style:none}
+.structure li{background:var(--blue); color:#fff; border-radius:var(--r-sm); padding:1rem .9rem; text-align:center}
+.structure b{display:block; font:800 1.5rem/1.05 var(--head); color:var(--tidal)}
+.structure span{font-size:.88rem; font-weight:700; line-height:1.25; display:block; margin-top:.3rem}
+@media (max-width:480px){ .structure{grid-template-columns:1fr} .structure li{display:flex; align-items:center; justify-content:space-between; text-align:left; gap:1rem} .structure span{margin:0; text-align:right} }
+.receive{background:#fff; border:var(--line); border-radius:var(--r-lg); padding:clamp(1.3rem,3vw,2rem)}
+.receive h3{font-size:1.5rem; margin-bottom:1.1rem}
+.receive ul{list-style:none; margin:0; padding:0; display:grid; gap:.75rem}
+.receive li{display:grid; grid-template-columns:58px minmax(0,1fr); gap:1rem; align-items:center; padding:.7rem; border-radius:var(--r-sm); background:var(--lace)}
+.receive li:nth-child(even){background:var(--onahau)}
+.receive li img,.receive li .em{width:58px; height:58px; object-fit:contain}
+.receive li .em{display:grid; place-items:center; font-size:2rem}
+.receive li b{display:block; font:700 1.1rem/1.2 var(--head)}
+.receive li span{font-size:.92rem; color:var(--ink-soft)}
+.receive .small{margin:1rem 0 0; font-size:.88rem; color:var(--ink-soft)}
+@media (max-width:900px){ .schools-grid{grid-template-columns:1fr} }
+
+/* ===== Parents ===== */
+.parents{background:var(--sand); text-align:center}
+.parents h2{font-size:clamp(2.1rem,5.4vw,3.8rem); max-width:17ch; margin:0 auto 1rem}
+.parents p{max-width:58ch; margin:0 auto 1.6rem; font-size:1.15rem}
+.parents .chant{justify-content:center; margin:0}
+
+/* ===== Safety ===== */
+.safety-card{display:grid; grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr); gap:clamp(1.5rem,4vw,3rem); align-items:center; background:var(--snow); border:var(--line); border-radius:var(--r-lg); padding:clamp(1.3rem,4vw,2.6rem)}
+.safety-card img{width:100%; max-width:380px; margin-inline:auto}
+.safety-card h2{margin-bottom:.7rem}
+.checks{list-style:none; margin:1.2rem 0 0; padding:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.65rem 1.2rem}
+.checks li{position:relative; padding-left:2rem; font-weight:700; line-height:1.35}
+.checks li::before{content:"✓"; position:absolute; left:0; top:-.05rem; width:1.4rem; height:1.4rem; border-radius:50%; background:var(--blue); color:#fff; display:grid; place-items:center; font-size:.8rem}
+@media (max-width:860px){ .safety-card{grid-template-columns:1fr} .safety-card img{max-width:280px} }
+@media (max-width:520px){ .checks{grid-template-columns:1fr} }
+
+/* ===== Gallery ===== */
+.filters{display:flex; flex-wrap:wrap; gap:.5rem; margin:0 0 1.6rem}
+.filters button{border:var(--line); background:#fff; border-radius:999px; padding:.6rem 1.1rem; font-weight:800; cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--blue); color:#fff}
+.gallery{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; list-style:none; margin:0; padding:0}
+.gallery li{position:relative; aspect-ratio:4/5; border:var(--line); border-radius:var(--r-md); overflow:hidden; background:var(--lace)}
+.gallery li:nth-child(4n+2){background:var(--snow)} .gallery li:nth-child(4n+3){background:#FDE7E3} .gallery li:nth-child(4n){background:#fff}
+.gallery img{width:100%; height:100%; object-fit:contain; padding:1rem}
+.gallery img.cover{object-fit:cover; padding:0}
+.gallery .cap{position:absolute; left:.7rem; right:.7rem; bottom:.7rem; display:flex; justify-content:space-between; align-items:center; gap:.5rem; background:#fff; border:2px solid var(--blue); border-radius:999px; padding:.35rem .4rem .35rem .85rem; font-weight:800; font-size:.88rem}
+.gallery .kind{background:var(--tidal); border-radius:999px; padding:.15rem .55rem; font-size:.75rem}
+.gallery li[hidden]{display:none}
+@media (max-width:900px){ .gallery{grid-template-columns:repeat(2,minmax(0,1fr))} }
+
+/* ===== About ===== */
+.about{background:var(--lace)}
+.about-grid{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); gap:clamp(1.5rem,4vw,3rem); align-items:start}
+.behind{list-style:none; margin:1.2rem 0 1.4rem; padding:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.6rem}
+.behind li{display:flex; align-items:center; gap:.6rem; background:#fff; border:2px solid var(--blue); border-radius:var(--r-sm); padding:.6rem .8rem; font:600 1.02rem/1.25 var(--head)}
+.behind li span{font-size:1.25rem}
+.signoff{font:800 clamp(1.4rem,2.4vw,1.8rem)/1.2 var(--head); margin:0}
+.legacy{background:var(--blue); color:#fff; border-radius:var(--r-lg); padding:clamp(1.4rem,3vw,2.2rem)}
+.legacy h3{font-size:1.6rem; color:var(--tidal); margin-bottom:.8rem}
+.legacy p{color:#E3EEFF}
+.legacy .sig{font:700 1.25rem/1.3 var(--head); color:var(--onahau); margin:0}
+@media (max-width:900px){ .about-grid{grid-template-columns:1fr} }
+@media (max-width:480px){ .behind{grid-template-columns:1fr} }
+
+/* ===== FAQ ===== */
+.faq-list{display:grid; gap:.8rem; max-width:860px; margin-inline:auto}
+.faq-list details{background:#fff; border:var(--line); border-radius:var(--r-md)}
+.faq-list summary{list-style:none; cursor:pointer; position:relative; padding:1.1rem 3.6rem 1.1rem 1.3rem; font:700 1.15rem/1.3 var(--head)}
+.faq-list summary::-webkit-details-marker{display:none}
+.faq-list summary::after{content:"+"; position:absolute; right:1rem; top:50%; transform:translateY(-50%); width:32px; height:32px; border-radius:50%; background:var(--tidal); display:grid; place-items:center; font:800 1.3rem/1 var(--body)}
+.faq-list details[open] summary::after{content:"−"}
+.faq-list details p{margin:0; padding:0 1.3rem 1.2rem; color:var(--ink-soft)}
+
+/* ===== Booking ===== */
+.book{background:var(--blue); color:#fff}
+.book .lede{color:var(--onahau)}
+.book-grid{display:grid; grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr); gap:clamp(1.5rem,4vw,3rem); align-items:start}
+.book-side .contact{list-style:none; margin:1.6rem 0 0; padding:0; display:grid; gap:.8rem}
+.book-side .contact li{display:grid; grid-template-columns:44px minmax(0,1fr); gap:.8rem; align-items:center}
+.book-side .contact .ci{width:44px; height:44px; border-radius:50%; background:var(--tidal); color:var(--blue); display:grid; place-items:center; font-size:1.15rem}
+.book-side .contact a{text-decoration:none; font-weight:800}
+.book-side .contact a:hover{text-decoration:underline}
+.book-side .contact small{display:block; color:var(--onahau); font-weight:600}
+.book-side img{width:170px; margin-top:1.8rem}
+.form-card{background:var(--lace); color:var(--blue); border-radius:var(--r-lg); padding:clamp(1.2rem,3.5vw,2.2rem); border:4px solid var(--onahau)}
+.who{display:flex; flex-wrap:wrap; gap:.6rem; margin:0 0 1.4rem; padding:0; border:0}
+.who legend{font-weight:800; margin-bottom:.6rem; padding:0}
+.who label{cursor:pointer}
+.who input{position:absolute; opacity:0; pointer-events:none}
+.who span{display:inline-flex; align-items:center; gap:.4rem; padding:.7rem 1.2rem; border-radius:999px; border:var(--line); background:#fff; font-weight:800}
+.who input:checked+span{background:var(--blue); color:#fff}
+.who input:focus-visible+span{outline:3px solid var(--sand); outline-offset:3px}
+.fields{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem 1.2rem}
+.fields .full{grid-column:1/-1}
+.field label{display:block; font-weight:800; font-size:.95rem; margin-bottom:.35rem}
+.field label small{font-weight:600; color:var(--ink-soft)}
+.field input,.field select,.field textarea{width:100%; min-height:50px; font:600 1rem/1.3 var(--body); color:var(--blue); background:#fff; border:var(--line); border-radius:var(--r-sm); padding:.7rem .85rem; appearance:none; -webkit-appearance:none}
+.field select{background-image:linear-gradient(45deg,transparent 50%,#1336A3 50%),linear-gradient(135deg,#1336A3 50%,transparent 50%); background-position:calc(100% - 20px) 50%,calc(100% - 14px) 50%; background-size:6px 6px; background-repeat:no-repeat; padding-right:2.4rem}
+.field textarea{min-height:110px; resize:vertical}
+.field .err{display:none; margin-top:.3rem; font-size:.86rem; font-weight:700; color:#C2283A}
+.field.bad input,.field.bad select{border-color:#C2283A}
+.field.bad .err{display:block}
+.form-foot{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:1rem; margin-top:1.6rem}
+.form-foot p{margin:0; font-size:.88rem; color:var(--ink-soft); max-width:36ch}
+.thanks{display:none; text-align:center; padding:1rem 0}
+.thanks img{width:150px; margin:0 auto 1rem}
+.thanks h3{font-size:2rem; margin-bottom:.5rem}
+.thanks p{max-width:44ch; margin:0 auto 1.4rem}
+.form-card.done .thanks{display:block}
+.form-card.done form{display:none}
+.form-error{display:none; margin:1rem 0 0; padding:.8rem 1rem; border-radius:var(--r-sm); background:#FDE7E3; border:2px solid #C2283A; color:#8E1B2A; font-weight:700}
+@media (max-width:900px){ .book-grid{grid-template-columns:1fr} .book-side img{display:none} }
+@media (max-width:560px){ .fields{grid-template-columns:1fr} .form-foot .btn{width:100%} }
+
+/* ===== Footer ===== */
+.footer{background:var(--onahau); border-top:var(--line); padding:3.5rem 0 calc(1.5rem + env(safe-area-inset-bottom,0px))}
+.foot-grid{display:grid; grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(0,1fr)); gap:2rem}
+.footer img{width:170px; margin-bottom:.8rem}
+.footer h4{font-size:1.15rem; margin-bottom:.75rem}
+.footer ul{list-style:none; margin:0; padding:0; display:grid; gap:.45rem}
+.footer a{text-decoration:none; font-weight:700}
+.footer a:hover{text-decoration:underline}
+.footer address{font-style:normal; font-weight:600; line-height:1.5}
+.legal{display:flex; flex-wrap:wrap; justify-content:space-between; gap:1rem; margin-top:2.5rem; padding-top:1.2rem; border-top:3px dashed var(--blue); font-size:.92rem; font-weight:700}
+@media (max-width:900px){ .foot-grid{grid-template-columns:repeat(2,minmax(0,1fr))} .foot-grid>div:first-child{grid-column:1/-1} }
+@media (max-width:480px){ .foot-grid{grid-template-columns:1fr} }
+
+/* ===== Confetti ===== */
+.confetti{position:fixed; inset:0; pointer-events:none; z-index:200; overflow:hidden}
+.confetti i{position:absolute; top:-20px; width:10px; height:14px; border-radius:3px; animation:fall 1.8s ease-in forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} *,*::before,*::after{animation:none!important; transition:none!important} }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="header">
+  <div class="wrap">
+    <a class="brand" href="#home" aria-label="Little Chef by Pista House, go to top"><img src="assets/logo.webp" alt="Little Chef by Pista House" width="640" height="477"></a>
+    <nav class="nav" id="nav" aria-label="Main">
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#experience">The Experience</a></li>
+        <li><a href="#learn">What Kids Learn</a></li>
+        <li><a href="#schools">Schools</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#faq">FAQs</a></li>
+        <li class="nav-cta"><a href="#book">Book a Visit</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn-blue" href="#book">Book a Visit</a>
+    <button class="menu-btn" type="button" aria-controls="nav" aria-expanded="false" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>What if your child could step inside the world of food?</h1>
+      <ul class="chant" aria-label="Mix, bake, discover, learn"><li>Mix</li><li>Bake</li><li>Discover</li><li>Learn</li></ul>
+      <p class="lede">Big curiosity, little chefs. Little Chef is a guided bakery adventure inside the real Pista House factory, where children explore baking, hygiene, food science, packaging and teamwork.</p>
+      <div class="btn-row">
+        <a class="btn btn-blue" href="#book">Book a Little Chef visit</a>
+        <a class="btn btn-white" href="#experience">Explore the journey</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="blob" aria-hidden="true"></div>
+      <img class="scene" src="assets/welcome.webp" alt="Little Chef children and the cookie mascot welcoming visitors to the Pista House bakery" width="1100" height="596">
+      <div class="badge" aria-hidden="true"><span><b>4–14</b>years</span></div>
+    </div>
+  </div>
+  <div class="facts">
+    <ul class="wrap">
+      <li><b>90–120 min</b>guided adventure</li>
+      <li><b>Ages 4–14</b>activities by age</li>
+      <li><b>25–40</b>students per school visit</li>
+      <li><b>Since 1997</b>the Pista House story</li>
+    </ul>
+  </div>
+</section>
+
+<!-- QUESTIONS -->
+<section class="section curious">
+  <div class="wrap curious-grid">
+    <img class="curious-mascot" src="assets/mascot.webp" alt="The Little Chef cookie mascot holding a whisk" width="553" height="560" loading="lazy">
+    <div>
+      <h2>More than a factory visit</h2>
+      <p class="lede">See it. Learn it. Experience it. Children are naturally curious, and every question is the start of an adventure.</p>
+      <ul class="bubbles">
+        <li>How does bread get soft and fluffy?</li>
+        <li>How are biscuits baked?</li>
+        <li>How are sweets made?</li>
+        <li>Why do chefs wear caps and gloves?</li>
+        <li>How does food reach thousands of people every day?</li>
+      </ul>
+      <p class="answer">At Little Chef, we turn those questions into a day they'll never forget.</p>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section class="section" id="experience">
+  <div class="wrap">
+    <div class="journey-top">
+      <div class="section-head">
+        <h2>Collect a stamp at every stop</h2>
+        <p class="lede">Children don't just watch. They see, smell, touch and learn their way through the Pista House food world, filling their Little Chef Factory Passport as they go. Tap a stop to peek inside.</p>
+      </div>
+      <div class="progress" aria-live="polite">
+        <img src="assets/icon-passport.webp" alt="" width="161" height="220">
+        <div><strong id="stampCount">0 / 12</strong><span>stamps collected</span><div class="meter" aria-hidden="true"><i id="meter"></i></div></div>
+      </div>
+    </div>
+
+    <ol class="stops" id="stops">
+      <li class="stop"><button type="button" aria-expanded="false"><span class="ico" aria-hidden="true">👨‍🍳</span><span class="num"></span><span class="stitle">Become a Little Chef</span><span class="tease">Put on the apron and cap, and learn the Little Chef safety rules.</span><span class="more"><span class="chips"><span class="chip">Chef caps</span><span class="chip">Aprons</span><span class="chip">Gloves</span><span class="chip">Clean footwear</span><span class="chip">Proper handwashing</span></span></span></button><span class="stamp-mark" aria-hidden="true">Little<br>Chef<br>✓</span></li>
+      <li class="stop"><button type="button" aria-expanded="false"><span class="ico" aria-hidden="true">🥖</span><span class="num"></span><span class="stitle">Where baking begins</span><span class="tease">What makes bread rise? From flour to something delicious.</span><span class="more"><span class="chips"><span class="chip">Ingredients</span><span class="chip">Mixing and kneading</span><span class="chip">Fermentation</span><span class="chip">Oven temperatures</span><span class="chip">Bakery equipment</span></span></span></button><span class="stamp-mark" aria-hidden="true">Little<br>Chef<br>✓</span></li>
+      <li class="stop"><button type="button" aria-expanded="false"><span class="ico" aria-hidden="true">🍪</span><span class="num"></span><span class="stitle">From dough to biscuit</span><span class="tease">Follow Pista House biscuits all the way to the pack.</span><span class="more">See how every batch stays the same, and hear the story of Hyderabad's beloved Osmania Biscuit.</span></button><span class="stamp-mark" aria-hidden="true">Little<br>Chef<br>✓</span></li>
+      <li class="stop"><button type="button" aria-expanded="false"><span class="ico" aria-hidden="true">🍬</span><span class="num"></span><span class="stitle">The art of Indian sweets</span><span class="tease">Where skill and science meet.</span><span class="more">Ingredients, temperature, timing and technique come together to make traditional sweets.</span></button><span class="stamp-mark" aria-hidden="true">Little<br>Chef<br>✓</span></li>
+      <li class="stop"><button type="button" aria-expanded="false"><span class="ico" aria-hidden="true">🍳</span><span class="num"></span><span class="stitle">Inside a pro kitchen</span><span class="tease">A restaurant kitchen is very different from the one at home.</span><span class="more"><span class="chips"><span class="chip">Kitchen organisation</span><span class="chip">Cooking equipment</span><span class="chip">Ingredient prep</span><span class="chip">Chef roles</span></span></span></button><span class="stamp-mark" aria-hidden="true">Little<br>Chef<br>✓</span></li>
+      <li class="stop"><button type="button" aria-expanded="false"><span class="ico" aria-hidden="true">🔬</span><span class="num"></span><span class="stitle">Science in every bite</span><span class="tease">Why does chocolate melt? Why does food change colour?</span><span class="more">Simple food science, explained with things children eat every day. Learning becomes delicious.</span></button><span class="stamp-mark" aria-hidden="true">Little<br>Chef<br>✓</span></li>
+      <li class="stop"><button type="button" aria-expanded="false"><span class="ico" aria-hidden="true">🧼</span><span class="num"></span><span class="stitle">Clean hands, safe food</span><span class="tease">Little Chefs use safe bakery hands!</span><span class="more"><span class="chips"><span class="chip">Handwashing</span><span class="chip">Hair protection</span><span class="chip">Sanitising</span><span class="chip">Safe food handling</span></span></span></button><span class="stamp-mark" aria-hidden="true">Little<br>Chef<br>✓</span></li>
+      <li class="stop"><button type="button" aria-expanded="false"><span class="ico" aria-hidden="true">🔍</span><span class="num"></span><span class="stitle">Who checks the food?</span><span class="tease">Quality is checked at every single stage.</span><span class="more"><span class="chips"><span class="chip">Ingredient quality</span><span class="chip">Consistency</span><span class="chip">Temperatures</span><span class="chip">Appearance</span><span class="chip">Storage</span></span></span></button><span class="stamp-mark" aria-hidden="true">Little<br>Chef<br>✓</span></li>
+      <li class="stop"><button type="button" aria-expanded="false"><span class="ico" aria-hidden="true">📦</span><span class="num"></span><span class="stitle">Why food needs packaging</span><span class="tease">Packed safely, labelled correctly, checked for quality.</span><span class="more">Packaging protects food, keeps it fresh and shares information, and we try hard to cut waste.</span></button><span class="stamp-mark" aria-hidden="true">Little<br>Chef<br>✓</span></li>
+      <li class="stop"><button type="button" aria-expanded="false"><span class="ico" aria-hidden="true">🚚</span><span class="num"></span><span class="stitle">Warehouse and dispatch</span><span class="tease">How does the right box reach the right place?</span><span class="more">A friendly first look at storage, inventory and how products get ready for delivery.</span></button><span class="stamp-mark" aria-hidden="true">Little<br>Chef<br>✓</span></li>
+      <li class="stop"><button type="button" aria-expanded="false"><span class="ico" aria-hidden="true">🤝</span><span class="num"></span><span class="stitle">Great food, great team</span><span class="tease">Every job matters.</span><span class="more"><span class="chips"><span class="chip">Chefs</span><span class="chip">Bakers</span><span class="chip">Quality team</span><span class="chip">Packers</span><span class="chip">Warehouse team</span><span class="chip">Cleaning team</span></span></span></button><span class="stamp-mark" aria-hidden="true">Little<br>Chef<br>✓</span></li>
+      <li class="stop"><button type="button" aria-expanded="false"><span class="ico" aria-hidden="true">❤️</span><span class="num"></span><span class="stitle">The food of Hyderabad</span><span class="tease">Learning about food is learning about culture.</span><span class="more">The stories behind Hyderabad's most loved foods, shared with the next generation.</span></button><span class="stamp-mark" aria-hidden="true">Little<br>Chef<br>✓</span></li>
+    </ol>
+
+    <div class="all-done" id="allDone" role="status">
+      <img src="assets/mascot.webp" alt="" width="553" height="560">
+      <div><b>Passport complete! You're ready to be a Little Chef.</b>Now let's book the real adventure.</div>
+      <a class="btn btn-tidal" href="#book" style="margin-left:auto">Book a visit</a>
+    </div>
+    <p class="journey-note">Every activity happens in designated, guided areas, under careful safety and hygiene care.</p>
+  </div>
+</section>
+
+<!-- INSIDE THE VISIT -->
+<section class="section inside">
+  <div class="wrap inside-grid">
+    <div class="inside-art"><img src="assets/factory.webp" alt="Little Chef children and the cookie mascot at the packaging and dispatch line" width="649" height="900" loading="lazy"></div>
+    <div>
+      <div class="section-head">
+        <h2>What students will experience</h2>
+        <p class="lede">A real field trip turned into a learning adventure, from the first ingredient to the final box.</p>
+      </div>
+      <ul class="inside-list">
+        <li><span class="tag">Guided factory tour</span><h3>Behind the bakery</h3><p>Ingredient preparation, bakery production, quality control, packaging and dispatch.</p></li>
+        <li><span class="tag">Introduction to baking</span><h3>How baking works</h3><p>Common ingredients, how they work together, basic baking principles and fun bakery trivia.</p></li>
+        <li><span class="tag">Packaging and dispatch</span><h3>Ready for delivery</h3><p>How products are packed safely, labelled correctly, checked and sent out.</p></li>
+        <li><span class="tag">Interactive learning</span><h3>Games and challenges</h3><p>Ingredient discovery, food safety games, Q&amp;A sessions and team bakery challenges.</p></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNATURE MOMENTS -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head center">
+      <h2>Signature Little Chef moments</h2>
+      <p class="lede">The little rituals children remember long after the visit.</p>
+    </div>
+    <ul class="moments">
+      <li class="moment"><figure><img src="assets/moment-passport.webp" alt="Cookie mascot holding a Little Chef Factory Passport" width="441" height="560" loading="lazy"></figure><div><h3>Passport stamp ceremony</h3><p>Children collect official Little Chef stamps along their journey.</p></div></li>
+      <li class="moment"><figure><img src="assets/moment-oath.webp" alt="Cookie mascot holding the Little Chef oath scroll" width="484" height="515" loading="lazy"></figure><div><h3>Little Chef oath</h3><p>A fun group pledge celebrating learning, teamwork and creativity.</p></div></li>
+      <li class="moment"><figure><img src="assets/moment-graduation.webp" alt="Two Little Chefs wearing graduation medals" width="454" height="560" loading="lazy"></figure><div><h3>Graduation celebration</h3><p>Every child is recognised for completing the experience.</p></div></li>
+      <li class="moment"><figure><img src="assets/moment-tunnel.webp" alt="Little Chefs cheering through an applause tunnel with confetti" width="511" height="560" loading="lazy"></figure><div><h3>Applause tunnel</h3><p>A joyful send-off that celebrates every Little Chef.</p></div></li>
+    </ul>
+    <div class="oath">
+      <h3>The Little Chef oath</h3>
+      <blockquote>“I promise to stay safe, keep clean, be creative, help others, and always bake with happiness!”</blockquote>
+      <button class="btn btn-blue" type="button" id="oathBtn">I promise! 🎉</button>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT KIDS LEARN -->
+<section class="section learn" id="learn">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Learning beyond the classroom</h2>
+      <p class="lede">One visit, nine subjects. Here's what a Little Chef day brings to life.</p>
+    </div>
+    <ul class="subjects">
+      <li><span class="e" aria-hidden="true">🥕</span><h3>Food and nutrition</h3><p>Understanding ingredients and how food is prepared.</p></li>
+      <li><span class="e" aria-hidden="true">🧪</span><h3>Science</h3><p>Temperature, fermentation, mixing and transformation.</p></li>
+      <li><span class="e" aria-hidden="true">🧼</span><h3>Hygiene</h3><p>Why cleanliness matters so much around food.</p></li>
+      <li><span class="e" aria-hidden="true">⚙️</span><h3>Manufacturing</h3><p>How food is made the same way, at scale.</p></li>
+      <li><span class="e" aria-hidden="true">🤝</span><h3>Teamwork</h3><p>How different people work together.</p></li>
+      <li><span class="e" aria-hidden="true">🚚</span><h3>Supply chain</h3><p>How ingredients travel from storage to production.</p></li>
+      <li><span class="e" aria-hidden="true">📦</span><h3>Packaging</h3><p>Why products need protection and information.</p></li>
+      <li><span class="e" aria-hidden="true">🕌</span><h3>Culture</h3><p>Discovering Hyderabad's food heritage.</p></li>
+      <li><span class="e" aria-hidden="true">🌱</span><h3>Responsibility</h3><p>Respecting food, reducing waste, keeping things clean.</p></li>
+    </ul>
+  </div>
+</section>
+
+<!-- SCHOOLS -->
+<section class="section" id="schools">
+  <div class="wrap schools-grid">
+    <div>
+      <div class="section-head">
+        <h2>Take learning outside the classroom</h2>
+        <p class="lede">Some lessons are better experienced than explained. Little Chef brings food science, hygiene, manufacturing and teamwork to life for your students.</p>
+      </div>
+      <ul class="structure">
+        <li><b>25–40</b><span>students per visit</span></li>
+        <li><b>1 : 20</b><span>teacher to student ratio</span></li>
+        <li><b>90–120</b><span>minutes of learning</span></li>
+      </ul>
+      <h3>Ideal for</h3>
+      <ul class="tags">
+        <li>Educational trips</li><li>Activity days</li><li>Food and nutrition</li><li>Science excursions</li><li>Life-skills programmes</li><li>Holiday programmes</li>
+      </ul>
+      <a class="btn btn-blue" href="#book" data-who="school">Enquire for your school</a>
+    </div>
+    <div class="receive">
+      <h3>What every student receives</h3>
+      <ul>
+        <li><img src="assets/icon-certificate.webp" alt="" width="220" height="178" loading="lazy"><div><b>Official Little Chef certificate</b><span>Presented at the graduation celebration</span></div></li>
+        <li><img src="assets/icon-passport.webp" alt="" width="161" height="220" loading="lazy"><div><b>Little Chef Factory Passport</b><span>Filled with stamps from every stop</span></div></li>
+        <li><img src="assets/icon-cookies.webp" alt="" width="168" height="220" loading="lazy"><div><b>Special Pista House cookie box</b><span>A sweet souvenir to take home</span></div></li>
+        <li><img src="assets/icon-photo.webp" alt="" width="220" height="210" loading="lazy"><div><b>Group photo memory</b><span>Your class, together, as Little Chefs</span></div></li>
+        <li><span class="em" aria-hidden="true">🍽️</span><div><b>Refreshments and meal</b><span>A complimentary meal by Pista House</span></div></li>
+      </ul>
+      <p class="small">Teachers accompany their students throughout the visit.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PARENTS -->
+<section class="section parents">
+  <div class="wrap">
+    <h2>A day they'll talk about for weeks</h2>
+    <p>Instead of only eating their favourite foods, children discover how they're made, while you watch them explore, ask questions and find something completely new.</p>
+    <ul class="chant" aria-label="Learn, explore, create, remember"><li>Learn</li><li>Explore</li><li>Create</li><li>Remember</li></ul>
+  </div>
+</section>
+
+<!-- SAFETY -->
+<section class="section">
+  <div class="wrap">
+    <div class="safety-card">
+      <img src="assets/safety.webp" alt="Little Chefs with a safety shield and the cookie mascot" width="568" height="800" loading="lazy">
+      <div>
+        <h2>Safety comes first</h2>
+        <p class="lede">The safety and wellbeing of every child is our highest priority. Parents and schools receive visit instructions before arrival.</p>
+        <ul class="checks">
+          <li>Guided supervision throughout the visit</li>
+          <li>Age-appropriate activities</li>
+          <li>Hygiene-focused learning</li>
+          <li>Controlled visitor movement</li>
+          <li>Dedicated Little Chef coordinators</li>
+          <li>Teachers accompany students throughout</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="section learn" id="gallery">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Little moments, big memories</h2>
+    </div>
+    <div class="filters" role="group" aria-label="Filter gallery">
+      <button type="button" data-f="all" aria-pressed="true">All</button>
+      <button type="button" data-f="photo" aria-pressed="false">Photos</button>
+      <button type="button" data-f="video" aria-pressed="false">Videos</button>
+    </div>
+    <!-- To add real photos: copy files into assets/gallery/ and add a <li data-k="photo"> with <img class="cover" src="assets/gallery/your-photo.jpg"> -->
+    <ul class="gallery" id="gallery-list">
+      <li data-k="photo"><img src="assets/moment-graduation.webp" alt="Little Chef graduates" loading="lazy"><span class="cap">Little Chefs <span class="kind">Photo</span></span></li>
+      <li data-k="photo"><img src="assets/welcome.webp" alt="Welcome to the Little Chef bakery" loading="lazy"><span class="cap">Bakery <span class="kind">Photo</span></span></li>
+      <li data-k="video"><img src="assets/moment-tunnel.webp" alt="Applause tunnel celebration" loading="lazy"><span class="cap">Celebrations <span class="kind">Video</span></span></li>
+      <li data-k="photo"><img src="assets/factory.webp" alt="Factory tour at the packaging line" loading="lazy"><span class="cap">Factory tour <span class="kind">Photo</span></span></li>
+      <li data-k="photo"><img src="assets/moment-passport.webp" alt="Passport stamp ceremony" loading="lazy"><span class="cap">School visits <span class="kind">Photo</span></span></li>
+      <li data-k="video"><img src="assets/moment-oath.webp" alt="The Little Chef oath" loading="lazy"><span class="cap">Activities <span class="kind">Video</span></span></li>
+      <li data-k="photo"><img src="assets/safety.webp" alt="Safety first at Little Chef" loading="lazy"><span class="cap">Hygiene <span class="kind">Photo</span></span></li>
+      <li data-k="video"><img src="assets/mascot.webp" alt="The Little Chef mascot" loading="lazy"><span class="cap">Little Chef films <span class="kind">Video</span></span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="wrap about-grid">
+    <div>
+      <div class="section-head">
+        <h2>Why we created Little Chef</h2>
+        <p class="lede">For more than two decades, Pista House has made food enjoyed by families across generations. Behind every product is a world most children never get to see.</p>
+      </div>
+      <ul class="behind">
+        <li><span aria-hidden="true">🍞</span>Bakers preparing dough</li>
+        <li><span aria-hidden="true">👩‍🍳</span>Chefs working together</li>
+        <li><span aria-hidden="true">🔍</span>Quality teams checking standards</li>
+        <li><span aria-hidden="true">⚙️</span>Machines making food consistently</li>
+        <li><span aria-hidden="true">📦</span>Packaging teams at work</li>
+        <li><span aria-hidden="true">🏭</span>Warehouses organising ingredients</li>
+      </ul>
+      <p>Little Chef opens that world to children, so they see that food takes science, people, culture, hygiene, creativity and teamwork.</p>
+      <p class="signoff">Where curiosity meets the kitchen.</p>
+    </div>
+    <div class="legacy">
+      <h3>Born from the world of Pista House</h3>
+      <p>Little Chef is an initiative by Pista House, the Hyderabad-born food brand founded in 1997 and now serving customers across India, the UAE, the USA, Oman and Kuwait.</p>
+      <p>We've turned years of food-making knowledge into an experience made especially for young minds.</p>
+      <p class="sig">From Hyderabad. For the next generation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section learn" id="faq">
+  <div class="wrap">
+    <div class="section-head center"><h2>Questions parents and schools ask</h2></div>
+    <div class="faq-list">
+      <details><summary>How long is the Little Chef experience?</summary><p>About 90 to 120 minutes, depending on the programme and group size.</p></details>
+      <details><summary>What age group can join?</summary><p>Little Chef is designed for children aged 4 to 14, with activities adapted to each age group.</p></details>
+      <details><summary>Is Little Chef only for schools?</summary><p>No. Schools are our main visitors, and families and private groups can request a booking too, subject to availability.</p></details>
+      <details><summary>How many students can a school bring?</summary><p>We recommend 25 to 40 students per visit, with one teacher for every 20 students.</p></details>
+      <details><summary>Will children enter working production areas?</summary><p>Children follow designated, guided routes. Access to production areas is controlled to meet safety and hygiene requirements.</p></details>
+      <details><summary>What does each child take home?</summary><p>An official Little Chef certificate, a Factory Passport, a special Pista House cookie box and a group photo memory.</p></details>
+      <details><summary>Is food provided?</summary><p>Yes. Students enjoy refreshments and a complimentary meal from Pista House. Please tell us about any allergies when you book.</p></details>
+      <details><summary>Can we take photographs?</summary><p>Photo rules vary by area. The Little Chef team will explain them during the visit, and every school group gets a group photo.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK -->
+<section class="section book" id="book">
+  <div class="wrap book-grid">
+    <div class="book-side">
+      <div class="section-head">
+        <h2>Ready to become a Little Chef?</h2>
+        <p class="lede">Send us your request and our team will call you to confirm the date and complete your booking.</p>
+      </div>
+      <ul class="contact">
+        <li><span class="ci" aria-hidden="true">📞</span><div><a href="tel:+919133308091">+91 91333 08091</a><small>Call or WhatsApp</small></div></li>
+        <li><span class="ci" aria-hidden="true">✉️</span><div><a href="mailto:help@littlechef.in">help@littlechef.in</a><small>School and general enquiries</small></div></li>
+        <li><span class="ci" aria-hidden="true">📍</span><div><b>Pista House Factory</b><small>Shamshabad, Sayyed Guda, Hyderabad, Telangana 501218</small></div></li>
+      </ul>
+      <img src="assets/mascot.webp" alt="" width="553" height="560" loading="lazy">
+    </div>
+
+    <div class="form-card" id="formCard">
+      <form id="bookForm" novalidate>
+        <fieldset class="who">
+          <legend>I'm booking as</legend>
+          <label><input type="radio" name="bookingFor" value="School" checked><span>🏫 A school</span></label>
+          <label><input type="radio" name="bookingFor" value="Parent"><span>👨‍👩‍👧 A parent or family</span></label>
+        </fieldset>
+        <div class="fields">
+          <div class="field" id="schoolField"><label for="f-school">School name</label><input id="f-school" name="schoolName" autocomplete="organization" maxlength="120"><div class="err">Add your school's name.</div></div>
+          <div class="field"><label for="f-name" id="nameLabel">Coordinator name</label><input id="f-name" name="contactName" autocomplete="name" required maxlength="80"><div class="err">Add your name so we know who to call.</div></div>
+          <div class="field"><label for="f-phone">Mobile number</label><input id="f-phone" name="mobile" type="tel" inputmode="tel" autocomplete="tel" required pattern="[0-9+\s\-]{10,16}" placeholder="10-digit mobile"><div class="err">Enter a valid mobile number.</div></div>
+          <div class="field"><label for="f-email">Email <small>(optional)</small></label><input id="f-email" name="email" type="email" autocomplete="email" maxlength="120"><div class="err">Enter an email like name@school.com.</div></div>
+          <div class="field"><label for="f-kids">Number of children</label><input id="f-kids" name="children" type="number" min="1" max="200" inputmode="numeric" required><div class="err">Enter how many children are coming.</div></div>
+          <div class="field"><label for="f-staff" id="staffLabel">Teachers / staff coming</label><input id="f-staff" name="staff" type="number" min="0" max="50" inputmode="numeric"><div class="err">Enter a number.</div></div>
+          <div class="field"><label for="f-classes">Classes / age group</label><input id="f-classes" name="classes" required maxlength="60" placeholder="e.g. Classes 3–6 or ages 7–10"><div class="err">Tell us the classes or ages.</div></div>
+          <div class="field"><label for="f-city">City</label><input id="f-city" name="city" autocomplete="address-level2" required maxlength="60" value="Hyderabad"><div class="err">Add your city.</div></div>
+          <div class="field"><label for="f-date">Preferred date</label><input id="f-date" name="preferredDate" type="date" required><div class="err">Pick a date from tomorrow onwards.</div></div>
+          <div class="field"><label for="f-alt">Second choice date <small>(optional)</small></label><input id="f-alt" name="alternateDate" type="date"></div>
+          <div class="field full"><label for="f-time">Preferred time</label><select id="f-time" name="preferredTime" required><option value="">Choose a time</option><option>Morning (9 am – 12 pm)</option><option>Afternoon (12 pm – 3 pm)</option><option>Any time</option></select><div class="err">Choose a time.</div></div>
+          <div class="field full"><label for="f-notes">Anything we should know? <small>(optional)</small></label><textarea id="f-notes" name="notes" maxlength="600" placeholder="Allergies, accessibility needs, bus timings, special celebrations"></textarea></div>
+        </div>
+        <p class="form-error" id="formError" role="alert"></p>
+        <div class="form-foot">
+          <p>We only use these details to arrange your visit.</p>
+          <button class="btn btn-blue" type="submit" id="submitBtn">Request booking</button>
+        </div>
+      </form>
+      <div class="thanks" role="status" aria-live="polite">
+        <img src="assets/mascot.webp" alt="" width="553" height="560">
+        <h3>Request sent!</h3>
+        <p id="thanksText">Your Little Chef adventure is one step closer. Our team will call you to confirm availability and complete your booking.</p>
+        <button class="btn btn-white" type="button" id="againBtn">Send another request</button>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <img src="assets/logo.webp" alt="Little Chef by Pista House" width="640" height="477" loading="lazy">
+        <p style="font-weight:800; margin:0">Bake • Learn • Smile</p>
+        <p style="margin:.3rem 0 0">Where curiosity meets the kitchen.</p>
+        <p style="margin:.3rem 0 0; font-weight:700"><a href="https://www.littlechefs.in/">www.littlechefs.in</a></p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul><li><a href="#experience">The Experience</a></li><li><a href="#learn">What Kids Learn</a></li><li><a href="#schools">Schools</a></li><li><a href="#gallery">Gallery</a></li><li><a href="#faq">FAQs</a></li><li><a href="#book">Book a Visit</a></li></ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul><li><a href="tel:+919133308091">+91 91333 08091</a></li><li><a href="mailto:help@littlechef.in">help@littlechef.in</a></li><li><address>Pista House Factory,<br>Shamshabad, Sayyed Guda,<br>Hyderabad, Telangana 501218</address></li></ul>
+      </div>
+      <div>
+        <h4>Follow Little Chef</h4>
+        <ul><li><a href="#" data-social="instagram">Instagram</a></li><li><a href="#" data-social="youtube">YouTube</a></li><li><a href="#" data-social="facebook">Facebook</a></li></ul>
+      </div>
+    </div>
+    <div class="legal"><span>© <span id="yr">2026</span> Little Chef by Pista House. All rights reserved.</span><span>An initiative by Pista House</span></div>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   SETTINGS — edit these two lines only
+   FORM_ENDPOINT: paste your Google Apps Script web app URL
+   (see google-apps-script.gs and README.md). Every request
+   then lands in your team's Google Sheet.
+   If left empty, the form opens WhatsApp with all details.
+   ============================================================ */
+var FORM_ENDPOINT = "";
+var WHATSAPP_NUMBER = "919133308091";
+
+(function(){
+  var $=function(s,c){return (c||document).querySelector(s)}, $$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  $('#yr').textContent=new Date().getFullYear();
+
+  /* menu */
+  var nav=$('#nav'), mb=$('.menu-btn');
+  function closeMenu(){nav.classList.remove('open'); mb.setAttribute('aria-expanded','false'); mb.setAttribute('aria-label','Open menu')}
+  mb.addEventListener('click',function(){var o=nav.classList.toggle('open'); mb.setAttribute('aria-expanded',o); mb.setAttribute('aria-label',o?'Close menu':'Open menu')});
+  nav.addEventListener('click',function(e){if(e.target.closest('a')) closeMenu()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape') closeMenu()});
+
+  /* active nav link */
+  var links=$$('.nav a[href^="#"]'), secs=links.map(function(a){return $(a.getAttribute('href'))}).filter(Boolean);
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.setAttribute('aria-current',a.getAttribute('href')==='#'+e.target.id)})}})},{rootMargin:'-45% 0px -50% 0px'});
+    secs.forEach(function(s){io.observe(s)});
+  }
+
+  /* confetti */
+  function confetti(n){
+    if(reduce) return;
+    var box=document.createElement('div'); box.className='confetti'; var cols=['#E2FF88','#F4D66D','#F2C7C0','#C2F9FF','#1336A3','#A3D6C5'];
+    for(var i=0;i<(n||60);i++){var p=document.createElement('i'); p.style.left=Math.random()*100+'vw'; p.style.background=cols[i%cols.length]; p.style.animationDelay=(Math.random()*.5)+'s'; p.style.animationDuration=(1.4+Math.random())+'s'; box.appendChild(p)}
+    document.body.appendChild(box); setTimeout(function(){box.remove()},2600);
+  }
+
+  /* passport stamps */
+  var stops=$$('.stop'), total=stops.length;
+  function updateStamps(){
+    var c=$$('.stop.stamped').length;
+    $('#stampCount').textContent=c+' / '+total; $('#meter').style.width=(c/total*100)+'%';
+    if(c===total && !$('#allDone').classList.contains('show')){ $('#allDone').classList.add('show'); confetti(80) }
+  }
+  stops.forEach(function(s){
+    var b=$('button',s);
+    b.addEventListener('click',function(){
+      var open=!s.classList.contains('open'); s.classList.toggle('open',open); b.setAttribute('aria-expanded',open);
+      if(!s.classList.contains('stamped')){ s.classList.add('stamped'); updateStamps() }
+    });
+  });
+  updateStamps();
+
+  /* oath */
+  $('#oathBtn').addEventListener('click',function(){ confetti(70); this.textContent='Promise made! ⭐'; });
+
+  /* gallery filter */
+  var fb=$$('.filters button'), tiles=$$('#gallery-list li');
+  fb.forEach(function(b){b.addEventListener('click',function(){
+    fb.forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+    tiles.forEach(function(t){t.hidden=!(b.dataset.f==='all'||t.dataset.k===b.dataset.f)});
+  })});
+
+  /* booking form */
+  var form=$('#bookForm'), card=$('#formCard'), schoolField=$('#schoolField'), schoolInput=$('#f-school');
+  function setWho(v){
+    var r=$('input[name="bookingFor"][value="'+v+'"]',form); if(r) r.checked=true;
+    var school=v==='School';
+    schoolField.style.display=school?'':'none'; schoolInput.required=school;
+    $('#nameLabel').textContent=school?'Coordinator name':'Parent name';
+    $('#staffLabel').textContent=school?'Teachers / staff coming':'Adults coming';
+  }
+  $$('input[name="bookingFor"]',form).forEach(function(r){r.addEventListener('change',function(){setWho(r.value)})});
+  $$('[data-who]').forEach(function(a){a.addEventListener('click',function(){setWho(a.getAttribute('data-who')==='school'?'School':'Parent')})});
+  setWho('School');
+
+  var tmr=new Date(); tmr.setDate(tmr.getDate()+1);
+  var minDate=new Date(tmr.getTime()-tmr.getTimezoneOffset()*60000).toISOString().slice(0,10);
+  $('#f-date').min=minDate; $('#f-alt').min=minDate;
+
+  form.addEventListener('input',function(e){var f=e.target.closest('.field'); if(f && e.target.checkValidity()) f.classList.remove('bad')});
+
+  function validate(){
+    var first=null;
+    $$('input,select,textarea',form).forEach(function(el){
+      if(el.type==='radio') return;
+      var f=el.closest('.field'); if(!f||f.style.display==='none') return;
+      var ok=el.checkValidity() && (!el.required || String(el.value).trim()!=='');
+      f.classList.toggle('bad',!ok); if(!ok && !first) first=el;
+    });
+    return first;
+  }
+  function collect(){
+    var fd=new FormData(form), o={};
+    fd.forEach(function(v,k){o[k]=String(v).trim()});
+    if(o.bookingFor!=='School') o.schoolName='';
+    o.submittedAt=new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'});
+    o.page=location.href;
+    return o;
+  }
+  function waText(o){
+    var L=['*New Little Chef booking request*','Booking for: '+o.bookingFor];
+    if(o.schoolName) L.push('School: '+o.schoolName);
+    L.push('Name: '+o.contactName,'Mobile: '+o.mobile);
+    if(o.email) L.push('Email: '+o.email);
+    L.push('Children: '+o.children+(o.staff?' | Adults/staff: '+o.staff:''),'Classes/ages: '+o.classes,'City: '+o.city,'Preferred date: '+o.preferredDate+(o.alternateDate?' (or '+o.alternateDate+')':''),'Time: '+o.preferredTime);
+    if(o.notes) L.push('Notes: '+o.notes);
+    return L.join('\n');
+  }
+
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    $('#formError').style.display='none';
+    var bad=validate(); if(bad){ bad.focus(); return }
+    var o=collect(), btn=$('#submitBtn');
+    if(!FORM_ENDPOINT){
+      window.open('https://wa.me/'+WHATSAPP_NUMBER+'?text='+encodeURIComponent(waText(o)),'_blank','noopener');
+      $('#thanksText').textContent='WhatsApp has opened with your details. Just tap send, and our team will call you to confirm the date.';
+      card.classList.add('done'); card.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}); confetti(60);
+      return;
+    }
+    btn.disabled=true; btn.textContent='Sending…';
+    var body=new URLSearchParams(o).toString();
+    fetch(FORM_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
+      .then(function(){ card.classList.add('done'); card.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}); confetti(60) })
+      .catch(function(){ var er=$('#formError'); er.innerHTML='We couldn’t send your request. Please check your internet connection, or <a href="https://wa.me/'+WHATSAPP_NUMBER+'?text='+encodeURIComponent(waText(o))+'" target="_blank" rel="noopener">send it on WhatsApp instead</a>.'; er.style.display='block' })
+      .then(function(){ btn.disabled=false; btn.textContent='Request booking' });
+  });
+  $('#againBtn').addEventListener('click',function(){ form.reset(); setWho('School'); card.classList.remove('done'); $('#f-school').focus() });
+})();
+</script>
+</body>
+</html>
