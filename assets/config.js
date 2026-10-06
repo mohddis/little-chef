@@ -4,7 +4,7 @@
 window.LC_CONFIG = {
   // Google Apps Script web app URL (see README.md, "Visit Planner setup").
   // While empty, booking requests are sent by WhatsApp instead.
-  API_URL: "",
+  API_URL: "https://script.google.com/macros/s/AKfycbx2DuARfFV6yn7n7YBom2o-TORU86NxvDuPgXSXkekTL1PCDxZPMHHgwSPK5nHsnXeI4Q/exec",
 
   // WhatsApp / phone
   WHATSAPP: "919133308091",
