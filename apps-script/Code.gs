@@ -1,4 +1,4 @@
-/**
+API_URL: "https://script.google.com/macros/s/AKfy.../exec",
  * LITTLE CHEF BY PISTA HOUSE — Visit Planner backend (Google Apps Script)
  *
  * What it does
