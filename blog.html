@@ -122,7 +122,7 @@ footer .ph img{height:30px}
   var B=window.LC_BLOG, CFG=window.LC_CONFIG||{}, main=document.getElementById('main');
   document.getElementById('yr').textContent=new Date().getFullYear();
   var slug=new URLSearchParams(location.search).get('p');
-  function img(p,cls){ var u=B.safeUrl(p.cover); var contain=/^assets\//.test(u); return '<img src="'+B.esc(u)+'" alt="" loading="lazy"'+(contain?' class="contain"':'')+'>' }
+  function img(p,cls){ var u=B.safeUrl(p.cover); var contain=/^assets\/(?!photos\/)/.test(u); return '<img src="'+B.esc(u)+'" alt="" loading="lazy"'+(contain?' class="contain"':'')+'>' }
   function card(p,featured){
     return '<li class="post'+(featured?' featured':'')+'"><a href="blog.html?p='+encodeURIComponent(p.slug)+'"><div class="img">'+img(p)+'</div><div class="txt">'+(p.category?'<span class="tag">'+B.esc(p.category)+'</span>':'')+'<h2>'+B.esc(p.title)+'</h2><p>'+B.esc(p.excerpt)+'</p><span class="meta">'+B.esc(B.fmtDate(p.date))+' · '+B.readMins(p.body)+' min read</span></div></a></li>';
   }

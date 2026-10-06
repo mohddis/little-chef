@@ -194,7 +194,7 @@ button{font:inherit; color:inherit}
 .moment h3{margin-bottom:.35rem}
 .moment p{margin:0; font-size:.96rem; color:var(--ink-soft)}
 @media (max-width:980px){ .moments{grid-template-columns:repeat(2,minmax(0,1fr))} }
-@media (max-width:480px){ .moments{grid-template-columns:1fr} .moment figure{aspect-ratio:4/3} }
+@media (max-width:480px){ .moments{grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem} .moment figure{aspect-ratio:1/1; padding:.5rem} .moment div{padding:.7rem .75rem .85rem} .moment h3{font-size:1rem} .moment p{font-size:.84rem} }
 .oath{margin-top:1.4rem; display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:1rem 1.5rem; align-items:center; background:var(--tidal); border:var(--line); border-radius:var(--r-md); padding:1.2rem 1.4rem}
 .oath h3{font-size:1.1rem}
 .oath blockquote{margin:0; font:700 clamp(1.1rem,2vw,1.35rem)/1.35 var(--head)}
@@ -425,6 +425,14 @@ button{font:inherit; color:inherit}
 .badge-win{display:inline-grid; place-items:center; width:130px; height:130px; border-radius:50%; background:var(--sand); border:4px solid var(--blue); font:800 1rem/1.1 var(--head); margin:0 auto 1rem; transform:rotate(-8deg)}
 .badge-win b{display:block; font-size:2.4rem}
 
+.games-promo{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:1rem 1.2rem;align-items:center;background:var(--lace);color:var(--blue);border:4px solid var(--tidal);border-radius:var(--r-lg);padding:1rem 1.2rem;margin-bottom:1.4rem;text-decoration:none;transition:transform .15s}
+.games-promo:hover{transform:translateY(-3px)}
+.gp-imgs{display:flex}
+.gp-imgs img{width:58px;height:58px;object-fit:contain;margin-left:-14px;filter:drop-shadow(0 3px 4px rgba(0,0,0,.25))}
+.gp-imgs img:first-child{margin-left:0}
+.gp-txt b{display:block;font:800 1.25rem/1.2 var(--head)}
+.gp-txt{font-weight:600;color:var(--ink-soft)}
+@media (max-width:640px){ .games-promo{grid-template-columns:1fr; text-align:center} .gp-imgs{justify-content:center} .games-promo .btn{justify-self:center} }
 /* ===== Instagram ===== */
 .ig-head{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:end; gap:1rem 2rem; margin-bottom:1.8rem}
 .ig-head .section-head{margin-bottom:0}
@@ -446,6 +454,35 @@ button{font:inherit; color:inherit}
 .social a{display:inline-flex; align-items:center; gap:.45rem; border:2px solid var(--blue); border-radius:999px; padding:.4rem .8rem; background:#fff}
 .social svg{width:18px; height:18px}
 
+
+/* ===== Real photos ===== */
+.hero-photo{position:relative; z-index:1; margin:0 auto; width:min(440px,100%); aspect-ratio:4/5; border:4px solid var(--blue); border-radius:32px; overflow:hidden; transform:rotate(2deg); box-shadow:10px 12px 0 var(--blue); background:#fff}
+.hero-photo img{width:100%; height:100%; object-fit:cover}
+.hero-photo figcaption{position:absolute; left:.8rem; right:.8rem; bottom:.8rem; background:#fff; border:2px solid var(--blue); border-radius:999px; padding:.4rem .9rem; font-weight:800; font-size:.86rem; text-align:center}
+.hero-art .blob{display:none}
+@media (max-width:900px){ .hero-photo{width:min(360px,88%)} }
+.moments-real{background:var(--lace)}
+.bento{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); grid-auto-rows:220px; gap:1rem; list-style:none; margin:0; padding:0}
+.bento li{position:relative; border:3px solid var(--blue); border-radius:var(--r-md); overflow:hidden; background:#fff}
+.bento li.big{grid-column:span 2; grid-row:span 2}
+.bento li.tall{grid-row:span 2}
+.bento li.wide{grid-column:span 2}
+.bento img{width:100%; height:100%; object-fit:cover; transition:transform .4s}
+.bento li:hover img{transform:scale(1.04)}
+.bento figcaption{position:absolute; left:.6rem; bottom:.6rem; right:.6rem; display:flex}
+.bento figcaption span{background:#fff; border:2px solid var(--blue); border-radius:999px; padding:.3rem .75rem; font-weight:800; font-size:.82rem; line-height:1.2}
+.bento figure{margin:0; height:100%}
+@media (max-width:900px){ .bento{grid-template-columns:repeat(2,minmax(0,1fr)); grid-auto-rows:180px} .bento li.big{grid-column:span 2} }
+@media (max-width:480px){ .bento{grid-auto-rows:150px} .bento li.wide{grid-column:span 2} }
+.photo-card{border:3px solid var(--blue); border-radius:var(--r-lg); overflow:hidden; margin:0 0 2.6rem; position:relative; background:#fff}
+.photo-card img{width:100%; aspect-ratio:16/8; object-fit:cover}
+.photo-card figcaption{position:absolute; left:1rem; bottom:1rem; background:var(--tidal); border:2px solid var(--blue); border-radius:999px; padding:.35rem .9rem; font-weight:800; font-size:.9rem}
+@media (max-width:600px){ .photo-card img{aspect-ratio:4/3} .photo-card figcaption{position:static; border:0; border-top:3px solid var(--blue); border-radius:0; text-align:center} .hero-photo figcaption{font-size:.78rem; padding:.35rem .7rem} }
+.inside-art.photo{padding:0; overflow:hidden; aspect-ratio:4/5}
+.inside-art.photo img{width:100%; height:100%; object-fit:cover}
+.safety-card img.real{border:3px solid var(--blue); border-radius:var(--r-md); aspect-ratio:4/5; object-fit:cover; max-width:360px}
+.legacy-photo{border:3px solid var(--blue); border-radius:var(--r-lg); overflow:hidden; margin:0 0 1rem}
+.legacy-photo img{width:100%; aspect-ratio:4/3; object-fit:cover; object-position:center 70%}
 /* ===== Pista House presence ===== */
 .phbar{background:#fff; border-bottom:2px solid var(--blue); font-size:.88rem; font-weight:700}
 .phbar .wrap{display:flex; align-items:center; justify-content:center; gap:.65rem; min-height:40px; flex-wrap:wrap}
@@ -489,7 +526,7 @@ button{font:inherit; color:inherit}
       <ul>
         <li><a href="#home">Home</a></li>
         <li><a href="#experience">The Experience</a></li>
-        <li><a href="#play">Games</a></li>
+        <li><a href="games.html">Games</a></li>
         <li><a href="#schools">Schools</a></li>
         <li><a href="blog.html">Blog</a></li>
         <li><a href="#gallery">Instagram</a></li>
@@ -522,7 +559,7 @@ button{font:inherit; color:inherit}
     </div>
     <div class="hero-art">
       <div class="blob" aria-hidden="true"></div>
-      <img class="scene" src="assets/welcome.webp" alt="Little Chef children and the cookie mascot welcoming visitors to the Pista House bakery" width="1100" height="596">
+      <figure class="hero-photo"><img src="assets/photos/tasting.webp" alt="Little Chefs in aprons and chef caps tasting fresh biscuits inside the Pista House bakery" width="1000" height="1250"><figcaption>Real Little Chefs, inside the Pista House bakery</figcaption></figure>
       <div class="badge" aria-hidden="true"><span><b>4–14</b>years</span></div>
     </div>
   </div>
@@ -593,10 +630,28 @@ button{font:inherit; color:inherit}
   </div>
 </section>
 
+<!-- REAL MOMENTS -->
+<section class="section moments-real" id="moments">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Real Little Chef moments</h2>
+      <p class="lede">Every photo here is from a real Little Chef visit at the Pista House factory in Shamshabad.</p>
+    </div>
+    <ul class="bento">
+      <li class="big"><figure><img src="assets/photos/cupcake.webp" alt="A Little Chef decorating a cupcake with a Pista House chef" loading="lazy" style="object-position:center 72%"><figcaption><span>🧁 Decorating with our chefs</span></figcaption></figure></li>
+      <li><figure><img src="assets/photos/dough.webp" alt="Children shaping biscuit dough on a tray" loading="lazy" style="object-position:center 70%"><figcaption><span>🍪 Hands in the dough</span></figcaption></figure></li>
+      <li class="tall"><figure><img src="assets/photos/tunnel.webp" alt="The Little Chef graduation tunnel inside the factory" loading="lazy"><figcaption><span>🎓 The graduation tunnel</span></figcaption></figure></li>
+      <li><figure><img src="assets/photos/hairnets.webp" alt="A team member helping a child put on a hairnet" loading="lazy"><figcaption><span>🧼 Hygiene first</span></figcaption></figure></li>
+      <li class="wide"><figure><img src="assets/photos/graduation-wide.webp" alt="A class of Little Chefs holding their certificates at graduation" loading="lazy"><figcaption><span>📜 Certificate celebration</span></figcaption></figure></li>
+      <li class="wide"><figure><img src="assets/photos/welcome-banner.webp" alt="The Little Chef welcome corridor with Bake Learn Smile banner" loading="lazy" style="object-position:center 40%"><figcaption><span>👋 Welcome to Little Chef</span></figcaption></figure></li>
+    </ul>
+  </div>
+</section>
+
 <!-- INSIDE THE VISIT -->
 <section class="section inside">
   <div class="wrap inside-grid">
-    <div class="inside-art"><img src="assets/factory.webp" alt="Little Chef children and the cookie mascot at the packaging and dispatch line" width="649" height="900" loading="lazy"></div>
+    <div class="inside-art photo"><img src="assets/photos/lineup.webp" alt="Little Chefs in aprons and caps lined up for their guided factory tour" loading="lazy"></div>
     <div>
       <div class="section-head">
         <h2>What students will experience</h2>
@@ -645,6 +700,11 @@ button{font:inherit; color:inherit}
       </div>
       <img src="assets/mascot.webp" alt="" width="553" height="560" loading="lazy">
     </div>
+    <a class="games-promo" href="games.html">
+      <span class="gp-imgs"><img src="assets/products/b-osmania.webp" alt=""><img src="assets/products/b-pista.webp" alt=""><img src="assets/products/b-darkchoco.webp" alt=""></span>
+      <span class="gp-txt"><b>New! 6 Pista House biscuit games</b>Catch, pack, guess, memory, photo puzzle and match the pack, with real Pista House biscuits.</span>
+      <span class="btn btn-tidal">Play now →</span>
+    </a>
     <div class="game-tabs" role="tablist" aria-label="Games">
       <button role="tab" aria-selected="true" aria-controls="g-mem" id="t-mem">🧠 Memory match</button>
       <button role="tab" aria-selected="false" aria-controls="g-deco" id="t-deco">🍪 Decorate a cookie</button>
@@ -720,6 +780,9 @@ button{font:inherit; color:inherit}
 
 <!-- SCHOOLS -->
 <section class="section" id="schools">
+  <div class="wrap">
+    <figure class="photo-card"><img src="assets/photos/graduation-2.webp" alt="A school group of Little Chefs at the graduation stage" loading="lazy" style="object-position:center 55%"><figcaption>🎒 A school group at their Little Chef graduation</figcaption></figure>
+  </div>
   <div class="wrap schools-grid">
     <div>
       <div class="section-head">
@@ -764,7 +827,7 @@ button{font:inherit; color:inherit}
 <section class="section">
   <div class="wrap">
     <div class="safety-card">
-      <img src="assets/safety.webp" alt="Little Chefs with a safety shield and the cookie mascot" width="568" height="800" loading="lazy">
+      <img class="real" src="assets/photos/walk.webp" alt="A Little Chef coordinator walking hand in hand with the children" loading="lazy">
       <div>
         <h2>Safety comes first</h2>
         <p class="lede">The safety and wellbeing of every child is our highest priority. Parents and schools receive visit instructions before arrival.</p>
@@ -792,14 +855,14 @@ button{font:inherit; color:inherit}
       <a class="btn btn-blue ig-handle" href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>@littlechefbypistahouse</a>
     </div>
     <ul class="ig-grid" id="igGrid">
-      <li><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><img src="assets/moment-graduation.webp" alt="Little Chef graduates" loading="lazy"></a></li>
-      <li><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><img src="assets/welcome.webp" alt="Welcome to the Little Chef bakery" loading="lazy"></a></li>
-      <li><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><img src="assets/moment-passport.webp" alt="Passport stamp ceremony" loading="lazy"></a></li>
+      <li><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><img class="cover" src="assets/photos/graduation.webp" alt="Little Chefs holding their graduation certificates" loading="lazy"></a></li>
+      <li><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><img class="cover" src="assets/photos/tasting.webp" alt="Little Chefs tasting biscuits in the bakery" loading="lazy"></a></li>
+      <li><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><img class="cover" src="assets/photos/cupcake.webp" alt="Decorating a cupcake with a Pista House chef" loading="lazy"></a></li>
       <li class="ig-follow"><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;color:#fff"><span style="font-size:2.2rem">📸</span><b>Follow our Little Chefs</b><span>@littlechefbypistahouse</span></a></li>
-      <li><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><img src="assets/factory.webp" alt="Factory tour" loading="lazy"></a></li>
-      <li><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><img src="assets/moment-tunnel.webp" alt="Applause tunnel" loading="lazy"></a></li>
-      <li><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><img src="assets/moment-oath.webp" alt="The Little Chef oath" loading="lazy"></a></li>
-      <li><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><img src="assets/safety.webp" alt="Safety first" loading="lazy"></a></li>
+      <li><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><img class="cover" src="assets/photos/dough.webp" alt="Little Chefs shaping biscuit dough" loading="lazy"></a></li>
+      <li><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><img class="cover" src="assets/photos/briefing.webp" alt="A school group at the Little Chef welcome briefing" loading="lazy"></a></li>
+      <li><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><img class="cover" src="assets/photos/aprons.webp" alt="Little Chef aprons ready for the next visit" loading="lazy"></a></li>
+      <li><a href="https://www.instagram.com/littlechefbypistahouse/" target="_blank" rel="noopener" data-cfg-href="INSTAGRAM_URL"><img class="cover" src="assets/photos/lineup.webp" alt="Little Chefs lined up for the factory tour" loading="lazy"></a></li>
     </ul>
   </div>
 </section>
@@ -823,12 +886,15 @@ button{font:inherit; color:inherit}
       <p>Little Chef opens that world to children, so they see that food takes science, people, culture, hygiene, creativity and teamwork.</p>
       <p class="signoff">Where curiosity meets the kitchen.</p>
     </div>
+    <div>
+    <figure class="legacy-photo"><img src="assets/photos/aprons.webp" alt="Little Chef by Pista House aprons ready for the next visit" loading="lazy"></figure>
     <div class="legacy">
       <span class="ph-logo"><img src="assets/pista-house-logo.png" alt="Pista House" width="484" height="168"></span>
       <h3>Born from the world of Pista House</h3>
       <p>Little Chef is an initiative by Pista House, the Hyderabad-born food brand founded in 1997 and now serving customers across India, the UAE, the USA, Oman and Kuwait.</p>
       <p>We've turned years of food-making knowledge into an experience made especially for young minds.</p>
       <p class="sig">From Hyderabad. For the next generation.</p>
+    </div>
     </div>
   </div>
 </section>
@@ -910,7 +976,8 @@ button{font:inherit; color:inherit}
       </form>
       <div class="thanks" role="status" aria-live="polite">
         <img src="assets/mascot.webp" alt="" width="553" height="560">
-        <h3>Request sent!</h3>
+        <h3>Request received!</h3>
+        <p id="thanksRefBox" hidden style="margin:0 auto .6rem;display:inline-block;background:var(--tidal);border:2px solid var(--blue);border-radius:999px;padding:.35rem 1rem;font-weight:800">Your reference: <span id="thanksRef"></span></p>
         <p id="thanksText">Your Little Chef adventure is one step closer. Our team will call you to confirm availability and complete your booking.</p>
         <div class="btn-row" style="justify-content:center"><a class="btn btn-blue" id="thanksWa" href="#" target="_blank" rel="noopener" hidden>Also send on WhatsApp</a><button class="btn btn-white" type="button" id="againBtn">Send another request</button></div>
       </div>
@@ -930,7 +997,7 @@ button{font:inherit; color:inherit}
       </div>
       <div>
         <h4>Explore</h4>
-        <ul><li><a href="#experience">The Experience</a></li><li><a href="#learn">What Kids Learn</a></li><li><a href="#schools">Schools</a></li><li><a href="#play">Games</a></li><li><a href="blog.html">Blog</a></li><li><a href="#gallery">Instagram</a></li><li><a href="#faq">FAQs</a></li><li><a href="#book">Book a Visit</a></li></ul>
+        <ul><li><a href="#experience">The Experience</a></li><li><a href="#learn">What Kids Learn</a></li><li><a href="#schools">Schools</a></li><li><a href="games.html">Games</a></li><li><a href="blog.html">Blog</a></li><li><a href="#gallery">Instagram</a></li><li><a href="#faq">FAQs</a></li><li><a href="#book">Book a Visit</a></li></ul>
       </div>
       <div>
         <h4>Contact</h4>
@@ -1041,30 +1108,26 @@ var WHATSAPP_NUMBER = CFG.WHATSAPP || "919133308091";
     return L.join('\n');
   }
 
-  function done(text, waUrl){
-    $('#thanksText').textContent=text;
-    var w=$('#thanksWa'); if(waUrl){ w.href=waUrl; w.hidden=false } else w.hidden=true;
+  function done(text){
+    $('#thanksText').textContent=text; $('#thanksWa').hidden=true;
     card.classList.add('done'); card.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}); confetti(60);
   }
+  function fail(msg){ var er=$('#formError'); er.textContent=msg; er.style.display='block'; er.scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'}) }
   form.addEventListener('submit',function(e){
     e.preventDefault();
     $('#formError').style.display='none';
     var bad=validate(); if(bad){ bad.focus(); return }
     var o=collect(), btn=$('#submitBtn');
-    var waUrl='https://wa.me/'+WHATSAPP_NUMBER+'?text='+encodeURIComponent(waText(o));
-    if(!CFG.API_URL){
-      window.open(waUrl,'_blank','noopener');
-      done('WhatsApp has opened with your details. Just tap send, and our team will call you to confirm the date.', waUrl);
-      return;
-    }
+    if(!CFG.API_URL){ fail('Online booking is being set up. Please call us on '+(CFG.PHONE_DISPLAY||'+91 91333 08091')+' and our team will book your visit.'); return }
     btn.disabled=true; btn.textContent='Sending…';
     fetch(CFG.API_URL,{method:'POST',body:JSON.stringify({action:'submit',data:o})})
       .then(function(r){return r.json()})
       .then(function(j){
         if(!j.ok) throw new Error(j.error||'Error');
-        done('Your request '+j.ref+' has reached the Little Chef team. We will call you to confirm the date, and send your confirmation by email and WhatsApp.', null);
+        $('#thanksRef').textContent=j.ref; $('#thanksRefBox').hidden=false;
+        done('Thank you! Your request has reached the Little Chef team. We will call you within one working day to confirm the date, and then send your confirmation by email and WhatsApp.');
       })
-      .catch(function(){ var er=$('#formError'); er.innerHTML='We couldn’t send your request. Please check your internet connection, or <a href="'+waUrl+'" target="_blank" rel="noopener">send it on WhatsApp instead</a>.'; er.style.display='block' })
+      .catch(function(){ fail('We couldn’t send your request just now. Please check your internet connection and try again, or call us on '+(CFG.PHONE_DISPLAY||'+91 91333 08091')+'.') })
       .then(function(){ btn.disabled=false; btn.textContent='Request booking' });
   });
   $('#againBtn').addEventListener('click',function(){ form.reset(); setWho('School'); card.classList.remove('done'); $('#f-school').focus() });
@@ -1184,7 +1247,7 @@ var WHATSAPP_NUMBER = CFG.WHATSAPP || "919133308091";
     LC_BLOG.getPosts().then(function(posts){
       var B=LC_BLOG, g=$('#blogGrid'); if(!g) return;
       g.innerHTML=posts.slice(0,3).map(function(p){ var u=B.safeUrl(p.cover);
-        return '<li class="bpost"><a href="blog.html?p='+encodeURIComponent(p.slug)+'"><div class="img"><img src="'+B.esc(u)+'" alt="" loading="lazy"'+(/^assets\//.test(u)?' class="contain"':'')+'></div><div class="txt">'+(p.category?'<span class="tag">'+B.esc(p.category)+'</span>':'')+'<h3>'+B.esc(p.title)+'</h3><p>'+B.esc(p.excerpt)+'</p><span class="meta">'+B.esc(B.fmtDate(p.date))+' · '+B.readMins(p.body)+' min read</span></div></a></li>';
+        return '<li class="bpost"><a href="blog.html?p='+encodeURIComponent(p.slug)+'"><div class="img"><img src="'+B.esc(u)+'" alt="" loading="lazy"'+(/^assets\/(?!photos\/)/.test(u)?' class="contain"':'')+'></div><div class="txt">'+(p.category?'<span class="tag">'+B.esc(p.category)+'</span>':'')+'<h3>'+B.esc(p.title)+'</h3><p>'+B.esc(p.excerpt)+'</p><span class="meta">'+B.esc(B.fmtDate(p.date))+' · '+B.readMins(p.body)+' min read</span></div></a></li>';
       }).join('');
     });
   }

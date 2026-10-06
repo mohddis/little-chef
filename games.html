@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Games | Little Chef by Pista House</title>
+<meta name="description" content="Six free kitchen games with real Pista House biscuits: catch, pack, guess, memory, photo puzzle and match the pack.">
+<meta name="theme-color" content="#1336A3">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<script src="assets/config.js"></script>
+<script>
+/* Extra puzzle photos straight from the Pista House Drive (shared "Anyone with the link").
+   If a photo stops loading, it is hidden automatically. */
+window.LC_DRIVE_PHOTOS = [
+  {src:"https://lh3.googleusercontent.com/d/1ALciHYAGmWVvCvxh6zY7qhFw0qC1FoA6=w1200", name:"Biscuit board"},
+  {src:"https://lh3.googleusercontent.com/d/1CtJyDrdTJ6ws2woAYp77lCWKZuAsQZgR=w1200", name:"Chai & Fruit Biscuits"},
+  {src:"https://lh3.googleusercontent.com/d/1bQg1kUEbZI0ryaXh8Ak9jK_fjfqzy9Li=w1200", name:"Chai time"}
+];
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#1336A3;--blue-dark:#0B2270;--onahau:#C2F9FF;--tidal:#E2FF88;--lace:#FFF5E1;--snow:#E1FFB3;--coral:#F2C7C0;--sand:#F4D66D;--ink2:#3D56A6;--ph:#2F7D32;
+--bg:var(--onahau);--card:var(--lace);--text:var(--blue);
+--head:"Baloo 2","Arial Rounded MT Bold","Trebuchet MS",system-ui,sans-serif;--body:"Nunito","Segoe UI",system-ui,-apple-system,sans-serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0E1F5C}}
+:root[data-theme="dark"]{--bg:#0E1F5C}
+*,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none!important}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--text);font:400 1rem/1.5 var(--body);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--head);margin:0;line-height:1.1}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--sand);outline-offset:3px;border-radius:10px}
+.wrap{width:100%;max-width:980px;margin:0 auto;padding:0 clamp(.8rem,3vw,1.5rem)}
+.top{background:var(--blue);color:#fff;padding:1.2rem 0 1.4rem;border-bottom:4px solid var(--tidal)}
+.top .wrap{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:1rem;align-items:center}
+.top .lc{height:70px;width:auto;display:block}
+.top h1{font-size:clamp(1.5rem,4vw,2.2rem)}
+.top p{margin:.25rem 0 0;color:var(--onahau);font-weight:700;font-size:.95rem}
+.ph{display:inline-flex;align-items:center;gap:.4rem;background:#fff;color:var(--blue);border-radius:999px;padding:.25rem .7rem .25rem .35rem;font-weight:800;font-size:.8rem;margin-bottom:.4rem}
+.ph img{height:22px;width:auto;display:block}
+.top .mascot{width:92px;display:block}
+@media(max-width:640px){.top .wrap{grid-template-columns:auto minmax(0,1fr)}.top .mascot{display:none}.top .lc{height:54px}}
+.tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin:1.2rem 0 1rem}
+.tabs button{display:inline-flex;align-items:center;gap:.45rem;border:3px solid var(--blue);background:#fff;color:var(--blue);border-radius:999px;padding:.65rem 1.1rem;font-weight:800;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--blue);color:#fff}
+.panel{background:var(--card);color:var(--blue);border:3px solid var(--blue);border-radius:28px;padding:clamp(.9rem,3vw,1.6rem);margin-bottom:1.2rem}
+.phead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.6rem;margin-bottom:1rem}
+.phead h2{font-size:1.5rem}
+.phead p{margin:.15rem 0 0;color:var(--ink2);font-size:.95rem}
+.chips{display:flex;gap:.4rem;flex-wrap:wrap}
+.chips span{background:#fff;border:2px solid var(--blue);border-radius:999px;padding:.3rem .75rem;font-weight:800;font-size:.9rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;min-height:48px;padding:.7rem 1.3rem;border-radius:999px;border:3px solid var(--blue);background:#fff;color:var(--blue);font:800 1rem/1 var(--body);cursor:pointer}
+.btn-blue{background:var(--blue);color:#fff;box-shadow:0 4px 0 var(--blue-dark)}
+.btn-tidal{background:var(--tidal);box-shadow:0 4px 0 var(--blue-dark)}
+.meet{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:.6rem;margin:1.2rem 0 0}
+.meet figure{margin:0;background:#fff;border:3px solid var(--blue);border-radius:18px;padding:.5rem;text-align:center}
+.meet img{width:100%;aspect-ratio:1;object-fit:contain;display:block}
+.meet b{display:block;font:800 .82rem/1.15 var(--head);margin-top:.3rem}
+.meet small{display:block;font-size:.72rem;font-weight:700;color:var(--ink2)}
+@media(max-width:720px){.meet{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:120px;overflow-x:auto;padding-bottom:.4rem}}
+@media(max-width:480px){.hide-xs{display:none}}
+.reveal{display:flex;align-items:center;gap:.8rem;justify-content:center;margin-top:.8rem;flex-wrap:wrap}
+.reveal img{width:min(320px,100%);border-radius:10px;border:2px solid var(--blue)}
+/* catch */
+.stage{position:relative;border:3px solid var(--blue);border-radius:22px;overflow:hidden;background:linear-gradient(#FFFDF6,#FFF1D2);touch-action:none;user-select:none;-webkit-user-select:none}
+.stage canvas{display:block;width:100%;height:440px}
+@media(max-width:560px){.stage canvas{height:400px}}
+.overlay{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:1rem;background:rgba(255,245,225,.92)}
+.overlay h3{font-size:1.7rem;margin-bottom:.4rem}
+.overlay p{margin:.2rem auto .9rem;max-width:36ch;font-weight:600;color:var(--ink2)}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem .9rem;justify-content:center;margin:.3rem 0 1rem}
+.legend span{display:inline-flex;align-items:center;gap:.3rem;font-weight:800;font-size:.85rem}
+.legend img{width:34px;height:34px;object-fit:contain}
+.hint{font-size:.85rem;font-weight:700;color:var(--ink2);margin:.6rem 0 0;text-align:center}
+/* pack */
+.pack{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"order shelf" "box shelf";gap:1rem 1.2rem;align-items:start}
+.pack .order{grid-area:order}.pack .box{grid-area:box;margin-top:0}.pack .shelf{grid-area:shelf}
+@media(max-width:720px){.pack{grid-template-columns:1fr;grid-template-areas:"order" "shelf" "box"}}
+.order{background:#fff;border:3px dashed var(--blue);border-radius:20px;padding:1rem}
+.order h3{font-size:1.2rem;margin-bottom:.6rem}
+.order ul{list-style:none;margin:0;padding:0;display:grid;gap:.4rem}
+.order li{display:flex;align-items:center;gap:.6rem;font-weight:800;padding:.3rem .5rem;border-radius:12px}
+.order li img{width:44px;height:44px;object-fit:contain}
+.order li small{display:block;font-weight:700;color:var(--ink2);font-size:.78rem}
+.order li.done{background:var(--tidal);text-decoration:line-through;text-decoration-thickness:2px}
+.box{margin-top:1rem;background:#2F7D32;border:5px solid #D4AF37;border-radius:20px;padding:.8rem;display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.box .slot{aspect-ratio:1;background:rgba(255,255,255,.18);border:2px dashed rgba(255,255,255,.6);border-radius:14px;display:grid;place-items:center}
+.box .slot img{width:86%;height:86%;object-fit:contain;animation:drop .3s ease-out;filter:drop-shadow(0 3px 3px rgba(0,0,0,.25))}
+@keyframes drop{from{transform:translateY(-20px) scale(.6);opacity:0}}
+.box-label{text-align:center;color:#fff;font:800 .85rem/1.2 var(--head);grid-column:1/-1;letter-spacing:.02em}
+.shelf h3{font-size:1.2rem;margin-bottom:.6rem}
+.shelf .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+.shelf button{background:#fff;border:3px solid var(--blue);border-radius:18px;padding:.6rem .3rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.3rem;font:800 .82rem/1.15 var(--body);color:var(--blue);min-height:120px;transition:transform .1s}
+.shelf button img{width:72px;height:72px;object-fit:contain;filter:drop-shadow(0 3px 3px rgba(0,0,0,.18))}
+.shelf button:active{transform:scale(.95)}
+.shelf button.wrong{animation:shake .35s;border-color:#C2283A}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.timer{height:12px;border:2px solid var(--blue);border-radius:99px;background:#fff;overflow:hidden;margin-bottom:1rem}
+.timer i{display:block;height:100%;background:var(--sand);width:100%;transition:width .25s linear}
+/* guess */
+.quiz{max-width:640px;margin:0 auto;text-align:center}
+.clue{background:#fff;border:3px solid var(--blue);border-radius:22px;padding:1.3rem 1.1rem;margin-bottom:1rem}
+.clue small{display:block;font-weight:800;color:var(--ink2);margin-bottom:.4rem}
+.clue p{margin:0;font:700 clamp(1.15rem,2.6vw,1.4rem)/1.35 var(--head)}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.choices button{background:#fff;border:3px solid var(--blue);border-radius:18px;padding:.7rem .4rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.35rem;font:800 .95rem/1.15 var(--body);color:var(--blue);min-height:130px}
+.choices button img{width:78px;height:78px;object-fit:contain;filter:drop-shadow(0 3px 3px rgba(0,0,0,.18))}
+.choices button.right{background:var(--tidal)}
+.choices button.no{background:var(--coral)}
+.choices button:disabled{cursor:default}
+.msg{min-height:1.6em;margin:1rem 0 0;font:700 1.15rem/1.3 var(--head)}
+.badge{display:inline-grid;place-items:center;width:140px;height:140px;border-radius:50%;background:var(--sand);border:4px solid var(--blue);font:800 1rem/1.1 var(--head);margin:0 auto 1rem;transform:rotate(-8deg)}
+.badge b{display:block;font-size:2.4rem}
+.note{color:var(--text);opacity:.8;font-size:.85rem;font-weight:700;text-align:center;margin:0 0 2rem}
+.pop{position:fixed;pointer-events:none;z-index:50;width:9px;height:9px;border-radius:50%;animation:pop .8s ease-out forwards}
+@keyframes pop{to{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media(max-width:560px){.tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:.3rem}.tabs button{flex:none;padding:.55rem .9rem;font-size:.9rem}}
+
+/* site chrome */
+.phbar{background:#fff;border-bottom:2px solid var(--blue);font-size:.86rem;font-weight:700}
+.phbar .wrap{display:flex;align-items:center;justify-content:center;gap:.6rem;min-height:38px}
+.phbar img{height:24px;width:auto}
+.sitehead{position:sticky;top:0;z-index:20;background:rgba(194,249,255,.96);backdrop-filter:blur(8px);border-bottom:3px solid var(--blue)}
+.sitehead .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;height:72px;max-width:1180px}
+.sitehead img{height:54px;width:auto}
+.sitehead nav{display:flex;gap:.3rem;align-items:center}
+.sitehead nav a{text-decoration:none;font-weight:800;padding:.5rem .8rem;border-radius:999px;white-space:nowrap;color:var(--blue)}
+.sitehead nav a:hover,.sitehead nav a[aria-current]{background:var(--tidal)}
+.sitehead nav .btn{min-height:44px;padding:.6rem 1.1rem}
+.sitehead nav a.btn-blue{color:#fff}
+.sitehead nav a.btn-blue:hover{background:#1a42c2}
+@media(max-width:640px){.sitehead nav .hide-sm{display:none}.sitehead img{height:46px}}
+.top{border-bottom:0}
+.top .wrap,.wrap{max-width:1100px}
+/* memory */
+.mem{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem;max-width:620px;margin:0 auto}
+.card-m{aspect-ratio:1;border:0;padding:0;background:none;cursor:pointer;perspective:700px}
+.card-m .in{position:relative;display:block;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}
+.card-m.flip .in,.card-m.match .in{transform:rotateY(180deg)}
+.card-m .f,.card-m .b{position:absolute;inset:0;display:grid;place-items:center;border-radius:18px;border:3px solid var(--blue);backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
+.card-m .f{background:#2E6B34;border-color:#D4AF37}
+.card-m .f img{width:70%;height:auto;opacity:.95}
+.card-m .b{background:#fff;transform:rotateY(180deg);padding:8%}
+.card-m .b img{width:100%;height:100%;object-fit:contain}
+.card-m.match .b{background:var(--tidal)}
+/* puzzle */
+.puz{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:1.2rem;align-items:start}
+@media(max-width:760px){.puz{grid-template-columns:1fr}}
+.board{position:relative;width:100%;max-width:520px;aspect-ratio:1;margin:0 auto;display:grid;gap:3px;background:var(--blue);border:4px solid var(--blue);border-radius:18px;overflow:hidden;touch-action:manipulation}
+.board .tile{border:0;padding:0;cursor:pointer;background-repeat:no-repeat;background-color:#eee;transition:outline .1s}
+.board .tile.sel{outline:4px solid var(--sand);outline-offset:-4px;z-index:2}
+.board.peek::after{content:"";position:absolute;inset:0;background:var(--peek) center/cover no-repeat}
+.board.solved{gap:0}
+.pics h3{font-size:1.15rem;margin-bottom:.5rem}
+.pick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem}
+.pick button{border:3px solid var(--blue);border-radius:12px;padding:0;overflow:hidden;aspect-ratio:1;cursor:pointer;background:#fff}
+.pick button img{width:100%;height:100%;object-fit:cover;display:block}
+.pick button[aria-pressed="true"]{outline:4px solid var(--sand);outline-offset:2px}
+/* match */
+.match{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:1rem}
+.match .col{display:grid;gap:.55rem;align-content:start}
+.match button{display:flex;align-items:center;gap:.7rem;background:#fff;border:3px solid var(--blue);border-radius:16px;padding:.45rem .6rem;cursor:pointer;font:800 .9rem/1.15 var(--body);color:var(--blue);text-align:left;min-height:70px}
+.match #xBisc img{width:54px;height:54px;object-fit:contain;flex:none}
+.match #xPacks button{padding:.35rem}
+.match #xPacks img{width:100%;height:auto;max-height:84px;object-fit:contain;border-radius:8px}
+.match button.sel{background:var(--sand)}
+.match button.ok{background:var(--tidal);cursor:default}
+.match button.wrong{animation:shake .35s;border-color:#C2283A}
+@media(max-width:560px){.match{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:.5rem}.match #xBisc button{flex-direction:column;text-align:center;font-size:.78rem;gap:.25rem}.match #xBisc img{width:46px;height:46px}}
+.foot{background:#fff;border-top:3px solid var(--blue);padding:1.4rem 0;margin-top:1rem}
+.foot .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;font-weight:700;font-size:.92rem}
+.foot img{height:28px;vertical-align:middle;margin-left:.4rem}
+</style>
+</head>
+<body>
+<div class="phbar"><div class="wrap"><span>An initiative by</span><img src="assets/pista-house-logo-hd.png" alt="Pista House"><span class="hide-xs">· Hyderabad, since 1997</span></div></div>
+<header class="sitehead">
+  <div class="wrap">
+    <a href="index.html"><img src="assets/logo.webp" alt="Little Chef by Pista House, home"></a>
+    <nav aria-label="Main">
+      <a href="index.html" class="hide-sm">Home</a>
+      <a href="games.html" aria-current="page">Games</a>
+      <a href="blog.html" class="hide-sm">Blog</a>
+      <a class="btn btn-blue" href="index.html#book">Book a Visit</a>
+    </nav>
+  </div>
+</header>
+<header class="top">
+  <div class="wrap">
+    <img class="lc" src="assets/mascot.webp" alt="" style="height:86px">
+    <div>
+      <span class="ph"><img src="assets/pista-house-logo-hd.png" alt="Pista House">presents</span>
+      <h1>Pista House Biscuit Games</h1>
+      <p>Six games with the real biscuits of The Assorted Biscuit Collection.</p>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+  <div class="meet" id="meet" aria-label="The Assorted Biscuit Collection"></div>
+  <div class="tabs" role="tablist" aria-label="Games">
+    <button role="tab" aria-selected="true" aria-controls="p-catch" id="t-catch">🍪 Biscuit catch</button>
+    <button role="tab" aria-selected="false" aria-controls="p-pack" id="t-pack">📦 Pack the box</button>
+    <button role="tab" aria-selected="false" aria-controls="p-guess" id="t-guess">❓ Guess the biscuit</button>
+    <button role="tab" aria-selected="false" aria-controls="p-memory" id="t-memory">🧠 Biscuit memory</button>
+    <button role="tab" aria-selected="false" aria-controls="p-puzzle" id="t-puzzle">🧩 Photo puzzle</button>
+    <button role="tab" aria-selected="false" aria-controls="p-match" id="t-match">🔗 Match the pack</button>
+  </div>
+
+  <!-- CATCH -->
+  <section class="panel" id="p-catch" role="tabpanel" aria-labelledby="t-catch">
+    <div class="phead">
+      <div><h2>Biscuit catch</h2><p>Catch the falling Pista House treats in your gift box. Dodge the germs!</p></div>
+      <div class="chips"><span id="cScore">Score 0</span><span id="cLives">❤️❤️❤️</span><span id="cTime">⏱ 45s</span></div>
+    </div>
+    <div class="stage" id="stage">
+      <canvas id="cv" aria-label="Biscuit catch game. Move left and right to catch treats."></canvas>
+      <div class="overlay" id="cOver">
+        <div>
+          <h3 id="cOverTitle">Ready, Little Chef?</h3>
+          <p id="cOverText">Slide your finger (or use ← → keys) to move the box. Osmania Biscuits, The OG, are worth double!</p>
+          <div class="legend" id="legend"></div>
+          <button class="btn btn-blue" type="button" id="cStart">▶ Start game</button>
+        </div>
+      </div>
+    </div>
+    <p class="hint">Tip: each biscuit you catch shows its name. Can you catch all six from the Assorted Biscuit Collection?</p>
+  </section>
+
+  <!-- PACK -->
+  <section class="panel" id="p-pack" role="tabpanel" aria-labelledby="t-pack" hidden>
+    <div class="phead">
+      <div><h2>Pack the gift box</h2><p>A customer is waiting! Tap the right biscuits from the shelf to pack their order.</p></div>
+      <div class="chips"><span id="pScore">0 boxes packed</span><span id="pTime">⏱ 60s</span></div>
+    </div>
+    <div class="timer" aria-hidden="true"><i id="pBar"></i></div>
+    <div class="pack">
+        <div class="order"><h3 id="pOrderTitle">Order #1</h3><ul id="pOrder"></ul></div>
+        <div class="box" id="pBox"></div>
+      <div class="shelf"><h3>The biscuit shelf</h3><div class="grid" id="pShelf"></div>
+        <div style="text-align:center;margin-top:1rem"><button class="btn btn-blue" type="button" id="pStart">▶ Start packing</button></div>
+        <p class="msg" id="pMsg" role="status" style="text-align:center"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUESS -->
+  <section class="panel" id="p-guess" role="tabpanel" aria-labelledby="t-guess" hidden>
+    <div class="quiz" id="quiz"></div>
+  </section>
+
+  
+
+  <!-- MEMORY -->
+  <section class="panel" id="p-memory" role="tabpanel" aria-labelledby="t-memory" hidden>
+    <div class="phead">
+      <div><h2>Biscuit memory</h2><p>Flip two cards at a time and find all six pairs of real Pista House biscuits.</p></div>
+      <div class="chips"><span id="mMoves">0 moves</span><span id="mPairs">0 / 6 pairs</span><button class="btn" type="button" id="mNew" style="min-height:38px;padding:.35rem .9rem;font-size:.88rem">New game</button></div>
+    </div>
+    <div class="mem" id="mGrid"></div>
+    <p class="msg" id="mMsg" role="status" style="text-align:center"></p>
+  </section>
+
+  <!-- PUZZLE -->
+  <section class="panel" id="p-puzzle" role="tabpanel" aria-labelledby="t-puzzle" hidden>
+    <div class="phead">
+      <div><h2>Photo puzzle</h2><p>Tap two pieces to swap them. Put the Pista House photo back together!</p></div>
+      <div class="chips"><span id="zMoves">0 swaps</span><button class="btn" type="button" id="zLevel" style="min-height:38px;padding:.35rem .9rem;font-size:.88rem">Level: Easy 3×3</button><button class="btn" type="button" id="zShuffle" style="min-height:38px;padding:.35rem .9rem;font-size:.88rem">Shuffle</button></div>
+    </div>
+    <div class="puz">
+      <div><div class="board" id="zBoard" aria-label="Puzzle board"></div><p class="msg" id="zMsg" role="status" style="text-align:center"></p></div>
+      <div class="pics"><h3>Pick a photo</h3><div class="pick" id="zPick"></div><p class="hint" style="text-align:left">Peek: <button class="btn" type="button" id="zPeek" style="min-height:34px;padding:.25rem .8rem;font-size:.85rem">👀 Hold to see the photo</button></p></div>
+    </div>
+  </section>
+
+  <!-- MATCH -->
+  <section class="panel" id="p-match" role="tabpanel" aria-labelledby="t-match" hidden>
+    <div class="phead">
+      <div><h2>Match the pack</h2><p>Tap a biscuit, then tap the Pista House box it comes in.</p></div>
+      <div class="chips"><span id="xScore">0 / 6 matched</span><span id="xMoves">0 tries</span><button class="btn" type="button" id="xNew" style="min-height:38px;padding:.35rem .9rem;font-size:.88rem">New game</button></div>
+    </div>
+    <div class="match">
+      <div class="col" id="xBisc" aria-label="Biscuits"></div>
+      <div class="col" id="xPacks" aria-label="Packs"></div>
+    </div>
+    <p class="msg" id="xMsg" role="status" style="text-align:center"></p>
+  </section>
+</main>
+<footer class="foot"><div class="wrap"><span>Little Chef is an initiative by<img src="assets/pista-house-logo-hd.png" alt="Pista House"></span><span>© <span id="yr">2026</span> Little Chef by Pista House · <a href="index.html">www.littlechefs.in</a></span></div></footer>
+<script>
+(function(){
+  document.getElementById('yr').textContent=new Date().getFullYear();
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $=function(s,c){return (c||document).querySelector(s)}, $$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
+  var O='#1336A3';
+  /* ---------- real Pista House products (The Assorted Biscuit Collection) ---------- */
+  var IM={"b-osmania": "assets/products/b-osmania.webp", "pack-osmania": "assets/products/pack-osmania.webp", "photo-osmania": "assets/products/photo-osmania.webp", "b-pista": "assets/products/b-pista.webp", "pack-pista": "assets/products/pack-pista.webp", "photo-pista": "assets/products/photo-pista.webp", "b-cashew": "assets/products/b-cashew.webp", "pack-cashew": "assets/products/pack-cashew.webp", "photo-cashew": "assets/products/photo-cashew.webp", "b-fruit": "assets/products/b-fruit.webp", "pack-fruit": "assets/products/pack-fruit.webp", "photo-fruit": "assets/products/photo-fruit.webp", "b-darkchoco": "assets/products/b-darkchoco.webp", "pack-darkchoco": "assets/products/pack-darkchoco.webp", "photo-darkchoco": "assets/products/photo-darkchoco.webp", "b-butteralmond": "assets/products/b-butteralmond.webp", "pack-butteralmond": "assets/products/pack-butteralmond.webp", "photo-butteralmond": "assets/products/photo-butteralmond.webp", "ph": "assets/pista-house-logo-hd.png"};
+  var P_={
+    osmania:{n:'Osmania Biscuit',nick:'The OG',tag:'Buttery, mildly sweet & nostalgic',look:'round and golden, with a cracked top'},
+    pista:{n:'Pista Special Cookie',nick:'The Pistachio Pick',tag:'Nutty, rich & wonderfully buttery',look:'round and crunchy, studded with green pistachio bits'},
+    cashew:{n:'Cashew Biscuit',nick:'The Cashew Crunch',tag:'Buttery, crisp & packed with cashew goodness',look:'square, with roasted cashew pieces piled on top'},
+    fruit:{n:'Fruit Biscuit',nick:'The Fruity Bite',tag:'Buttery, lightly sweet & fruity',look:'square and soft, with red candied fruit pieces'},
+    darkchoco:{n:'Dark Choco Cookie',nick:'The Chocoholic',tag:'Rich, chocolatey & indulgent',look:'dark brown, covered in chocolate chips'},
+    butteralmond:{n:'Butter Almond Biscuit',nick:'The Nutty Buttery Crunch',tag:'Crisp, buttery & almond-rich',look:'round, topped with crunchy almond pieces'}
+  };
+  var BISC=['osmania','pista','cashew','fruit','darkchoco','butteralmond'];
+  var NAMES={}; BISC.forEach(function(k){NAMES[k]=P_[k].n}); NAMES.germ='Germ';
+  var GERM='data:image/svg+xml;charset=utf-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 18 l4 10 l10 -6 l-2 11 l11 1 l-8 8 l9 7 l-11 3 l4 10 l-10 -4 l-3 11 l-6 -9 l-6 9 l-3 -11 l-10 4 l4 -10 l-11 -3 l9 -7 l-8 -8 l11 -1 l-2 -11 l10 6 z" fill="#B48CE0" stroke="#5B3A8E" stroke-width="3.5" stroke-linejoin="round"/><circle cx="44" cy="48" r="4" fill="#fff"/><circle cx="56" cy="48" r="4" fill="#fff"/><circle cx="44" cy="49" r="2" fill="#2B1A47"/><circle cx="56" cy="49" r="2" fill="#2B1A47"/><path d="M45 58 q5 3 10 0" stroke="#2B1A47" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>');
+  var URL_={germ:GERM}; BISC.forEach(function(k){URL_[k]=IM['b-'+k]});
+  function img(k,alt){ return '<img src="'+URL_[k]+'" alt="'+(alt==null?NAMES[k]:alt)+'">' }
+  $('#meet').innerHTML=BISC.map(function(k){return '<figure>'+img(k)+'<b>'+P_[k].n+'</b><small>'+P_[k].nick+'</small></figure>'}).join('');
+
+  function pops(x,y,n){ if(reduce) return; var c=['#E2FF88','#F4D66D','#F2C7C0','#A3D6C5','#1336A3']; for(var i=0;i<(n||12);i++){ var p=document.createElement('i'); p.className='pop'; p.style.left=x+'px'; p.style.top=y+'px'; p.style.background=c[i%c.length]; var a=Math.random()*6.28,d=40+Math.random()*60; p.style.setProperty('--dx',Math.cos(a)*d+'px'); p.style.setProperty('--dy',Math.sin(a)*d+'px'); document.body.appendChild(p); setTimeout(function(e){return function(){e.remove()}}(p),850) } }
+  function best(k,v){ try{ if(v!=null) localStorage.setItem(k,v); return +(localStorage.getItem(k)||0) }catch(e){ return 0 } }
+
+  /* ---------- tabs ---------- */
+  var tabs=$$('[role=tab]');
+  tabs.forEach(function(t){ t.onclick=function(){ tabs.forEach(function(x){ var on=x===t; x.setAttribute('aria-selected',on); $('#'+x.getAttribute('aria-controls')).hidden=!on }); if(t.id!=='t-catch') stopCatch(true); if(t.id!=='t-pack') stopPack(true); if(t.id==='t-catch') sizeCanvas(); if(t.id==='t-puzzle') puzRender(); if(window.history&&history.replaceState) history.replaceState(null,'','#'+t.id.slice(2)) } });
+
+  /* ---------- 1. BISCUIT CATCH ---------- */
+  var cv=$('#cv'), ctx=cv.getContext('2d'), W=0, H=0, DPR=1, imgs={}, running=false, raf=0;
+  Object.keys(URL_).forEach(function(k){ var im=new Image(); im.src=URL_[k]; imgs[k]=im });
+  var phImg=new Image(); phImg.src=IM.ph;
+  $('#legend').innerHTML=['osmania','pista','darkchoco','cashew','germ'].map(function(k){return '<span>'+img(k,'')+(k==='germ'?'Avoid!':k==='osmania'?'×2':'')+(k==='germ'||k==='osmania'?'':'+10')+'</span>'}).join('');
+  var G={};
+  function sizeCanvas(){ var r=cv.getBoundingClientRect(); if(!r.width) return; DPR=Math.min(2,window.devicePixelRatio||1); W=r.width; H=r.height; cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0); if(!running) drawIdle() }
+  window.addEventListener('resize',sizeCanvas);
+  function drawBox(x){
+    var bw=G.bw, bh=56, y=H-bh-14;
+    ctx.fillStyle='#2E6B34'; ctx.strokeStyle='#D4AF37'; ctx.lineWidth=5;
+    round(x-bw/2,y,bw,bh,14); ctx.fill(); ctx.stroke();
+    if(phImg.complete&&phImg.naturalWidth){ var lw=bw*0.72, lh=lw*phImg.naturalHeight/phImg.naturalWidth; ctx.drawImage(phImg,x-lw/2,y+6,lw,lh) }
+    ctx.fillStyle='#F6E7B0'; ctx.textAlign='center'; ctx.textBaseline='middle'; var lbl=bw>125?'Assorted Biscuit Collection':'Assorted Biscuits', fs=10; ctx.font='700 '+fs+'px Nunito, sans-serif'; while(ctx.measureText(lbl).width>bw-14&&fs>7){fs-=.5; ctx.font='700 '+fs+'px Nunito, sans-serif'} ctx.fillText(lbl,x,y+bh-10);
+  }
+  function round(x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath() }
+  function bg(){ ctx.clearRect(0,0,W,H); ctx.fillStyle='rgba(19,54,163,.06)'; for(var i=0;i<14;i++){ ctx.beginPath(); ctx.arc((i*97)%W, (i*53)%H, 3,0,6.28); ctx.fill() } }
+  function drawIdle(){ G.bw=Math.max(100,Math.min(140,W*0.24)); bg(); drawBox(W/2) }
+  function startCatch(){
+    sizeCanvas();
+    G={x:W/2,bw:Math.max(100,Math.min(140,W*0.24)),items:[],floats:[],score:0,lives:3,t:45,last:performance.now(),spawn:0,caught:{}};
+    running=true; $('#cOver').hidden=true; hud(); raf=requestAnimationFrame(loop);
+  }
+  function stopCatch(silent){ if(!running) return; running=false; cancelAnimationFrame(raf); if(silent){ $('#cOver').hidden=false; $('#cOverTitle').textContent='Paused'; $('#cOverText').textContent='Tap start to play again.'; $('#cStart').textContent='▶ Play again' } }
+  function hud(){ $('#cScore').textContent='Score '+G.score; $('#cLives').textContent='❤️'.repeat(Math.max(0,G.lives))+'🤍'.repeat(3-Math.max(0,G.lives)); $('#cTime').textContent='⏱ '+Math.ceil(G.t)+'s' }
+  function spawn(){
+    var pool=['osmania','pista','cashew','fruit','darkchoco','butteralmond','osmania'];
+    var germ=Math.random()<0.22+Math.min(.15,(45-G.t)/200);
+    var k=germ?'germ':pool[Math.floor(Math.random()*pool.length)];
+    var s=Math.max(54,Math.min(76,W*0.085)); G.items.push({k:k,x:s/2+Math.random()*(W-s),y:-s,s:s,v:(110+Math.random()*60)*(1+(45-G.t)/45*0.9),r:Math.random()*6.28,vr:(Math.random()-.5)*3});
+  }
+  function loop(now){
+    var dt=Math.min(.05,(now-G.last)/1000); G.last=now; G.t-=dt; G.spawn-=dt;
+    if(keys.l) G.x-=420*dt; if(keys.r) G.x+=420*dt; G.x=Math.max(G.bw/2,Math.min(W-G.bw/2,G.x));
+    if(G.spawn<=0){ spawn(); G.spawn=Math.max(.35,.8-(45-G.t)*0.01) }
+    bg();
+    var by=H-70;
+    for(var i=G.items.length-1;i>=0;i--){
+      var it=G.items[i]; it.y+=it.v*dt; it.r+=it.vr*dt;
+      ctx.save(); ctx.translate(it.x,it.y); ctx.rotate(it.r); if(it.k!=='germ'){ctx.shadowColor='rgba(60,30,0,.28)';ctx.shadowBlur=8;ctx.shadowOffsetY=4} if(imgs[it.k].complete) ctx.drawImage(imgs[it.k],-it.s/2,-it.s/2,it.s,it.s); ctx.restore();
+      if(it.y>by-10 && it.y<by+20 && Math.abs(it.x-G.x)<G.bw/2+8){
+        G.items.splice(i,1);
+        if(it.k==='germ'){ G.lives--; G.floats.push({x:it.x,y:by-20,t:1,txt:'Oops! Germ 🦠',c:'#8E3BB5'}); if(navigator.vibrate) try{navigator.vibrate(80)}catch(e){} }
+        else { var pts=it.k==='osmania'?20:10; G.score+=pts; G.caught[it.k]=(G.caught[it.k]||0)+1; G.floats.push({x:it.x,y:by-20,t:1,txt:NAMES[it.k]+' +'+pts,c:'#1336A3'}) }
+        hud(); continue;
+      }
+      if(it.y>H+40) G.items.splice(i,1);
+    }
+    G.floats=G.floats.filter(function(f){ f.t-=dt; f.y-=40*dt; ctx.globalAlpha=Math.max(0,f.t); ctx.fillStyle=f.c; ctx.font='800 15px "Baloo 2", sans-serif'; ctx.textAlign='center'; ctx.fillText(f.txt,Math.max(70,Math.min(W-70,f.x)),f.y); ctx.globalAlpha=1; return f.t>0 });
+    drawBox(G.x);
+    if(G.t<=0||G.lives<=0) return endCatch();
+    if(Math.floor(G.t*4)!==Math.floor((G.t+dt)*4)) hud();
+    raf=requestAnimationFrame(loop);
+  }
+  function endCatch(){
+    running=false; hud();
+    var b=best('ph_catch_best'); if(G.score>b) best('ph_catch_best',G.score);
+    var kinds=BISC.filter(function(k){return G.caught[k]}).length;
+    $('#cOverTitle').textContent=G.lives<=0?'Too many germs!':'Time’s up!';
+    $('#cOverText').innerHTML='You scored <b>'+G.score+'</b>'+(G.score>b&&b>0?' — a new best! 🎉':'')+'<br>You caught <b>'+kinds+' of 6</b> Assorted Collection biscuits.'+(kinds===6?' Full box! 🏆':'');
+    $('#cStart').textContent='▶ Play again'; $('#cOver').hidden=false;
+    var r=cv.getBoundingClientRect(); if(G.score>=100) pops(r.left+r.width/2,r.top+r.height/2,24);
+  }
+  var keys={l:false,r:false};
+  document.addEventListener('keydown',function(e){ if(!running) return; if(e.key==='ArrowLeft'){keys.l=true;e.preventDefault()} if(e.key==='ArrowRight'){keys.r=true;e.preventDefault()} });
+  document.addEventListener('keyup',function(e){ if(e.key==='ArrowLeft') keys.l=false; if(e.key==='ArrowRight') keys.r=false });
+  function pointer(e){ if(!running) return; var r=cv.getBoundingClientRect(); G.x=e.clientX-r.left }
+  cv.addEventListener('pointerdown',pointer); cv.addEventListener('pointermove',pointer);
+  $('#cStart').onclick=startCatch;
+  document.addEventListener('visibilitychange',function(){ if(document.hidden) stopCatch(true) });
+
+  /* ---------- 2. PACK THE BOX ---------- */
+  var P={on:false};
+  $('#pShelf').innerHTML=BISC.map(function(k){return '<button type="button" data-k="'+k+'" disabled>'+img(k,'')+NAMES[k]+'</button>'}).join('');
+  function emptyBox(){ $('#pBox').innerHTML='<div class="box-label">PISTA HOUSE · THE ASSORTED BISCUIT COLLECTION</div>'+'<div class="slot"></div>'.repeat(6) }
+  emptyBox();
+  $('#pOrder').innerHTML='<li style="font-weight:700;color:var(--ink2)">Press “Start packing” to get your first order.</li>';
+  function newOrder(){
+    P.n++; var size=Math.min(6,3+Math.floor(P.packed/2));
+    var pick=BISC.slice().sort(function(){return Math.random()-.5}).slice(0,size);
+    if(P.packed>=4 && Math.random()<.5) pick=BISC.slice().sort(function(){return Math.random()-.5}); // full assorted box
+    P.need=pick; P.got=[]; emptyBox();
+    $('#pOrderTitle').textContent=(pick.length===6?'🎁 Full Assorted Collection! ':'')+'Order #'+P.n+' · '+pick.length+' biscuits';
+    $('#pOrder').innerHTML=pick.map(function(k){return '<li data-k="'+k+'">'+img(k,'')+'<span>'+NAMES[k]+'<small>'+P_[k].nick+'</small></span></li>'}).join('');
+  }
+  function startPack(){
+    P={on:true,n:0,packed:0,t:60,last:performance.now()}; $('#pMsg').textContent=''; $('#pStart').hidden=true;
+    $$('#pShelf button').forEach(function(b){b.disabled=false}); newOrder(); tickPack();
+  }
+  function tickPack(){
+    if(!P.on) return;
+    var now=performance.now(); P.t-=(now-P.last)/1000; P.last=now;
+    $('#pBar').style.width=Math.max(0,P.t/60*100)+'%'; $('#pTime').textContent='⏱ '+Math.max(0,Math.ceil(P.t))+'s';
+    if(P.t<=0) return endPack();
+    P.timer=setTimeout(tickPack,200);
+  }
+  function stopPack(silent){ if(!P.on) return; P.on=false; clearTimeout(P.timer); $$('#pShelf button').forEach(function(b){b.disabled=true}); $('#pStart').hidden=false; $('#pStart').textContent='▶ Play again' }
+  function endPack(){
+    stopPack(); var b=best('ph_pack_best'); if(P.packed>b) best('ph_pack_best',P.packed);
+    $('#pMsg').textContent='⏰ Time’s up! You packed '+P.packed+' box'+(P.packed===1?'':'es')+'.'+(P.packed>b&&b>0?' New best! 🎉':P.packed>=6?' Super packer! 🏆':'');
+  }
+  $('#pShelf').addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b||!P.on) return; var k=b.dataset.k;
+    if(P.need.indexOf(k)>-1 && P.got.indexOf(k)<0){
+      P.got.push(k); $('#pOrder li[data-k="'+k+'"]').classList.add('done');
+      var slot=$$('#pBox .slot')[P.got.length-1]; slot.innerHTML=img(k,'');
+      if(P.got.length===P.need.length){
+        P.packed++; P.t=Math.min(60,P.t+(P.need.length===6?6:3)); $('#pScore').textContent=P.packed+' box'+(P.packed===1?'':'es')+' packed';
+        $('#pMsg').textContent='✅ Order packed! +'+(P.need.length===6?6:3)+'s bonus'; var r=$('#pBox').getBoundingClientRect(); pops(r.left+r.width/2,r.top+r.height/2,16);
+        setTimeout(function(){ if(P.on) newOrder() },450);
+      }
+    } else {
+      b.classList.remove('wrong'); void b.offsetWidth; b.classList.add('wrong');
+      $('#pMsg').textContent=P.got.indexOf(k)>-1?'Already packed that one!':'Oops, '+NAMES[k]+' isn’t on this order.';
+      P.t-=2;
+    }
+  });
+  $('#pStart').onclick=startPack;
+
+  /* ---------- 3. GUESS THE TREAT ---------- */
+  function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)), t=a[i]; a[i]=a[j]; a[j]=t } return a }
+  var qi=0, qs=0, order=[];
+  function makeQs(){
+    var q=[];
+    BISC.forEach(function(k){
+      q.push([k,'Which biscuit is “'+P_[k].tag+'”?','From the pack']);
+      q.push([k,'Which biscuit is nicknamed '+P_[k].nick+'?','Nickname']);
+      q.push([k,'Which biscuit is '+P_[k].look+'?','Look closely']);
+    });
+    var out=[], used={}; shuffle(q).forEach(function(x){ if(out.length<8 && (used[x[0]]||0)<2){ out.push(x); used[x[0]]=(used[x[0]]||0)+1 } });
+    return out;
+  }
+  function qStart(){ order=makeQs(); qi=0; qs=0; qShow() }
+  function qShow(){
+    var box=$('#quiz');
+    if(qi>=order.length){
+      var win=qs>=7;
+      box.innerHTML='<div class="badge"><span><b>'+qs+'/'+order.length+'</b>'+(win?'Pista House<br>Expert!':'Biscuit<br>Taster!')+'</span></div><p class="msg" style="margin-top:0">'+(win?'You know every biscuit in the box! 🌟':'Yum! Play again to become a Pista House Expert.')+'</p><button class="btn btn-blue" type="button" id="qAgain">Play again</button>';
+      $('#qAgain').onclick=qStart; if(win){ var r=box.getBoundingClientRect(); pops(r.left+r.width/2,r.top+80,24) } return;
+    }
+    var q=order[qi], opts=shuffle([q[0]].concat(shuffle(BISC.filter(function(k){return k!==q[0]})).slice(0,3)));
+    box.innerHTML='<div class="timer" aria-hidden="true"><i style="width:'+(qi/order.length*100)+'%;background:var(--tidal)"></i></div><div class="clue"><small>'+q[2]+' · Question '+(qi+1)+' of '+order.length+' · Score '+qs+'</small><p>'+q[1]+'</p></div><div class="choices">'+opts.map(function(k){return '<button type="button" data-k="'+k+'">'+img(k,'')+NAMES[k]+'</button>'}).join('')+'</div><p class="msg" id="qMsg" role="status"></p><div class="reveal" id="qRev"></div><div id="qNext"></div>';
+    $$('.choices button',box).forEach(function(b){ b.onclick=function(){
+      var ok=b.dataset.k===q[0]; if(ok) qs++;
+      $$('.choices button',box).forEach(function(x){ x.disabled=true; if(x.dataset.k===q[0]) x.classList.add('right') }); if(!ok) b.classList.add('no');
+      $('#qMsg').textContent=(ok?'Yes! ':'It’s the ')+NAMES[q[0]]+', '+P_[q[0]].nick+(ok?' 🎉':'!');
+      $('#qRev').innerHTML='<img src="'+IM['pack-'+q[0]]+'" alt="'+NAMES[q[0]]+' pack">';
+      $('#qNext').innerHTML='<button class="btn btn-blue" type="button" style="margin-top:.9rem">'+(qi+1<order.length?'Next question →':'See my score')+'</button>';
+      $('#qNext button').onclick=function(){ qi++; qShow() };
+      if(ok){ var r=b.getBoundingClientRect(); pops(r.left+r.width/2,r.top+r.height/2,10) }
+    } });
+  }
+  qStart();
+  sizeCanvas(); setTimeout(sizeCanvas,300);
+
+  /* ---------- 4. BISCUIT MEMORY ---------- */
+  var M={};
+  function memNew(){
+    M={first:null,lock:false,moves:0,pairs:0}; $('#mMsg').textContent=''; memScore();
+    var g=$('#mGrid'); g.innerHTML='';
+    shuffle(BISC.concat(BISC)).forEach(function(k,i){
+      var b=document.createElement('button'); b.type='button'; b.className='card-m'; b.dataset.k=k; b.setAttribute('aria-label','Card '+(i+1)+', face down');
+      b.innerHTML='<span class="in"><span class="f"><img src="'+IM.ph+'" alt=""></span><span class="b"><img src="'+URL_[k]+'" alt=""></span></span>';
+      b.onclick=function(){ memFlip(b) }; g.appendChild(b);
+    });
+  }
+  function memScore(){ $('#mMoves').textContent=M.moves+' move'+(M.moves===1?'':'s'); $('#mPairs').textContent=M.pairs+' / 6 pairs' }
+  function memFlip(b){
+    if(M.lock||b===M.first||b.classList.contains('match')) return;
+    b.classList.add('flip'); b.setAttribute('aria-label',NAMES[b.dataset.k]);
+    if(!M.first){ M.first=b; return }
+    M.moves++; var a=M.first; M.first=null;
+    if(a.dataset.k===b.dataset.k){ a.classList.add('match'); b.classList.add('match'); M.pairs++; memScore(); $('#mMsg').textContent='✨ '+NAMES[b.dataset.k]+', '+P_[b.dataset.k].nick+'!';
+      var r=b.getBoundingClientRect(); pops(r.left+r.width/2,r.top+r.height/2,10);
+      if(M.pairs===6){ var bb=best('ph_mem_best'); if(!bb||M.moves<bb) best('ph_mem_best',M.moves); $('#mMsg').textContent='🎉 You found all six biscuits in '+M.moves+' moves!'+(bb&&M.moves<bb?' New best!':'') }
+    } else { memScore(); M.lock=true; setTimeout(function(){ a.classList.remove('flip'); b.classList.remove('flip'); M.lock=false },850) }
+  }
+  $('#mNew').onclick=memNew; memNew();
+
+  /* ---------- 5. PHOTO PUZZLE ---------- */
+  var PHOTOS=BISC.map(function(k){return {src:IM['photo-'+k],name:P_[k].nick}});
+  (window.LC_DRIVE_PHOTOS||[]).forEach(function(p){ PHOTOS.push(p) });
+  var Z={n:3,src:PHOTOS[2].src,order:[],sel:null,moves:0,done:false,img:null};
+  $('#zPick').innerHTML=PHOTOS.map(function(p,i){return '<button type="button" data-i="'+i+'" aria-pressed="'+(i===2)+'" aria-label="'+p.name+'"><img src="'+p.src+'" alt="" loading="lazy"></button>'}).join('');
+  $$('#zPick img').forEach(function(im){ im.onerror=function(){ im.closest('button').remove() } });
+  $('#zPick').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; $$('#zPick button').forEach(function(x){x.setAttribute('aria-pressed',x===b)}); Z.src=PHOTOS[+b.dataset.i].src; puzLoad() });
+  function puzLoad(){ var im=new Image(); im.onload=function(){ Z.img=im; puzShuffle() }; im.onerror=function(){ $('#zMsg').textContent='That photo could not load. Pick another one.' }; im.src=Z.src }
+  function puzShuffle(){
+    var N=Z.n*Z.n; Z.order=[]; for(var i=0;i<N;i++) Z.order.push(i);
+    do{ shuffle(Z.order) } while(Z.order.every(function(v,i){return v===i}));
+    Z.sel=null; Z.moves=0; Z.done=false; $('#zMoves').textContent='0 swaps'; $('#zMsg').textContent=''; $('#zBoard').classList.remove('solved'); puzRender();
+  }
+  function puzRender(){
+    var bd=$('#zBoard'); if(!Z.img) return; var S=bd.clientWidth-8; if(S<=0) return;
+    bd.style.gridTemplateColumns='repeat('+Z.n+',1fr)'; bd.style.setProperty('--peek','url("'+Z.src+'")');
+    var gap=Z.done?0:3, t=(S-gap*(Z.n-1))/Z.n, w=Z.img.naturalWidth, h=Z.img.naturalHeight, sc=S/Math.min(w,h), bw=w*sc, bh=h*sc, ox=(bw-S)/2, oy=(bh-S)/2;
+    bd.innerHTML=Z.order.map(function(p,pos){ var r=Math.floor(p/Z.n), c=p%Z.n;
+      return '<button type="button" class="tile'+(Z.sel===pos?' sel':'')+'" data-pos="'+pos+'" aria-label="Piece '+(pos+1)+'" style="background-image:url(&quot;'+Z.src+'&quot;);background-size:'+bw+'px '+bh+'px;background-position:'+(-(c*(t+gap)+ox))+'px '+(-(r*(t+gap)+oy))+'px"></button>' }).join('');
+  }
+  $('#zBoard').addEventListener('click',function(e){
+    var b=e.target.closest('.tile'); if(!b||Z.done) return; var pos=+b.dataset.pos;
+    if(Z.sel===null){ Z.sel=pos; puzRender(); return }
+    if(Z.sel!==pos){ var t=Z.order[Z.sel]; Z.order[Z.sel]=Z.order[pos]; Z.order[pos]=t; Z.moves++; $('#zMoves').textContent=Z.moves+' swap'+(Z.moves===1?'':'s') }
+    Z.sel=null;
+    if(Z.order.every(function(v,i){return v===i})){ Z.done=true; $('#zBoard').classList.add('solved'); $('#zMsg').textContent='🎉 Puzzle solved in '+Z.moves+' swaps! Try the next photo.'; var r=$('#zBoard').getBoundingClientRect(); pops(r.left+r.width/2,r.top+r.height/2,24) }
+    puzRender();
+  });
+  $('#zShuffle').onclick=puzShuffle;
+  $('#zLevel').onclick=function(){ Z.n=Z.n===3?4:3; this.textContent='Level: '+(Z.n===3?'Easy 3×3':'Hard 4×4'); puzShuffle() };
+  var peekOn=function(e){ e.preventDefault(); $('#zBoard').classList.add('peek') }, peekOff=function(){ $('#zBoard').classList.remove('peek') };
+  $('#zPeek').addEventListener('pointerdown',peekOn); ['pointerup','pointerleave','pointercancel'].forEach(function(ev){ $('#zPeek').addEventListener(ev,peekOff) });
+  window.addEventListener('resize',function(){ if(!$('#p-puzzle').hidden) puzRender() });
+  puzLoad();
+
+  /* ---------- 6. MATCH THE PACK ---------- */
+  var X={};
+  function matchNew(){
+    X={sel:null,ok:0,tries:0}; $('#xMsg').textContent=''; xScore();
+    $('#xBisc').innerHTML=shuffle(BISC.slice()).map(function(k){return '<button type="button" data-k="'+k+'">'+img(k,'')+'<span>'+NAMES[k]+'</span></button>'}).join('');
+    $('#xPacks').innerHTML=shuffle(BISC.slice()).map(function(k){return '<button type="button" data-k="'+k+'" aria-label="Pack"><img src="'+IM['pack-'+k]+'" alt="'+NAMES[k]+' pack"></button>'}).join('');
+  }
+  function xScore(){ $('#xScore').textContent=X.ok+' / 6 matched'; $('#xMoves').textContent=X.tries+' tr'+(X.tries===1?'y':'ies') }
+  $('#xBisc').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b||b.classList.contains('ok')) return; $$('#xBisc button').forEach(function(x){x.classList.remove('sel')}); b.classList.add('sel'); X.sel=b; $('#xMsg').textContent='Now tap the box for the '+NAMES[b.dataset.k]+'.' });
+  $('#xPacks').addEventListener('click',function(e){
+    var p=e.target.closest('button'); if(!p||p.classList.contains('ok')) return;
+    if(!X.sel){ $('#xMsg').textContent='Tap a biscuit first!'; return }
+    X.tries++;
+    if(p.dataset.k===X.sel.dataset.k){ p.classList.add('ok'); X.sel.classList.remove('sel'); X.sel.classList.add('ok'); X.ok++; $('#xMsg').textContent='✅ Yes! '+NAMES[p.dataset.k]+', '+P_[p.dataset.k].nick+'.'; var r=p.getBoundingClientRect(); pops(r.left+r.width/2,r.top+r.height/2,10); X.sel=null;
+      if(X.ok===6) $('#xMsg').textContent='🏆 All six matched in '+X.tries+' tries! You know every Pista House box.';
+    } else { p.classList.remove('wrong'); void p.offsetWidth; p.classList.add('wrong'); $('#xMsg').textContent='Not that box. Look at the biscuit on the front of the pack!' }
+    xScore();
+  });
+  $('#xNew').onclick=matchNew; matchNew();
+
+  /* open tab from URL hash, e.g. games.html#puzzle */
+  var h=(location.hash||'').slice(1); if(h && $('#t-'+h)) $('#t-'+h).click();
+
+})();
+</script>
+</body>
+</html>

@@ -52,7 +52,7 @@ Open **https://www.littlechefs.in/planner.html** and enter the team PIN.
 3. The school automatically gets a **confirmation email** (if they gave an email).
 4. Tap **Send WhatsApp confirmation** → WhatsApp opens with the full message and their confirmation link.
 5. The school opens the link and taps **"Yes, we confirm our visit"** → the planner shows **School confirmed**.
-6. **Staff notice** prints the internal factory notice. **Schedule** shows the month table with totals.
+6. **Calendar** shows every booking by day (confirmed, requested and completed), warns about double bookings, and lets you add a visit on any free day. **Staff notice** prints the internal factory notice. **Schedule** shows the month table with totals.
 7. After the visit tap **Mark done**. Phone bookings can be added with **Add visit**.
 
 ### Writing blog posts
