@@ -380,17 +380,21 @@ dialog::backdrop{background:rgba(11,34,112,.45)}
 
   async function api(action,payload){
     if(!CFG.API_URL) throw new Error('The planner is not connected yet. Add API_URL in assets/config.js (see README).');
-    var r=await fetch(CFG.API_URL,{method:'POST',body:JSON.stringify(Object.assign({action:action,pin:pin},payload||{}))});
-    var j=await r.json(); if(!j.ok){var e=new Error(j.error||'Something went wrong'); e.code=j.code; throw e} return j;
+    var ctl=window.AbortController?new AbortController():null, tm=setTimeout(function(){ if(ctl) ctl.abort() },30000), r, txt, j;
+    try{ r=await fetch(CFG.API_URL,{method:'POST',body:JSON.stringify(Object.assign({action:action,pin:pin},payload||{})),signal:ctl?ctl.signal:undefined}); txt=await r.text() }
+    catch(err){ throw new Error(err.name==='AbortError'?'The Google Sheet took too long to answer. Check your internet and try again.':'Could not reach the Google Sheet. Check your internet and try again.') }
+    finally{ clearTimeout(tm) }
+    try{ j=JSON.parse(txt) }catch(err){ throw new Error('The Google Sheet connection is not public. In Apps Script: Deploy > Manage deployments > Edit > Who has access: Anyone > Deploy.') }
+    if(!j.ok){var e=new Error(j.error||'Something went wrong'); e.code=j.code; throw e} return j;
   }
 
   /* login */
   $('#loginForm').addEventListener('submit',async function(e){
     e.preventDefault(); pin=$('#pin').value.trim(); if(!pin) return;
-    $('#loginBtn').disabled=true; $('#loginErr').textContent='';
+    $('#loginBtn').disabled=true; $('#loginBtn').textContent='Checking…'; $('#loginErr').textContent='';
     try{ await load(); store('lc_pin',pin); $('#login').hidden=true; $('#app').hidden=false }
     catch(err){ $('#loginErr').textContent=err.code==='AUTH'?'That PIN is not right. Try again.':err.message; pin='' }
-    finally{ $('#loginBtn').disabled=false }
+    finally{ $('#loginBtn').disabled=false; $('#loginBtn').textContent='Open planner' }
   });
   $('#lockBtn').onclick=function(){ store('lc_pin',null); pin=''; visits=[]; $('#app').hidden=true; $('#login').hidden=false; $('#pin').value=''; $('#pin').focus() };
 
