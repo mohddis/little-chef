@@ -9,7 +9,7 @@ window.LC_CONFIG = {
   // WhatsApp / phone
   WHATSAPP: "919133308091",
   PHONE_DISPLAY: "+91 91333 08091",
-  EMAIL: "help@littlechef.in",
+  EMAIL: "help@littlechefs.in",
 
   // Social links
   INSTAGRAM_URL: "https://www.instagram.com/littlechefbypistahouse/",
