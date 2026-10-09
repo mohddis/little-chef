@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://script.google.com https://script.googleusercontent.com https://feeds.behold.so; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
+<style id="noframe">body{display:none!important}</style>
+<script>if(self===top){var nf=document.getElementById("noframe");nf.parentNode.removeChild(nf)}else{top.location=self.location}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title>Visit Planner | Little Chef by Pista House</title>
@@ -360,7 +364,7 @@ dialog::backdrop{background:rgba(11,34,112,.45)}
 (function(){
   var CFG=window.LC_CONFIG||{}, $=function(s,c){return (c||document).querySelector(s)}, $$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
   var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'], MONL=['January','February','March','April','May','June','July','August','September','October','November','December'], DAY=['SUN','MON','TUE','WED','THU','FRI','SAT'], DAYL=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  var pin='', visits=[], tab='dashboard', q='', editing=null, now=new Date(), view={y:now.getFullYear(),m:now.getMonth()};
+  var auth=null, visits=[], tab='dashboard', q='', editing=null, now=new Date(), view={y:now.getFullYear(),m:now.getMonth()};
   var today=iso(now);
 
   function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
@@ -381,22 +385,28 @@ dialog::backdrop{background:rgba(11,34,112,.45)}
   async function api(action,payload){
     if(!CFG.API_URL) throw new Error('The planner is not connected yet. Add API_URL in assets/config.js (see README).');
     var ctl=window.AbortController?new AbortController():null, tm=setTimeout(function(){ if(ctl) ctl.abort() },30000), r, txt, j;
-    try{ r=await fetch(CFG.API_URL,{method:'POST',body:JSON.stringify(Object.assign({action:action,pin:pin},payload||{})),signal:ctl?ctl.signal:undefined}); txt=await r.text() }
+    try{ r=await fetch(CFG.API_URL,{method:'POST',body:JSON.stringify(Object.assign({action:action},auth||{},payload||{})),signal:ctl?ctl.signal:undefined}); txt=await r.text() }
     catch(err){ throw new Error(err.name==='AbortError'?'The Google Sheet took too long to answer. Check your internet and try again.':'Could not reach the Google Sheet. Check your internet and try again.') }
     finally{ clearTimeout(tm) }
     try{ j=JSON.parse(txt) }catch(err){ throw new Error('The Google Sheet connection is not public. In Apps Script: Deploy > Manage deployments > Edit > Who has access: Anyone > Deploy.') }
-    if(!j.ok){var e=new Error(j.error||'Something went wrong'); e.code=j.code; throw e} return j;
+    if(!j.ok){var e=new Error(j.error||'Something went wrong'); e.code=j.code; if(j.code==='AUTH'&&auth&&auth.token) signOut(j.error); throw e} return j;
   }
 
   /* login */
   $('#loginForm').addEventListener('submit',async function(e){
-    e.preventDefault(); pin=$('#pin').value.trim(); if(!pin) return;
+    e.preventDefault(); var pin=$('#pin').value.trim(); if(!pin) return;
     $('#loginBtn').disabled=true; $('#loginBtn').textContent='Checking…'; $('#loginErr').textContent='';
-    try{ await load(); store('lc_pin',pin); $('#login').hidden=true; $('#app').hidden=false }
-    catch(err){ $('#loginErr').textContent=err.code==='AUTH'?'That PIN is not right. Try again.':err.message; pin='' }
+    try{
+      auth=null;
+      try{ auth={token:(await api('login',{pin:pin})).token} }
+      catch(err){ if(err.message!=='Unknown action') throw err; auth={pin:pin} } /* backend not updated yet: sign in with the PIN as before */
+      await load(); store('lc_token',auth.token||null); store('lc_pin',auth.pin||null); $('#pin').value=''; $('#login').hidden=true; $('#app').hidden=false
+    }
+    catch(err){ $('#loginErr').textContent=err.code==='AUTH'?'That PIN is not right. Try again.':err.message; auth=null }
     finally{ $('#loginBtn').disabled=false; $('#loginBtn').textContent='Open planner' }
   });
-  $('#lockBtn').onclick=function(){ store('lc_pin',null); pin=''; visits=[]; $('#app').hidden=true; $('#login').hidden=false; $('#pin').value=''; $('#pin').focus() };
+  function signOut(msg){ auth=null; posts=null; store('lc_token',null); store('lc_pin',null); visits=[]; $('#view').innerHTML=''; $('#printArea').innerHTML=''; $('#app').hidden=true; $('#login').hidden=false; $('#pin').value=''; $('#loginErr').textContent=msg||''; $('#pin').focus() }
+  $('#lockBtn').onclick=function(){ if(auth&&auth.token) api('logout').catch(function(){}); signOut() };
 
   async function load(){
     var j=await api('list'); visits=j.visits||[];
@@ -453,9 +463,9 @@ dialog::backdrop{background:rgba(11,34,112,.45)}
     if(v.emailSent) pills+='<span class="pill p-ack">✉️ Email sent</span>';
     var notes=(v.notes?'<div class="note">💬 '+esc(v.notes)+'</div>':'')+(v.internalNote?'<div class="note" style="background:var(--onahau)">🔒 '+esc(v.internalNote)+'</div>':'');
     var a='';
-    if(isReq) a='<button class="btn btn-blue btn-sm" data-act="confirm" data-id="'+v.id+'">✅ Confirm visit</button><a class="btn btn-wa btn-sm" target="_blank" rel="noopener" href="https://wa.me/'+waNum(v.mobile)+'">WhatsApp</a><button class="btn btn-sm" data-act="edit" data-id="'+v.id+'">Edit</button><button class="btn btn-red btn-sm" data-act="cancel" data-id="'+v.id+'">Decline</button>';
-    else if(isConf) a='<button class="btn btn-wa btn-sm" data-act="wa" data-id="'+v.id+'">Send WhatsApp confirmation</button><button class="btn btn-sm" data-act="copy" data-id="'+v.id+'">Copy link</button><button class="btn btn-sm" data-act="notice" data-id="'+v.id+'">🖨 Staff notice</button><button class="btn btn-tidal btn-sm" data-act="complete" data-id="'+v.id+'">Mark done</button><button class="btn btn-sm" data-act="edit" data-id="'+v.id+'">Edit</button><button class="btn btn-red btn-sm" data-act="cancel" data-id="'+v.id+'">Cancel</button>';
-    else a='<button class="btn btn-sm" data-act="edit" data-id="'+v.id+'">Edit</button>'+(v.status==='Cancelled'?'<button class="btn btn-sm" data-act="reopen" data-id="'+v.id+'">Reopen request</button>':'');
+    if(isReq) a='<button class="btn btn-blue btn-sm" data-act="confirm" data-id="'+esc(v.id)+'">✅ Confirm visit</button><a class="btn btn-wa btn-sm" target="_blank" rel="noopener" href="https://wa.me/'+waNum(v.mobile)+'">WhatsApp</a><button class="btn btn-sm" data-act="edit" data-id="'+esc(v.id)+'">Edit</button><button class="btn btn-red btn-sm" data-act="cancel" data-id="'+esc(v.id)+'">Decline</button>';
+    else if(isConf) a='<button class="btn btn-wa btn-sm" data-act="wa" data-id="'+esc(v.id)+'">Send WhatsApp confirmation</button><button class="btn btn-sm" data-act="copy" data-id="'+esc(v.id)+'">Copy link</button><button class="btn btn-sm" data-act="notice" data-id="'+esc(v.id)+'">🖨 Staff notice</button><button class="btn btn-tidal btn-sm" data-act="complete" data-id="'+esc(v.id)+'">Mark done</button><button class="btn btn-sm" data-act="edit" data-id="'+esc(v.id)+'">Edit</button><button class="btn btn-red btn-sm" data-act="cancel" data-id="'+esc(v.id)+'">Cancel</button>';
+    else a='<button class="btn btn-sm" data-act="edit" data-id="'+esc(v.id)+'">Edit</button>'+(v.status==='Cancelled'?'<button class="btn btn-sm" data-act="reopen" data-id="'+esc(v.id)+'">Reopen request</button>':'');
     return '<article class="vcard'+(date(v)===today&&isConf?' is-today':'')+'">'+chip(v)+'<div class="vhead"><h3>'+esc(name)+'</h3>'+pills+'</div><div class="meta">'+meta.join('')+'</div><div class="meta">'+contact+'</div>'+(notes?'<div style="grid-column:2;display:grid;gap:.35rem">'+notes+'</div>':'')+'<div class="meta" style="grid-column:2;font-size:.8rem">'+esc(v.ref)+' · '+(v.source==='Website'?'Website request':'Added by team')+' · '+esc(v.submittedAt)+'</div><div class="vacts">'+a+'</div></article>';
   }
 
@@ -626,7 +636,7 @@ dialog::backdrop{background:rgba(11,34,112,.45)}
     var COL={Requested:'#F4D66D',Confirmed:'#E2FF88',Completed:'#A3D6C5',Cancelled:'#F2C7C0'};
     var web=visits.filter(function(v){return v.source==='Website'}).length;
     function list(arr,kind){ if(!arr.length) return '<p class="empty-s">'+(kind==='req'?'No new requests. 🎉':kind==='wait'?'Every school has confirmed. 👍':'No visits in the next 7 days.')+'</p>';
-      return arr.slice(0,6).map(function(v){ var act=kind==='req'?'<button class="btn btn-blue btn-sm" data-act="confirm" data-id="'+v.id+'">Confirm</button>':kind==='wait'?'<button class="btn btn-wa btn-sm" data-act="wa" data-id="'+v.id+'">Remind</button>':'<button class="btn btn-sm" data-act="notice" data-id="'+v.id+'">🖨 Notice</button>';
+      return arr.slice(0,6).map(function(v){ var act=kind==='req'?'<button class="btn btn-blue btn-sm" data-act="confirm" data-id="'+esc(v.id)+'">Confirm</button>':kind==='wait'?'<button class="btn btn-wa btn-sm" data-act="wa" data-id="'+esc(v.id)+'">Remind</button>':'<button class="btn btn-sm" data-act="notice" data-id="'+esc(v.id)+'">🖨 Notice</button>';
         var sub=kind==='req'?(n(v.children)+' students · '+(v.mobile||'')+' · '+daysAgo(v.submittedAt)):(range(v.startTime,v.endTime)||'Time not set')+' · '+n(v.children)+' students'+(kind==='week'?(v.schoolAck?' · ✓ school confirmed':' · waiting for school'):'');
         return '<div class="rowi">'+mini(v,kind==='req')+'<div class="t">'+esc(v.schoolName||v.contactName)+'<small>'+esc(sub)+'</small></div>'+act+'</div>' }).join('')+(arr.length>6?'<p class="empty-s">+ '+(arr.length-6)+' more</p>':'') }
     return '<div class="dash">'+
@@ -642,14 +652,14 @@ dialog::backdrop{background:rgba(11,34,112,.45)}
     $$('#view [data-act]').forEach(function(b){ b.onclick=function(){ act(b.dataset.act,find(b.dataset.id),b) } });
     $('#csvAll').onclick=function(){
       var cols=['ref','status','source','submittedAt','bookingFor','schoolName','contactName','mobile','email','children','staff','helpers','classes','city','preferredDate','alternateDate','preferredTime','visitDate','startTime','endTime','reportingTime','schoolAck','notes','schoolNote','internalNote'];
-      var csv=[cols.join(',')].concat(visits.map(function(v){ return cols.map(function(c){ var x=String(v[c]==null?'':v[c]); return /[",\n]/.test(x)?'"'+x.replace(/"/g,'""')+'"':x }).join(',') })).join('\n');
+      var csv=[cols.join(',')].concat(visits.map(function(v){ return cols.map(function(c){ var x=String(v[c]==null?'':v[c]); if(/^[=+\-@\t\r]/.test(x)) x="'"+x; return /[",\n]/.test(x)?'"'+x.replace(/"/g,'""')+'"':x }).join(',') })).join('\n');
       var a=document.createElement('a'); a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv'})); a.download='little-chef-bookings-'+today+'.csv'; document.body.appendChild(a); a.click(); a.remove();
     };
   }
   /* auto-refresh every 60 s and alert on new requests */
   var lastReq=null;
   setInterval(async function(){
-    if(!pin || document.hidden || $('#dlg').open || $('#blogDlg').open) return;
+    if(!auth || document.hidden || $('#dlg').open || $('#blogDlg').open) return;
     try{ var j=await api('list'); visits=j.visits||[]; var r=visits.filter(function(v){return v.status==='Requested'}).length;
       if(lastReq!==null && r>lastReq){ toast('🔔 New booking request received!'); $('#sNew').parentNode.classList.add('newflash'); setTimeout(function(){ $('#sNew').parentNode.classList.remove('newflash') },2600) }
       lastReq=r; document.title=(r?'('+r+') ':'')+'Visit Planner | Little Chef'; $('#syncInfo').textContent='Updated '+new Date().toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit'}); if(tab!=='blog') render();
@@ -665,7 +675,7 @@ dialog::backdrop{background:rgba(11,34,112,.45)}
     var list=posts.filter(function(p){ return !q || [p.title,p.category,p.excerpt].join(' ').toLowerCase().indexOf(q)>-1 }).sort(function(a,b){return a.date<b.date?1:-1});
     var B=window.LC_BLOG;
     box.innerHTML='<div class="bar" style="justify-content:space-between"><p style="margin:0;font-weight:700;color:var(--ink2)">Posts you publish here appear on <a href="blog.html" target="_blank" rel="noopener">littlechefs.in/blog</a> and the home page.</p><button class="btn btn-blue" type="button" id="newPost">✍️ Write a post</button></div>'+
-      (list.length?'<div class="list">'+list.map(function(p){ return '<article class="bcard"><div class="thumb">'+(p.cover?'<img src="'+esc(B.safeUrl(p.cover))+'" alt="">':'')+'</div><div class="vhead"><h3>'+esc(p.title)+'</h3><span class="pill p-'+esc(p.status)+'">'+esc(p.status)+'</span></div><div class="meta"><span>'+esc(B.fmtDate(p.date))+'</span>'+(p.category?'<span>🏷 '+esc(p.category)+'</span>':'')+'<span>'+B.readMins(p.body)+' min read</span></div><div class="vacts" style="grid-column:2;border:0;padding-top:.2rem"><button class="btn btn-sm" data-post="'+p.id+'">Edit</button>'+(p.status==='Published'?'<a class="btn btn-sm" target="_blank" rel="noopener" href="blog.html?p='+encodeURIComponent(p.slug)+'">View</a>':'')+'</div></article>' }).join('')+'</div>'
+      (list.length?'<div class="list">'+list.map(function(p){ return '<article class="bcard"><div class="thumb">'+(p.cover?'<img src="'+esc(B.safeUrl(p.cover))+'" alt="">':'')+'</div><div class="vhead"><h3>'+esc(p.title)+'</h3><span class="pill p-'+esc(p.status)+'">'+esc(p.status)+'</span></div><div class="meta"><span>'+esc(B.fmtDate(p.date))+'</span>'+(p.category?'<span>🏷 '+esc(p.category)+'</span>':'')+'<span>'+B.readMins(p.body)+' min read</span></div><div class="vacts" style="grid-column:2;border:0;padding-top:.2rem"><button class="btn btn-sm" data-post="'+esc(p.id)+'">Edit</button>'+(p.status==='Published'?'<a class="btn btn-sm" target="_blank" rel="noopener" href="blog.html?p='+encodeURIComponent(p.slug)+'">View</a>':'')+'</div></article>' }).join('')+'</div>'
       :'<div class="empty"><img src="assets/mascot.webp" alt=""><b>No posts yet.</b><p>Share a school visit story, a kitchen tip or Little Chef news.</p></div>');
     $('#newPost').onclick=function(){ openPost(null) };
     $$('[data-post]',box).forEach(function(b){ b.onclick=function(){ openPost(posts.filter(function(p){return p.id===b.dataset.post})[0]) } });
@@ -718,8 +728,8 @@ dialog::backdrop{background:rgba(11,34,112,.45)}
   });
 
   /* auto login in this tab */
-  var saved=read('lc_pin');
-  if(saved){ pin=saved; load().then(function(){ $('#login').hidden=true; $('#app').hidden=false }).catch(function(){ pin=''; store('lc_pin',null) }) }
+  var savedToken=read('lc_token'), savedPin=read('lc_pin');
+  if(savedToken||savedPin){ auth=savedToken?{token:savedToken}:{pin:savedPin}; load().then(function(){ $('#login').hidden=true; $('#app').hidden=false }).catch(function(){ auth=null; store('lc_token',null); store('lc_pin',null) }) }
   if(!CFG.API_URL) $('#loginErr').textContent='Not connected yet: add API_URL in assets/config.js (see README).';
 })();
 </script>

@@ -36,6 +36,14 @@ var EDITABLE = ['bookingFor', 'schoolName', 'contactName', 'mobile', 'email', 'c
 
 var STATUSES = ['Requested', 'Confirmed', 'Completed', 'Cancelled'];
 
+// Actions anyone can call. Everything else needs a team sign-in.
+var PUBLIC_ACTIONS = { submit: 1, ack: 1 };
+
+var MAX_PIN_FAILS = 10;           // wrong PINs allowed before the planner locks...
+var PIN_LOCK_SECONDS = 15 * 60;   // ...for this long (run unlockPlanner to clear it sooner)
+var SESSION_SECONDS = 6 * 60 * 60; // a planner sign-in lasts 6 hours of inactivity at most
+var MAX_REQUESTS_PER_HOUR = 30;   // website booking requests accepted per hour, across everyone
+
 /* ---------- entry points ---------- */
 
 function setup() {
@@ -58,37 +66,44 @@ function doGet(e) {
     if (p.action === 'posts') return out_({ ok: true, posts: blogAll_().filter(function (x) { return x.status === 'Published'; }).map(blogStrip_) });
     return out_({ ok: true, service: 'Little Chef API' });
   } catch (err) {
-    return out_({ ok: false, error: String(err.message || err) });
+    return out_(fail_(err));
   }
 }
 
 function doPost(e) {
-  var b = {};
+  var b;
   try {
     b = JSON.parse((e && e.postData && e.postData.contents) || '{}');
   } catch (err) {
-    // Older version of the website sent form fields instead of JSON.
-    if (e && e.parameter && e.parameter.contactName) b = { action: 'submit', data: e.parameter };
-    else return out_({ ok: false, error: 'Bad request' });
+    return out_({ ok: false, error: 'Bad request' });
+  }
+  if (!b || typeof b !== 'object') return out_({ ok: false, error: 'Bad request' });
+  // Team sign-in is checked before taking the lock, so wrong-PIN delays never hold up school bookings.
+  try {
+    if (b.action === 'login') return out_(login_(b.pin));
+    if (b.action === 'logout') { endSession_(b.token); return out_({ ok: true }); }
+    if (!PUBLIC_ACTIONS[b.action]) auth_(b);
+  } catch (err) {
+    return out_(fail_(err));
   }
   var lock = LockService.getScriptLock();
-  lock.waitLock(20000);
   try {
+    lock.waitLock(20000);
     switch (b.action) {
       case 'submit': return out_(submit_(b.data || {}));
       case 'ack': return out_(ack_(b.id));
-      case 'list': auth_(b.pin); return out_({ ok: true, visits: readAll_().map(strip_) });
-      case 'save': auth_(b.pin); return out_(save_(b.visit || {}, !!b.sendEmail));
-      case 'status': auth_(b.pin); return out_(setStatus_(b.id, b.status));
-      case 'delete': auth_(b.pin); return out_(del_(b.id));
-      case 'blogList': auth_(b.pin); return out_({ ok: true, posts: blogAll_().map(blogStrip_) });
-      case 'blogSave': auth_(b.pin); return out_(blogSave_(b.post || {}));
-      case 'blogDelete': auth_(b.pin); return out_(blogDelete_(b.id));
-      case 'upload': auth_(b.pin); return out_(upload_(b));
+      case 'list': return out_({ ok: true, visits: readAll_().map(strip_) });
+      case 'save': return out_(save_(b.visit || {}, !!b.sendEmail));
+      case 'status': return out_(setStatus_(b.id, b.status));
+      case 'delete': return out_(del_(b.id));
+      case 'blogList': return out_({ ok: true, posts: blogAll_().map(blogStrip_) });
+      case 'blogSave': return out_(blogSave_(b.post || {}));
+      case 'blogDelete': return out_(blogDelete_(b.id));
+      case 'upload': return out_(upload_(b));
       default: return out_({ ok: false, error: 'Unknown action' });
     }
   } catch (err) {
-    return out_({ ok: false, error: String(err.message || err), code: err.code || '' });
+    return out_(fail_(err));
   } finally {
     lock.releaseLock();
   }
@@ -98,6 +113,9 @@ function doPost(e) {
 
 function submit_(d) {
   if (d.company_site) return { ok: true, ref: 'LC-OK' }; // spam trap: bots fill this hidden field
+  if (!underLimit_('submit', MAX_REQUESTS_PER_HOUR, 3600)) {
+    return { ok: false, error: 'We are receiving a lot of requests right now. Please call or WhatsApp us on ' + PHONE + '.' };
+  }
   var name = clean_(d.contactName, 80);
   var mobile = clean_(d.mobile, 20);
   if (!name || mobile.replace(/\D/g, '').length < 8) return { ok: false, error: 'Please add a name and a valid mobile number.' };
@@ -230,6 +248,7 @@ function blogSave_(p) {
   if (!o) o = { id: Utilities.getUuid() };
   ['title', 'category', 'author', 'cover', 'excerpt', 'date'].forEach(function (k) { if (k in p) o[k] = clean_(p[k], k === 'excerpt' ? 400 : 300); });
   if ('body' in p) o.body = String(p.body || '').slice(0, 45000);
+  if (o.cover && !/^(https:\/\/|assets\/)/.test(o.cover)) o.cover = ''; // only web (https) or site images
   o.status = p.status === 'Published' ? 'Published' : 'Draft';
   if (!o.date) o.date = Utilities.formatDate(new Date(), 'Asia/Kolkata', 'yyyy-MM-dd');
   if (!o.slug) {
@@ -262,7 +281,9 @@ function blogFolder_() {
 function upload_(b) {
   var mime = String(b.mime || '');
   if (!/^image\/(jpeg|png|webp)$/.test(mime)) return { ok: false, error: 'Please upload a JPG, PNG or WebP image.' };
-  var bytes = Utilities.base64Decode(String(b.data || ''));
+  var data = String(b.data || '');
+  if (data.length > 6 * 1024 * 1024) return { ok: false, error: 'Image is too large (max 4 MB).' };
+  var bytes = Utilities.base64Decode(data);
   if (bytes.length > 4 * 1024 * 1024) return { ok: false, error: 'Image is too large (max 4 MB).' };
   var file = blogFolder_().createFile(Utilities.newBlob(bytes, mime, clean_(b.name, 80) || 'blog-image'));
   file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
@@ -317,31 +338,6 @@ function notifyTeam_(subject, rows) {
     MailApp.sendEmail({ to: team, subject: subject, name: 'Little Chef Website',
       htmlBody: '<table style="font-family:Arial;font-size:14px">' + body + '</table><p><a href="' + SITE_URL + '/planner.html">Open the Visit Planner</a></p>' });
   } catch (err) { /* never block a booking because of email */ }
-}
-
-/* ---------- one-time import of the October 2026 schedule ---------- */
-
-function importOctoberSchedule() {
-  var rows = [
-    ['2026-10-05', 'Deccan School of Management', 45, 'MBA', 6, '', 'Nizam', '8500378674', '', '', ''],
-    ['2026-10-06', 'Edu Park International School', 40, '3, 4, 5', 5, '', 'Summaiya', '8341858297', '11:00', '13:00', '10:00'],
-    ['2026-10-08', 'MK High School', 40, '3, 4, 5', 5, '', 'Summaiya', '8341858297', '', '', ''],
-    ['2026-10-14', 'Glorious Grammar School', 40, '3 – 6', 5, '', 'Zeeshan', '9502071963', '', '', ''],
-    ['2026-10-24', 'Manchi Challenger School', 40, '5, 6', 6, 2, 'Suchithra', '9849759201', '', '', ''],
-    ['2026-10-26', 'Glorious Grammar School', 40, '3 – 6', 5, '', 'Zeeshan', '9502071963', '', '', ''],
-    ['2026-10-29', 'Iris Florets', 50, 'LKG – UKG', 5, '', 'Sujatha', '7989004313', '', '', '']
-  ];
-  var existing = readAll_();
-  rows.forEach(function (r) {
-    var dup = existing.some(function (x) { return x.visitDate === r[0] && x.schoolName === r[1]; });
-    if (dup) return;
-    var now = now_();
-    write_({ id: Utilities.getUuid(), ref: nextRef_(), status: 'Confirmed', source: 'Team', submittedAt: now,
-      bookingFor: 'School', visitDate: r[0], preferredDate: r[0], schoolName: r[1], children: String(r[2]),
-      classes: r[3], staff: String(r[4]), helpers: String(r[5]), contactName: r[6], mobile: r[7],
-      startTime: r[8], endTime: r[9], reportingTime: r[10], city: 'Hyderabad', confirmedAt: now, updatedAt: now });
-  });
-  Logger.log('October schedule imported.');
 }
 
 /* ---------- sheet helpers ---------- */
@@ -404,13 +400,84 @@ function publicFields_(o) {
   };
 }
 
-function auth_(pin) {
+/* ---------- team sign-in ---------- */
+
+// Accepts a session token from login_ (preferred) or the team PIN itself (older planner pages).
+function auth_(b) {
+  if (b.token && sessionValid_(b.token)) return;
+  if (b.token && !b.pin) {
+    var e = new Error('Your planner session has ended. Please enter the team PIN again.'); e.code = 'AUTH'; throw e;
+  }
+  checkPin_(b.pin);
+}
+
+function checkPin_(pin) {
   var real = PropertiesService.getScriptProperties().getProperty('TEAM_PIN');
   if (!real) { var e1 = new Error('TEAM_PIN is not set in Script Properties.'); e1.code = 'SETUP'; throw e1; }
-  if (String(pin || '') !== String(real)) {
-    Utilities.sleep(1500);
+  var cache = CacheService.getScriptCache();
+  var fails = Number(cache.get('pinFails') || 0);
+  if (fails >= MAX_PIN_FAILS) {
+    var e3 = new Error('Too many wrong PINs. The planner is locked for 15 minutes. Please try again later.'); e3.code = 'LOCKED'; throw e3;
+  }
+  if (!sameText_(String(pin || ''), String(real))) {
+    cache.put('pinFails', String(fails + 1), PIN_LOCK_SECONDS);
+    Utilities.sleep(1000);
     var e2 = new Error('Wrong PIN'); e2.code = 'AUTH'; throw e2;
   }
+  cache.remove('pinFails');
+}
+
+function login_(pin) {
+  checkPin_(pin);
+  var token = (Utilities.getUuid() + Utilities.getUuid()).replace(/-/g, '');
+  CacheService.getScriptCache().put('session:' + token, '1', SESSION_SECONDS);
+  return { ok: true, token: token };
+}
+
+function sessionValid_(token) {
+  token = String(token || '');
+  if (!/^[0-9a-f]{64}$/.test(token)) return false;
+  var cache = CacheService.getScriptCache();
+  if (!cache.get('session:' + token)) return false;
+  cache.put('session:' + token, '1', SESSION_SECONDS); // keep an active session alive
+  return true;
+}
+
+function endSession_(token) {
+  token = String(token || '');
+  if (/^[0-9a-f]{64}$/.test(token)) CacheService.getScriptCache().remove('session:' + token);
+}
+
+// Run this from the Apps Script editor to unlock the planner after too many wrong PINs.
+function unlockPlanner() {
+  CacheService.getScriptCache().remove('pinFails');
+  Logger.log('Planner unlocked.');
+}
+
+// Compares two strings in constant time, so response timing does not reveal the PIN.
+function sameText_(a, b) {
+  var x = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, a, Utilities.Charset.UTF_8);
+  var y = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, b, Utilities.Charset.UTF_8);
+  var diff = 0;
+  for (var i = 0; i < x.length; i++) diff |= x[i] ^ y[i];
+  return diff === 0;
+}
+
+// Counts calls per time window; returns false once the window's limit is used up.
+function underLimit_(key, max, seconds) {
+  var cache = CacheService.getScriptCache();
+  var bucket = 'rate:' + key + ':' + Math.floor(Date.now() / (seconds * 1000));
+  var n = Number(cache.get(bucket) || 0) + 1;
+  cache.put(bucket, String(n), seconds + 60);
+  return n <= max;
+}
+
+// Errors we raise on purpose (with a code) are shown as they are; anything unexpected
+// is logged for the owner and returned as a plain message, so internals are never exposed.
+function fail_(err) {
+  if (err && err.code) return { ok: false, error: String(err.message), code: err.code };
+  console.error(err && err.stack ? err.stack : err);
+  return { ok: false, error: 'Something went wrong. Please try again.' };
 }
 
 function nextRef_() {

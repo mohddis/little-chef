@@ -1,0 +1,4 @@
+# Keep setup notes and the backend source off the public website (they stay in the GitHub repo).
+exclude:
+  - README.md
+  - apps-script/

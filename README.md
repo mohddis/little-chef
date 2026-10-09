@@ -32,18 +32,25 @@ The planner keeps every request in a Google Sheet that only your team can see.
    Click **Save script properties**. Keep the PIN only here, never in GitHub.
 4. Back in the editor (`< >` icon), choose **setup** in the function dropdown at the top and click **Run**.
    Allow the permissions Google asks for (it needs your sheet, and Gmail to send confirmations).
-5. *(Optional)* Choose **importOctoberSchedule** and click **Run** to load the October 2026 school visits.
-6. Click **Deploy → New deployment**. Gear icon → **Web app**.
+5. Click **Deploy → New deployment**. Gear icon → **Web app**.
    - Execute as: **Me**
    - Who has access: **Anyone**
 
    Click **Deploy** and copy the **Web app URL** (it ends in `/exec`).
-7. On GitHub, open `assets/config.js` → pencil ✏️ → paste the URL between the quotes of `API_URL: ""` → **Commit changes**.
+6. On GitHub, open `assets/config.js` → pencil ✏️ → paste the URL between the quotes of `API_URL: ""` → **Commit changes**.
 
 Open **https://www.littlechefs.in/planner.html** and enter the team PIN.
 
 > After editing `Code.gs` later: **Deploy → Manage deployments → ✏️ → Version: New version → Deploy**.
 > The URL stays the same.
+
+### Planner security
+
+- Use a PIN of at least 8 digits, and change it if anyone leaves the team (Script Properties → `TEAM_PIN`).
+- After 10 wrong PINs the planner locks for 15 minutes. To unlock it sooner, open Apps Script,
+  choose **unlockPlanner** in the function dropdown and click **Run**.
+- A sign-in lasts until **Lock** is tapped, the browser tab is closed, or 6 hours pass without use.
+- The website accepts up to 30 booking requests per hour; above that, visitors are asked to call or WhatsApp.
 
 ### How the planner works
 

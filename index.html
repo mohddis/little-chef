@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://script.google.com https://script.googleusercontent.com https://feeds.behold.so; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Little Chef by Pista House | Bake. Learn. Smile.</title>
 <meta name="description" content="Little Chef by Pista House is an educational bakery experience in Hyderabad where children aged 4–14 explore baking, hygiene, food science and teamwork inside the real Pista House factory. School visits and family bookings.">
@@ -1228,15 +1229,18 @@ var WHATSAPP_NUMBER = CFG.WHATSAPP || "919133308091";
   quizStart();
 
   /* live Instagram feed (Behold JSON) */
+  /* feed data comes from another service: escape it and allow only https links */
+  function igEsc(t){ return String(t==null?'':t).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]}) }
+  function igUrl(u){ u=String(u||''); return /^https:\/\//i.test(u)?igEsc(u):'' }
   if(CFG.INSTAGRAM_FEED_URL){
     fetch(CFG.INSTAGRAM_FEED_URL).then(function(r){return r.json()}).then(function(d){
       var posts=(d && (d.posts||d)) || []; if(!posts.length) return;
       var grid=$('#igGrid'), html='';
       posts.slice(0,8).forEach(function(p){
-        var img=(p.sizes&&p.sizes.medium&&p.sizes.medium.mediaUrl)||p.thumbnailUrl||p.mediaUrl; if(!img) return;
+        var img=igUrl((p.sizes&&p.sizes.medium&&p.sizes.medium.mediaUrl)||p.thumbnailUrl||p.mediaUrl); if(!img) return;
         var type=p.mediaType==='VIDEO'?'▶ Reel':(p.mediaType==='CAROUSEL_ALBUM'?'▣ Post':'');
-        var cap=String(p.prunedCaption||p.caption||'Little Chef on Instagram').slice(0,120).replace(/"/g,'&quot;').replace(/</g,'&lt;');
-        html+='<li><a href="'+(p.permalink||CFG.INSTAGRAM_URL)+'" target="_blank" rel="noopener"><img class="cover" src="'+img+'" alt="'+cap+'" loading="lazy">'+(type?'<span class="ig-type">'+type+'</span>':'')+'</a></li>';
+        var cap=igEsc(String(p.prunedCaption||p.caption||'Little Chef on Instagram').slice(0,120));
+        html+='<li><a href="'+(igUrl(p.permalink)||igEsc(CFG.INSTAGRAM_URL))+'" target="_blank" rel="noopener"><img class="cover" src="'+img+'" alt="'+cap+'" loading="lazy">'+(type?'<span class="ig-type">'+type+'</span>':'')+'</a></li>';
       });
       if(html) grid.innerHTML=html;
     }).catch(function(){});
